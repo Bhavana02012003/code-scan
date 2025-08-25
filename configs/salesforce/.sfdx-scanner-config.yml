@@ -1,0 +1,7 @@
+analyzers:
+  - engine: pmd
+    categories: [Security, Best Practices, Performance, Design]
+    targets:
+      - force-app
+formats:
+  - csv

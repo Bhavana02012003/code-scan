@@ -1,0 +1,268 @@
+name: Remote Code Scan
+
+on:
+  repository_dispatch:
+    types: [run-scan]
+
+permissions:
+  contents: write   # allow committing the report back into this repo
+  actions: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    env:
+      REPO_URL: ${{ github.event.client_payload.repo_url }}
+      OWNER: ${{ github.event.client_payload.owner }}
+      REPO: ${{ github.event.client_payload.repo }}
+      BRANCH: ${{ github.event.client_payload.branch || 'main' }}
+      TECH: ${{ github.event.client_payload.technology }}
+      CORR: ${{ github.event.client_payload.correlation_id }}
+      REPORT_PATH: ${{ github.event.client_payload.report_path }}
+
+    steps:
+      - name: Checkout orchestrator repo
+        uses: actions/checkout@v4
+
+      - name: Show inputs
+        run: |
+          echo "TECH=$TECH"
+          echo "REPO_URL=$REPO_URL"
+          echo "REPORT_PATH=$REPORT_PATH"
+
+        
+      # Detect if GH_PAT is present (set USE_PAT=true/false)
+      - name: Detect GH_PAT
+        id: has-pat
+        shell: bash
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          if [ -n "${GH_PAT}" ]; then
+            echo "USE_PAT=true" >> "$GITHUB_ENV"
+          else
+            echo "USE_PAT=false" >> "$GITHUB_ENV"
+          fi
+
+      - name: Clone target repository (public)
+        if: env.USE_PAT == 'false'
+        run: |
+          git clone --depth 1 --branch "$BRANCH" "$REPO_URL" target
+
+      - name: Clone target repository (private via GH_PAT)
+        if: env.USE_PAT == 'true'
+        run: |
+          URL_AUTH="https://${{ secrets.GH_PAT }}@${REPO_URL#https://}"
+          git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
+
+
+      # ---- Overlay config pack ----
+      # (after cloning target)
+      - name: Overlay config pack
+        run: |
+            set -e
+            TECH_LOWER=$(echo "$TECH" | tr '[:upper:]' '[:lower:]')
+            SRC="configs/$TECH_LOWER"
+            if [ -d "$SRC" ]; then
+            rsync -a --exclude 'tsconfig.template.json' "$SRC"/ target/
+            # Only add tsconfig.json if the target uses TS
+            if [ -f "$SRC/tsconfig.template.json" ] && git -C target ls-files '*.ts' '*.tsx' | grep -q .; then
+                cp "$SRC/tsconfig.template.json" target/tsconfig.json
+            fi
+            echo "Overlay complete."
+            else
+            echo "No overlay for $TECH (optional)."
+            fi
+
+
+      # ---- Setup common tooling ----
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Setup .NET
+        if: ${{ env.TECH == 'DotNet' }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      # ---- Technology-specific scans ----
+      # Salesforce
+      - name: Salesforce • Install Code Analyzer v5
+        if: ${{ env.TECH == 'Salesforce' }}
+        run: |
+          npm i -g @salesforce/cli
+          sf plugins install @salesforce/plugin-code-analyzer@latest
+
+      - name: Salesforce • Scan
+        if: ${{ env.TECH == 'Salesforce' }}
+        working-directory: target
+        run: |
+          mkdir -p ../out
+          # adjust target path if repo uses a different folder than force-app
+          sf code-analyzer run --config-file .sfdx-scanner-config.yml --target force-app | grep "," > ../out/sfdx.csv || true
+
+      # .NET
+      - name: .NET • Restore and scan
+        if: ${{ env.TECH == 'DotNet' }}
+        working-directory: target
+        run: |
+          set -e
+          dotnet tool install -g dotnet-format
+          export PATH="$HOME/.dotnet/tools:$PATH"
+          # try to find a solution or project file
+          TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
+          if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.csproj" | head -n 1); fi
+          echo "Using target: $TARGET"
+          dotnet restore "$TARGET" || true
+          dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json || true
+          dotnet build "$TARGET" --no-incremental -v:normal > ../out/build_output.txt || true
+
+      # Python
+      - name: Python • Install linters
+        if: ${{ env.TECH == 'Python' }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install bandit pylint flake8 flake8-json
+
+      - name: Python • Scan
+        if: ${{ env.TECH == 'Python' }}
+        working-directory: target
+        run: |
+          mkdir -p ../out
+          bandit -r . -f json -o ../out/bandit.json || true
+          find . -name "*.py" > ../out/files.txt
+          pylint $(cat ../out/files.txt) --output-format=json > ../out/pylint.json || true
+          flake8 . --format=json --output-file=../out/flake8.json || true
+
+      # React
+      - name: React • Install deps
+        if: ${{ env.TECH == 'React' }}
+        working-directory: target
+        run: npm ci || npm install
+
+      - name: React • ESLint/tsc/audit
+        if: ${{ env.TECH == 'React' }}
+        working-directory: target
+        run: |
+          npx eslint . --ext .js,.jsx,.ts,.tsx -f json -o ../out/eslint.json || true
+          if compgen -G "**/tsconfig*.json" > /dev/null; then
+            npx tsc --noEmit > ../out/tsc-output.txt 2>&1 || true
+          fi
+          npm audit --json > ../out/audit.json || true
+
+      # ---- Normalize everything to a single CSV ----
+      - name: Normalize to CSV
+        run: |
+          python - << 'PY'
+          import os, json, csv, re
+          rows=[["Tool","File","Line","Severity","Rule","Message"]]
+          out="out/normalized.csv"
+          os.makedirs("out", exist_ok=True)
+
+          def add(tool,file,line,sev,rule,msg):
+            rows.append([tool,file or "",str(line or ""),str(sev or ""),str(rule or ""), (msg or "").replace("\n"," ").strip()])
+
+          # Salesforce
+          p="out/sfdx.csv"
+          if os.path.exists(p):
+            with open(p, newline='', encoding='utf-8', errors='ignore') as f:
+              r=csv.DictReader(f)
+              for d in r: add("Salesforce", d.get("File"), d.get("Line"), d.get("Severity"), d.get("Rule"), d.get("Message"))
+
+          # .NET dotnet-format
+          p="out/dotnet-format.json"
+          if os.path.exists(p):
+            data=json.load(open(p, encoding='utf-8', errors='ignore'))
+            diags=data.get("Diagnostics") or data.get("violations") or []
+            for v in diags: add(".NET", v.get("FilePath") or v.get("file"), v.get("LineNumber") or v.get("line"),
+                                 v.get("Severity") or v.get("severity"), v.get("RuleId") or v.get("id"), v.get("Message") or v.get("message"))
+          # .NET build warnings
+          p="out/build_output.txt"
+          if os.path.exists(p):
+            rx=re.compile(r'(.+\\.cs)\\((\\d+),\\d+\\): (warning|error) (\\w+): (.+?) \\[')
+            for line in open(p, encoding='utf-8', errors='ignore'):
+              m=rx.search(line)
+              if m:
+                file,line_no,sev,rule,msg=m.groups()
+                add("dotnet-build", file, line_no, sev.capitalize(), rule, msg)
+
+          # Python bandit
+          p="out/bandit.json"
+          if os.path.exists(p):
+            data=json.load(open(p, encoding='utf-8', errors='ignore'))
+            for r in data.get("results",[]): add("Bandit", r.get("filename"), r.get("line_number"),
+                                                 r.get("issue_severity"), r.get("test_id"), r.get("issue_text"))
+          # Python pylint
+          p="out/pylint.json"
+          if os.path.exists(p):
+            data=json.load(open(p, encoding='utf-8', errors='ignore'))
+            for it in data:
+              add("Pylint", it.get("path"), it.get("line"), (it.get("type") or "").capitalize(),
+                  it.get("message-id"), it.get("message"))
+          # Python flake8
+          p="out/flake8.json"
+          if os.path.exists(p):
+            data=json.load(open(p, encoding='utf-8', errors='ignore'))
+            for file, issues in data.items():
+              for i in issues: add("Flake8", file, i.get("line_number"), i.get("code"), i.get("code"), i.get("text"))
+
+          # React ESLint
+          p="out/eslint.json"
+          if os.path.exists(p):
+            data=json.load(open(p, encoding='utf-8', errors='ignore'))
+            if isinstance(data, dict): data=[data]
+            for f in data:
+              fn=f.get("filePath")
+              for m in f.get("messages",[]):
+                sev="Error" if m.get("severity")==2 else "Warning"
+                add("ESLint", fn, m.get("line"), sev, m.get("ruleId"), m.get("message"))
+
+          # React tsc
+          p="out/tsc-output.txt"
+          if os.path.exists(p):
+            rx=re.compile(r"(.+\\.(?:ts|tsx|js|jsx))\\((\\d+),\\d+\\): (error|warning) (TS\\d+): (.+)")
+            for line in open(p, encoding='utf-8', errors='ignore'):
+              m=rx.search(line)
+              if m: file,l,sev,code,msg=m.groups(); add("tsc", file,l, sev.capitalize(), code, msg)
+
+          # npm audit
+          p="out/audit.json"
+          if os.path.exists(p):
+            data=json.load(open(p, encoding='utf-8', errors='ignore'))
+            vulns=data.get("vulnerabilities") or {}
+            for pkg,v in vulns.items():
+              via=v.get("via",[])
+              for item in via:
+                if isinstance(item, dict):
+                  add("npm-audit", pkg, "", (v.get("severity") or ""), item.get("name") or item.get("title"), item.get("title"))
+            advisories=data.get("advisories") or {}
+            for a in advisories.values():
+              add("npm-audit", a.get("module_name"), "", a.get("severity"), a.get("id"), a.get("title"))
+
+          with open(out,"w",newline="",encoding="utf-8") as f: csv.writer(f).writerows(rows)
+          print("Wrote", out)
+          PY
+
+      # ---- Commit CSV into orchestrator repo ----
+      - name: Commit report into orchestrator
+        run: |
+          mkdir -p "$(dirname "$REPORT_PATH")"
+          cp out/normalized.csv "$REPORT_PATH"
+          git config user.name "orchestrator-bot"
+          git config user.email "orchestrator@example.com"
+          git add "$REPORT_PATH"
+          git commit -m "Scan report: $OWNER/$REPO ($TECH) • $CORR" || echo "Nothing to commit"
+          git push
+
+      - name: Upload artifact (optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-${{ env.CORR }}
+          path: out/normalized.csv
