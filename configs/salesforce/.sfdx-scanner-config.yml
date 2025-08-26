@@ -1,7 +1,90 @@
-analyzers:
-  - engine: pmd
-    categories: [Security, Best Practices, Performance, Design]
-    targets:
-      - force-app
-formats:
-  - csv
+# .sfdx-scanner-config.yml
+# Full-repo scan for Salesforce projects (Apex, LWC/Aura JS, VF/XML)
+
+version: 1
+
+# Where to scan (add/remove paths as needed)
+targets:
+  - force-app
+  - src
+  - "**/*.cls"
+  - "**/*.trigger"
+  - "force-app/**/lwc/**/*.js"
+  - "force-app/**/aura/**/*.js"
+
+# What to ignore everywhere
+exclude:
+  - "**/node_modules/**"
+  - "**/.sfdx/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/tmp/**"
+  - "**/__tests__/**"
+  - "**/__mocks__/**"
+
+# Engines to run
+engines:
+  - pmd
+  - eslint
+  - retire-js
+
+# ---------------- PMD (Apex / VF / XML) ----------------
+pmd:
+  # Use Salesforce-recommended rule categories built into PMD
+  rulesets:
+    # Apex
+    - "category/apex/bestpractices.xml"
+    - "category/apex/design.xml"
+    - "category/apex/errorprone.xml"
+    - "category/apex/performance.xml"
+    - "category/apex/security.xml"
+    # Visualforce & XML (profiles/permsets/etc.)
+    - "category/vf/bestpractices.xml"
+    - "category/vf/security.xml"
+    - "category/xml/bestpractices.xml"
+
+  # (Optional) Fine-tune what PMD looks at
+  include:
+    - "**/*.cls"
+    - "**/*.trigger"
+    - "force-app/**/*.page"
+    - "force-app/**/*.component"
+    - "force-app/**/profiles/*.profile-meta.xml"
+    - "force-app/**/permissionsets/*.permissionset-meta.xml"
+
+# ---------------- ESLint (LWC / Aura JS) ----------------
+eslint:
+  # File types to lint
+  extensions: [".js"]
+  # JS locations to include
+  globs:
+    - "force-app/**/lwc/**/*.js"
+    - "force-app/**/aura/**/*.js"
+
+  # ESLint configuration (uses Salesforce recommended rules)
+  config:
+    root: true
+    env:
+      browser: true
+      es2022: true
+    parserOptions:
+      ecmaVersion: 2022
+      sourceType: module
+    plugins:
+      - "@salesforce/eslint-plugin-lwc"
+      - "@salesforce/eslint-plugin-aura"
+    extends:
+      - "plugin:@salesforce/lwc/recommended"
+      - "plugin:@salesforce/aura/recommended"
+    # A couple of sensible defaults
+    rules:
+      no-debugger: "error"
+      no-console:
+        - "warn"
+        - { "allow": ["warn", "error"] }
+
+# ---------------- RetireJS (dependency vulns) ----------------
+retire-js:
+  # If your repo uses npm, this will scan dependencies
+  path: "package-lock.json"
+  includeDev: true
