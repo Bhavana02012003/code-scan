@@ -1,0 +1,151 @@
+Tool,File,Line,Severity,Rule,Message
+PMD,./force-app/main/default/classes/AccountClass.cls,3,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD,./force-app/main/default/classes/AccountClass.cls,55,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/AccountClass.cls,58,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/AccountClass.cls,58,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,6,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,14,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,14,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,20,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,29,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,29,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,37,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,37,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,57,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,59,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,59,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,62,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/AttachmentHandler.cls,62,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CSVDataController.cls,1,3,StdCyclomaticComplexity,The class 'CSVDataController' has a Standard Cyclomatic Complexity of 13 (Highest = 12).
+PMD,./force-app/main/default/classes/CSVDataController.cls,11,3,StdCyclomaticComplexity,The method 'getCSVData' has a Standard Cyclomatic Complexity of 12.
+PMD,./force-app/main/default/classes/CSVDataController.cls,11,3,NcssMethodCount,The method 'getCSVData()' has an NCSS line count of 47
+PMD,./force-app/main/default/classes/CSVDataController.cls,11,3,CognitiveComplexity,"The method 'getCSVData(String)' has a cognitive complexity of 19, current threshold is 15"
+PMD,./force-app/main/default/classes/CSVDataController.cls,11,3,CyclomaticComplexity,The method 'getCSVData(String)' has a cyclomatic complexity of 12.
+PMD,./force-app/main/default/classes/CSVDataController.cls,16,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CSVDataController.cls,25,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CSVDataController.cls,25,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CSVDataController.cls,40,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CSVDataController.cls,40,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CSVDataController.cls,60,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/CSVDataController.cls,60,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/CSVDataController.cls,60,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/CSVDataController.cls,60,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/CSVDataController.cls,75,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CSVDataController.cls,75,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CaseDataController.cls,1,3,StdCyclomaticComplexity,The class 'CaseDataController' has a Standard Cyclomatic Complexity of 14 (Highest = 13).
+PMD,./force-app/main/default/classes/CaseDataController.cls,11,3,StdCyclomaticComplexity,The method 'getCSVData' has a Standard Cyclomatic Complexity of 13.
+PMD,./force-app/main/default/classes/CaseDataController.cls,11,3,NcssMethodCount,The method 'getCSVData()' has an NCSS line count of 57
+PMD,./force-app/main/default/classes/CaseDataController.cls,11,3,CognitiveComplexity,"The method 'getCSVData(String)' has a cognitive complexity of 20, current threshold is 15"
+PMD,./force-app/main/default/classes/CaseDataController.cls,11,3,CyclomaticComplexity,The method 'getCSVData(String)' has a cyclomatic complexity of 13.
+PMD,./force-app/main/default/classes/CaseDataController.cls,15,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CaseDataController.cls,15,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CaseDataController.cls,18,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CaseDataController.cls,27,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CaseDataController.cls,27,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CaseDataController.cls,32,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CaseDataController.cls,32,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CaseDataController.cls,35,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CaseDataController.cls,45,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CaseDataController.cls,45,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CaseDataController.cls,50,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CaseDataController.cls,50,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CaseDataController.cls,60,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CaseDataController.cls,60,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CaseDataController.cls,66,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CaseDataController.cls,66,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CaseDataController.cls,81,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/CaseDataController.cls,81,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/CaseDataController.cls,81,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/CaseDataController.cls,81,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/CaseDataController.cls,96,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CaseDataController.cls,96,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CaseDataController.cls,99,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CaseDataController.cls,99,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/Demo.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/Demo.cls,1,3,AvoidGlobalModifier,Avoid using global modifier
+PMD,./force-app/main/default/classes/Demo.cls,3,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD,./force-app/main/default/classes/Demo.cls,7,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/Demo.cls,7,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/Demo.cls,14,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/Demo.cls,15,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/Demo.cls,15,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/Demo.cls,22,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/Demo.cls,24,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/Demo.cls,24,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/Demo.cls,27,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/Demo.cls,27,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/Demo.cls,36,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/Demo.cls,36,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/Demo.cls,38,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/Demo.cls,38,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/Demo.cls,44,3,ApexSOQLInjection,Avoid untrusted/unescaped variables in DML query
+PMD,./force-app/main/default/classes/Demo.cls,45,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/Demo.cls,45,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/File.cls,1,3,StdCyclomaticComplexity,The class 'File' has a Standard Cyclomatic Complexity of 7 (Highest = 12).
+PMD,./force-app/main/default/classes/File.cls,18,3,StdCyclomaticComplexity,The method 'importVulnerabilityData' has a Standard Cyclomatic Complexity of 12.
+PMD,./force-app/main/default/classes/File.cls,18,3,NcssMethodCount,The method 'importVulnerabilityData()' has an NCSS line count of 67
+PMD,./force-app/main/default/classes/File.cls,18,3,CognitiveComplexity,"The method 'importVulnerabilityData(List<Id>)' has a cognitive complexity of 22, current threshold is 15"
+PMD,./force-app/main/default/classes/File.cls,18,3,CyclomaticComplexity,The method 'importVulnerabilityData(List<Id>)' has a cyclomatic complexity of 12.
+PMD,./force-app/main/default/classes/File.cls,21,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/File.cls,27,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/File.cls,27,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/File.cls,35,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/File.cls,35,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/File.cls,39,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/File.cls,39,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/File.cls,46,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/File.cls,46,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/File.cls,58,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/File.cls,58,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/File.cls,80,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/File.cls,80,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/File.cls,90,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/File.cls,90,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/File.cls,114,3,AvoidDmlStatementsInLoops,Avoid DML statements inside loops
+PMD,./force-app/main/default/classes/File.cls,114,3,OperationWithLimitsInLoop,Avoid operations in loops that may hit governor limits
+PMD,./force-app/main/default/classes/File.cls,114,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/File.cls,115,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/File.cls,115,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/File.cls,117,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/File.cls,117,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/File.cls,122,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/File.cls,122,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/FileController.cls,4,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/FileController.cls,9,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/SampleTest.cls,3,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/SampleTest.cls,3,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/SampleTest.cls,5,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/SampleTest.cls,5,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/SampleTest.cls,7,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/SampleTest.cls,7,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/SampleTest.cls,14,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/SampleTest.cls,14,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,1,3,StdCyclomaticComplexity,The class 'ScannerReportHandler' has a Standard Cyclomatic Complexity of 25 (Highest = 24).
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,1,3,CognitiveComplexity,"The class 'ScannerReportHandler' has a total cognitive complexity of 67 (highest 67), current threshold is 50"
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,5,3,StdCyclomaticComplexity,The method 'processFiles' has a Standard Cyclomatic Complexity of 24.
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,5,3,NcssMethodCount,The method 'processFiles()' has an NCSS line count of 91
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,5,3,CognitiveComplexity,"The method 'processFiles(Set<Id>)' has a cognitive complexity of 67, current threshold is 15"
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,5,3,CyclomaticComplexity,The method 'processFiles(Set<Id>)' has a cyclomatic complexity of 33.
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,7,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,7,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,13,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,13,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,20,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,41,3,AvoidSoqlInLoops,Avoid Soql queries inside loops
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,41,3,OperationWithLimitsInLoop,Avoid operations in loops that may hit governor limits
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,41,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,59,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,64,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,70,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,85,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,91,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,91,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,101,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,111,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,111,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,126,3,AvoidSoqlInLoops,Avoid Soql queries inside loops
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,126,3,OperationWithLimitsInLoop,Avoid operations in loops that may hit governor limits
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,126,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,146,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,148,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/ScannerReportHandler.cls,148,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
