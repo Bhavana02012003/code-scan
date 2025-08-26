@@ -90,7 +90,7 @@ jobs:
 
       # ============ SALESFORCE ============
 
-      # Install Salesforce CLI from official tarball (no npm, no marketplace action)
+      # Install Salesforce CLI from official tarball (no npm)
       - name: Salesforce • Install sf CLI (tarball)
         if: ${{ env.TECH == 'Salesforce' }}
         run: |
@@ -102,10 +102,38 @@ jobs:
           sf --version
           sf plugins --core
 
-      - name: Salesforce • Install Code Analyzer v5 plugin
+      # Install Code Analyzer plugin with backoffs and npm hardening.
+      # 1) Try **GitHub source install** (bypasses npm registry tarballs).
+      # 2) If that fails, fall back to npm with retries and increased timeouts.
+      - name: Salesforce • Install Code Analyzer v5 plugin (resilient)
         if: ${{ env.TECH == 'Salesforce' }}
         run: |
-          sf plugins install @salesforce/plugin-code-analyzer@latest
+          set -e
+          # Harden npm client to reduce 429s if we fall back to npm
+          npm config set registry https://registry.npmjs.org/
+          npm config set fetch-retries 5
+          npm config set fetch-retry-factor 2
+          npm config set fetch-retry-maxtimeout 600000   # 10 min
+          npm config set fetch-retry-mintimeout 20000    # 20 sec
+          npm config set prefer-online true
+          npm config set fund false
+          npm config set audit false
+
+          # First try installing directly from GitHub (avoids npm tarball fetch)
+          if sf plugins install https://github.com/salesforcecli/plugin-code-analyzer ; then
+            echo "Installed plugin from GitHub."
+          else
+            echo "GitHub install failed, retrying from npm with backoff..."
+            for i in 1 2 3 4; do
+              if sf plugins install @salesforce/plugin-code-analyzer@latest ; then
+                echo "Installed plugin from npm on attempt $i."
+                break
+              fi
+              echo "Attempt $i failed. Sleeping $((i*20))s..."
+              sleep $((i*20))
+            done
+          fi
+
           sf plugins --core
 
       - name: Salesforce • Scan
@@ -115,6 +143,7 @@ jobs:
           mkdir -p ../out
           # adjust target path if repo uses a different folder than force-app
           sf code-analyzer run --config-file .sfdx-scanner-config.yml --target force-app | grep "," > ../out/sfdx.csv || true
+
 
       # ============ .NET ============
 
