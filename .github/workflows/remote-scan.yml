@@ -97,7 +97,8 @@ jobs:
           sudo apt-get update && sudo apt-get install -y unzip
           unzip -q pmd.zip
           mv "pmd-bin-${PMD_VER}" pmd
-          ./pmd/bin/run.sh pmd --help >/dev/null 2>&1 || true
+          chmod +x pmd/bin/run.sh
+          echo "PMD_HOME=$GITHUB_WORKSPACE/pmd" >> $GITHUB_ENV
 
       - name: Salesforce • Full scan with PMD → CSV
         if: ${{ env.TECH == 'Salesforce' }}
@@ -106,7 +107,14 @@ jobs:
           set -e
           mkdir -p ../out
 
-          # 1) Find the real force-app (handles nested like DevOps_Project/force-app)
+          # Ensure PMD is where we expect it (from target/, it's ../pmd)
+          if [ ! -x ../pmd/bin/run.sh ]; then
+            echo "PMD script not found at ../pmd/bin/run.sh. Listing workspace for debug:"
+            ls -la ..
+            exit 1
+          fi
+
+          # Find correct force-app path (handles nested repos)
           FA=$(find . -type d -name "force-app" | head -n 1)
           if [ -z "$FA" ]; then
             echo "No force-app folder found; scanning repo root."
@@ -117,17 +125,17 @@ jobs:
           echo "Apex class files found:"
           find "$FA" -type f -name "*.cls" | wc -l || true
 
-          # 2) Run PMD Apex rulesets. (category/* work in PMD 6.x)
-          ../../pmd/bin/run.sh pmd \
+          # Run PMD (from target/ → ../pmd/bin/run.sh)
+          ../pmd/bin/run.sh pmd \
             -d "$FA" \
             -f csv \
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > ../out/pmd.csv || true
 
           echo "==== PMD CSV head ===="
-          head -n 5 ../out/pmd.csv || true
+          head -n 10 ../out/pmd.csv || true
 
-          # 3) Guarantee header if PMD produced nothing
+          # Always ensure a CSV exists with header
           if [ ! -s ../out/pmd.csv ]; then
             echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
           fi
