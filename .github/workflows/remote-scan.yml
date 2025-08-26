@@ -90,7 +90,7 @@ jobs:
 
       # ============ SALESFORCE ============
 
-      # Java is required by PMD (used by Code Analyzer)
+      # Java for PMD
       - name: Salesforce • Setup Java (for PMD)
         if: ${{ env.TECH == 'Salesforce' }}
         uses: actions/setup-java@v4
@@ -98,7 +98,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Install sf CLI (tarball; avoids npm flakiness)
+      # Install sf CLI (tarball; no npm)
       - name: Salesforce • Install sf CLI (tarball)
         if: ${{ env.TECH == 'Salesforce' }}
         run: |
@@ -129,46 +129,47 @@ jobs:
           done
           echo "Failed to install Code Analyzer"; exit 1
 
-      # FULL REPO SCAN (no delta). We auto-detect package directories from sfdx-project.json.
-      - name: Salesforce • Full scan → CSV
+      # FULL REPO SCAN using v5 syntax (→ JSON)
+      - name: Salesforce • Full scan (v5) → JSON
         if: ${{ env.TECH == 'Salesforce' }}
         working-directory: target
         run: |
           set -e
           mkdir -p ../out
 
-          # Collect target folders: read sfdx-project.json; fallback to common roots
+          # Build list of targets (package folders). Fallbacks if sfdx-project.json missing.
+          TARGETS=""
           if [ -f "sfdx-project.json" ]; then
-            TARGETS=$(jq -r '.packageDirectories[].path' sfdx-project.json | tr '\n' ' ')
+            TARGETS="$(jq -r '.packageDirectories[].path' sfdx-project.json | tr '\n' ' ')"
           fi
           if [ -z "$TARGETS" ]; then
-            # fallback guesses
-            for d in force-app src metadata; do
-              [ -d "$d" ] && TARGETS="$TARGETS $d"
-            done
+            for d in force-app src metadata; do [ -d "$d" ] && TARGETS="$TARGETS $d"; done
             [ -z "$TARGETS" ] && TARGETS="."
           fi
           echo "Scanning targets: $TARGETS"
 
-          # Quick inventory (helps debug empties)
           echo "Apex files:";   git ls-files "*.cls" "*.trigger" | wc -l || true
           echo "LWC JS files:"; git ls-files "force-app/**/lwc/**/*.js" | wc -l || true
           echo "Aura JS files:"; git ls-files "force-app/**/aura/**/*.js" | wc -l || true
 
-          # Run Code Analyzer across ALL targets; force CSV to a known path
-          # Engines: PMD (Apex/XML), ESLint (JS), RetireJS (deps)
-          sf code-analyzer run \
-            --target $TARGETS \
-            --engine pmd,eslint,retirejs \
-            --format csv \
-            --outfile ../out/sfdx.csv || true
+          # v5 wants one --target per folder
+          ARGS=""
+          for t in $TARGETS; do ARGS="$ARGS --target $t"; done
 
-          # If nothing produced, at least leave the CSV header so we can see the file
-          if [ ! -s ../out/sfdx.csv ]; then
-            echo "Tool,File,Line,Severity,Rule,Message" > ../out/sfdx.csv
+          # Use your config if present; ALWAYS request JSON and capture to file
+          if [ -f ".sfdx-scanner-config.yml" ]; then
+            sf code-analyzer run --config-file .sfdx-scanner-config.yml $ARGS --json > ../out/sfdx.json || true
+          else
+            # run with defaults (engines chosen by the CLI)
+            sf code-analyzer run $ARGS --json > ../out/sfdx.json || true
           fi
 
-          echo "First lines of CSV:"; head -n 10 ../out/sfdx.csv || true
+          # Leave a placeholder if nothing was produced so downstream steps don't fail
+          [ -s ../out/sfdx.json ] || echo '{"results":[]}' > ../out/sfdx.json
+
+          echo "First 200 chars of JSON:"
+          head -c 200 ../out/sfdx.json || true
+          echo
 
 
 
@@ -230,107 +231,130 @@ jobs:
           fi
           npm audit --json > ../out/audit.json || true
 
-      # ---- Normalize everything to a single CSV ----
       - name: Normalize to CSV
         run: |
           python - << 'PY'
           import os, json, csv, re
+
           rows=[["Tool","File","Line","Severity","Rule","Message"]]
           out="out/normalized.csv"
           os.makedirs("out", exist_ok=True)
 
           def add(tool,file,line,sev,rule,msg):
-            rows.append([tool,file or "",str(line or ""),str(sev or ""),str(rule or ""), (msg or "").replace("\n"," ").strip()])
+              rows.append([tool,file or "",str(line or ""),str(sev or ""),str(rule or ""), (msg or "").replace("\n"," ").strip()])
 
-          # Salesforce
-          p="out/sfdx.csv"
+          # ---------- Salesforce v5 JSON ----------
+          def walk(obj):
+              "yield dict-like leaves recursively"
+              if isinstance(obj, dict):
+                  yield obj
+                  for v in obj.values():
+                      for x in walk(v): yield x
+              elif isinstance(obj, list):
+                  for it in obj:
+                      for x in walk(it): yield x
+
+          p="out/sfdx.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
-            with open(p, newline='', encoding='utf-8', errors='ignore') as f:
-              r=csv.DictReader(f)
-              for d in r: add("Salesforce", d.get("File"), d.get("Line"), d.get("Severity"), d.get("Rule"), d.get("Message"))
+              try:
+                  data=json.load(open(p, encoding='utf-8', errors='ignore'))
+                  # v5 returns various shapes; we pick common fields when present
+                  for node in walk(data):
+                      # try several key names seen across engines
+                      file_ = node.get("file") or node.get("fileName") or node.get("path") or node.get("File")
+                      line  = node.get("line") or node.get("lineNumber") or node.get("Line")
+                      sev   = node.get("severity") or node.get("Severity") or node.get("priority") or node.get("level")
+                      rule  = node.get("rule") or node.get("ruleName") or node.get("Rule")
+                      msg   = node.get("message") or node.get("Message") or node.get("description")
+                      # Heuristic: count as violation only if at least file+msg exist
+                      if file_ and msg:
+                          add("Salesforce", file_, line, sev, rule, msg)
+              except Exception as e:
+                  print("Failed to parse sfdx.json:", e)
 
-          # .NET dotnet-format
+          # ---------- .NET dotnet-format ----------
           p="out/dotnet-format.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
-            data=json.load(open(p, encoding='utf-8', errors='ignore'))
-            diags=data.get("Diagnostics") or data.get("violations") or []
-            for v in diags:
-              add(".NET", v.get("FilePath") or v.get("file"), v.get("LineNumber") or v.get("line"),
-                  v.get("Severity") or v.get("severity"), v.get("RuleId") or v.get("id"), v.get("Message") or v.get("message"))
+              data=json.load(open(p, encoding='utf-8', errors='ignore'))
+              diags=data.get("Diagnostics") or data.get("violations") or []
+              for v in diags:
+                  add(".NET", v.get("FilePath") or v.get("file"), v.get("LineNumber") or v.get("line"),
+                      v.get("Severity") or v.get("severity"), v.get("RuleId") or v.get("id"), v.get("Message") or v.get("message"))
 
-          # .NET build warnings
+          # ---------- .NET build warnings ----------
           p="out/build_output.txt"
           if os.path.exists(p) and os.path.getsize(p)>0:
-            rx=re.compile(r'(.+\\.cs)\\((\\d+),\\d+\\): (warning|error) (\\w+): (.+?) \\[')
-            for line in open(p, encoding='utf-8', errors='ignore'):
-              m=rx.search(line)
-              if m:
-                file,line_no,sev,rule,msg=m.groups()
-                add("dotnet-build", file, line_no, sev.capitalize(), rule, msg)
+              rx=re.compile(r'(.+\.cs)\((\d+),\d+\): (warning|error) (\w+): (.+?) \[')
+              for line in open(p, encoding='utf-8', errors='ignore'):
+                  m=rx.search(line)
+                  if m:
+                      file,line_no,sev,rule,msg=m.groups()
+                      add("dotnet-build", file, line_no, sev.capitalize(), rule, msg)
 
-          # Python bandit
+          # ---------- Python bandit ----------
           p="out/bandit.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
-            data=json.load(open(p, encoding='utf-8', errors='ignore'))
-            for r in data.get("results",[]):
-              add("Bandit", r.get("filename"), r.get("line_number"),
-                  r.get("issue_severity"), r.get("test_id"), r.get("issue_text"))
+              data=json.load(open(p, encoding='utf-8', errors='ignore'))
+              for r in data.get("results",[]):
+                  add("Bandit", r.get("filename"), r.get("line_number"),
+                      r.get("issue_severity"), r.get("test_id"), r.get("issue_text"))
 
-          # Python pylint
+          # ---------- Python pylint ----------
           p="out/pylint.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
-            data=json.load(open(p, encoding='utf-8', errors='ignore'))
-            for it in data:
-              add("Pylint", it.get("path"), it.get("line"), (it.get("type") or "").capitalize(),
-                  it.get("message-id"), it.get("message"))
+              data=json.load(open(p, encoding='utf-8', errors='ignore'))
+              for it in data:
+                  add("Pylint", it.get("path"), it.get("line"), (it.get("type") or "").capitalize(),
+                      it.get("message-id"), it.get("message"))
 
-          # Python flake8
+          # ---------- Python flake8 ----------
           p="out/flake8.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
-            data=json.load(open(p, encoding='utf-8', errors='ignore'))
-            for file, issues in data.items():
-              for i in issues:
-                add("Flake8", file, i.get("line_number"), i.get("code"), i.get("code"), i.get("text"))
+              data=json.load(open(p, encoding='utf-8', errors='ignore'))
+              for file, issues in data.items():
+                  for i in issues:
+                      add("Flake8", file, i.get("line_number"), i.get("code"), i.get("code"), i.get("text"))
 
-          # React ESLint
+          # ---------- React ESLint ----------
           p="out/eslint.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
-            data=json.load(open(p, encoding='utf-8', errors='ignore'))
-            if isinstance(data, dict): data=[data]
-            for f in data:
-              fn=f.get("filePath")
-              for m in f.get("messages",[]):
-                sev="Error" if m.get("severity")==2 else "Warning"
-                add("ESLint", fn, m.get("line"), sev, m.get("ruleId"), m.get("message"))
+              data=json.load(open(p, encoding='utf-8', errors='ignore'))
+              if isinstance(data, dict): data=[data]
+              for f in data:
+                  fn=f.get("filePath")
+                  for m in f.get("messages",[]):
+                      sev="Error" if m.get("severity")==2 else "Warning"
+                      add("ESLint", fn, m.get("line"), sev, m.get("ruleId"), m.get("message"))
 
-          # React tsc
+          # ---------- React tsc ----------
           p="out/tsc-output.txt"
           if os.path.exists(p) and os.path.getsize(p)>0:
-            rx=re.compile(r"(.+\\.(?:ts|tsx|js|jsx))\\((\\d+),\\d+\\): (error|warning) (TS\\d+): (.+)")
-            for line in open(p, encoding='utf-8', errors='ignore'):
-              m=rx.search(line)
-              if m:
-                file,l,sev,code,msg=m.groups()
-                add("tsc", file,l, sev.capitalize(), code, msg)
+              rx=re.compile(r"(.+\.(?:ts|tsx|js|jsx))\((\d+),\d+\): (error|warning) (TS\d+): (.+)")
+              for line in open(p, encoding='utf-8', errors='ignore'):
+                  m=rx.search(line)
+                  if m:
+                      file,l,sev,code,msg=m.groups()
+                      add("tsc", file,l, sev.capitalize(), code, msg)
 
-          # npm audit
+          # ---------- npm audit ----------
           p="out/audit.json"
-          if os.path.exists(p) and os.pathsize(p)>0:
-            data=json.load(open(p, encoding='utf-8', errors='ignore'))
-            vulns=data.get("vulnerabilities") or {}
-            for pkg,v in vulns.items():
-              via=v.get("via",[])
-              for item in via:
-                if isinstance(item, dict):
-                  add("npm-audit", pkg, "", (v.get("severity") or ""), item.get("name") or item.get("title"), item.get("title"))
-            advisories=data.get("advisories") or {}
-            for a in advisories.values():
-              add("npm-audit", a.get("module_name"), "", a.get("severity"), a.get("id"), a.get("title"))
+          if os.path.exists(p) and os.path.getsize(p)>0:
+              data=json.load(open(p, encoding='utf-8', errors='ignore'))
+              vulns=data.get("vulnerabilities") or {}
+              for pkg,v in vulns.items():
+                  via=v.get("via",[])
+                  for item in via:
+                      if isinstance(item, dict):
+                          add("npm-audit", pkg, "", (v.get("severity") or ""), item.get("name") or item.get("title"), item.get("title"))
+              advisories=data.get("advisories") or {}
+              for a in advisories.values():
+                  add("npm-audit", a.get("module_name"), "", a.get("severity"), a.get("id"), a.get("title"))
 
           with open(out,"w",newline="",encoding="utf-8") as f:
-            csv.writer(f).writerows(rows)
-          print("Wrote", out)
+              csv.writer(f).writerows(rows)
+          print("Wrote", out, "rows:", len(rows)-1)
           PY
+
 
       # ---- Commit CSV into orchestrator repo ----
       - name: Commit report into orchestrator
