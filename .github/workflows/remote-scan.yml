@@ -88,7 +88,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Salesforce • Download PMD
+      - name: Salesforce • Download PMD 6.x
         if: ${{ env.TECH == 'Salesforce' }}
         run: |
           set -e
@@ -97,93 +97,71 @@ jobs:
           sudo apt-get update && sudo apt-get install -y unzip
           unzip -q pmd.zip
           mv "pmd-bin-${PMD_VER}" pmd
-          # sanity check without failing the build
           ./pmd/bin/run.sh pmd --help >/dev/null 2>&1 || true
 
-      - name: Salesforce • Full repo scan (filelist) → CSV
+      - name: Salesforce • Full scan with PMD → CSV
         if: ${{ env.TECH == 'Salesforce' }}
         working-directory: target
         run: |
           set -e
           mkdir -p ../out
-          # Build a filelist with every Apex file in the repo, regardless of folder layout
-          # (handles sfdx, mdapi, multi-package, etc.)
-          find . -type f \( -name "*.cls" -o -name "*.trigger" \) > ../out/apex-files.txt || true
 
-          COUNT=$(wc -l < ../out/apex-files.txt || echo 0)
-          echo "Discovered Apex files: $COUNT"
-          if [ "$COUNT" -eq 0 ]; then
-            echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
-            exit 0
+          # 1) Find the real force-app (handles nested like DevOps_Project/force-app)
+          FA=$(find . -type d -name "force-app" | head -n 1)
+          if [ -z "$FA" ]; then
+            echo "No force-app folder found; scanning repo root."
+            FA="."
           fi
 
-          # Use a conservative ruleset that always exists in PMD:
-          # rulesets/apex/quickstart.xml
+          echo "Scanning Apex under: $FA"
+          echo "Apex class files found:"
+          find "$FA" -type f -name "*.cls" | wc -l || true
+
+          # 2) Run PMD Apex rulesets. (category/* work in PMD 6.x)
           ../../pmd/bin/run.sh pmd \
-            -language apex \
-            -filelist ../out/apex-files.txt \
+            -d "$FA" \
             -f csv \
-            -R rulesets/apex/quickstart.xml \
+            -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > ../out/pmd.csv || true
 
-          # Ensure file exists even if PMD printed nothing
+          echo "==== PMD CSV head ===="
+          head -n 5 ../out/pmd.csv || true
+
+          # 3) Guarantee header if PMD produced nothing
           if [ ! -s ../out/pmd.csv ]; then
             echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
           fi
 
-
       # ============ .NET ============
-      - name: .NET • Install SDK
-        if: ${{ env.TECH == 'DotNet' }}
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-
-      - name: .NET • Find project/solution
-        if: ${{ env.TECH == 'DotNet' }}
-        id: dotnet-target
-        working-directory: target
-        run: |
-          set -e
-          T=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
-          if [ -z "$T" ]; then T=$(git ls-files "*.sln" "*.csproj" | head -n 1); fi
-          echo "TARGET=$T" >> $GITHUB_ENV
-          echo "Using target: $T"
-
-      - name: .NET • Restore
+      - name: .NET • Restore and scan (format + analyzers + build)
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
         run: |
           set -e
+          # Find a solution or project anywhere in the repo
+          TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
+          if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.sln" "*.csproj" | head -n 1); fi
+          if [ -z "$TARGET" ]; then echo "No .sln or .csproj found"; exit 0; fi
+          echo "Using target: $TARGET"
+
           dotnet restore "$TARGET" || true
 
-      - name: .NET • dotnet format (JSON report)
-        if: ${{ env.TECH == 'DotNet' }}
-        working-directory: target
-        run: |
-          mkdir -p ../out
+          # dotnet-format: write JSON report (may be empty if no style issues)
           dotnet tool install -g dotnet-format
           export PATH="$HOME/.dotnet/tools:$PATH"
+          mkdir -p ../out
           dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json --report-format json || true
 
-      - name: .NET • Build (enable analyzers) → capture warnings
-        if: ${{ env.TECH == 'DotNet' }}
-        working-directory: target
-        run: |
-          # Enable Microsoft/Roslyn analyzers strongly so you actually get diagnostics
+          # Enable Roslyn analyzers explicitly to produce diagnostics
+          # (works even if the project doesn't set these properties)
           dotnet build "$TARGET" \
-            /warnaserror- \
             -p:EnableNETAnalyzers=true \
             -p:AnalysisLevel=latest \
-            -p:TreatWarningsAsErrors=false \
-            -nologo -v:minimal \
-            > ../out/build_output.txt 2>&1 || true
+            -v:normal > ../out/build_output.txt || true
 
-      - name: .NET • Dependency vulnerabilities (optional)
-        if: ${{ env.TECH == 'DotNet' }}
-        working-directory: target
-        run: |
-          dotnet list "$TARGET" package --vulnerable --include-transitive --format json > ../out/dotnet-packages.json || echo '{}' > ../out/dotnet-packages.json
+          echo "==== First build diagnostics lines ===="
+          head -n 200 ../out/build_output.txt || true
+
 
       # ============ PYTHON ============
       - name: Python • Install linters
