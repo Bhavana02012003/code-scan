@@ -91,48 +91,98 @@ jobs:
       - name: Salesforce • Download PMD
         if: ${{ env.TECH == 'Salesforce' }}
         run: |
+          set -e
           PMD_VER=6.55.0
           curl -L "https://github.com/pmd/pmd/releases/download/pmd_releases/${PMD_VER}/pmd-bin-${PMD_VER}.zip" -o pmd.zip
           sudo apt-get update && sudo apt-get install -y unzip
           unzip -q pmd.zip
           mv "pmd-bin-${PMD_VER}" pmd
+          ./pmd/bin/run.sh pmd -version
 
-      - name: Salesforce • Full scan with PMD → CSV
+      - name: Salesforce • Full repo scan (filelist) → CSV
         if: ${{ env.TECH == 'Salesforce' }}
         working-directory: target
         run: |
+          set -e
           mkdir -p ../out
-          TARGETS="force-app"
-          [ -d "$TARGETS" ] || TARGETS="."
+          # Build a filelist with every Apex file in the repo, regardless of folder layout
+          # (handles sfdx, mdapi, multi-package, etc.)
+          find . -type f \( -name "*.cls" -o -name "*.trigger" \) > ../out/apex-files.txt || true
+
+          COUNT=$(wc -l < ../out/apex-files.txt || echo 0)
+          echo "Discovered Apex files: $COUNT"
+          if [ "$COUNT" -eq 0 ]; then
+            echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
+            exit 0
+          fi
+
+          # Use a conservative ruleset that always exists in PMD:
+          # rulesets/apex/quickstart.xml
           ../../pmd/bin/run.sh pmd \
-            -d $TARGETS \
+            -language apex \
+            -filelist ../out/apex-files.txt \
             -f csv \
-            -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
+            -R rulesets/apex/quickstart.xml \
             > ../out/pmd.csv || true
-          [ -s ../out/pmd.csv ] || echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
+
+          # Ensure file exists even if PMD printed nothing
+          if [ ! -s ../out/pmd.csv ]; then
+            echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
+          fi
+
 
       # ============ .NET ============
-      - name: .NET • Restore and scan
+      - name: .NET • Install SDK
+        if: ${{ env.TECH == 'DotNet' }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: .NET • Find project/solution
+        if: ${{ env.TECH == 'DotNet' }}
+        id: dotnet-target
+        working-directory: target
+        run: |
+          set -e
+          T=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
+          if [ -z "$T" ]; then T=$(git ls-files "*.sln" "*.csproj" | head -n 1); fi
+          echo "TARGET=$T" >> $GITHUB_ENV
+          echo "Using target: $T"
+
+      - name: .NET • Restore
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
         run: |
           set -e
-          dotnet tool install -g dotnet-format
-          export PATH="$HOME/.dotnet/tools:$PATH"
-          # Find a solution or project
-          TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
-          if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.csproj" | head -n 1); fi
-          echo "Using target: $TARGET"
           dotnet restore "$TARGET" || true
 
-          # Emit JSON report explicitly (some versions output list, others object)
-          dotnet format "$TARGET" \
-            --verify-no-changes \
-            --report ../out/dotnet-format.json \
-            --report-format json || true
+      - name: .NET • dotnet format (JSON report)
+        if: ${{ env.TECH == 'DotNet' }}
+        working-directory: target
+        run: |
+          mkdir -p ../out
+          dotnet tool install -g dotnet-format
+          export PATH="$HOME/.dotnet/tools:$PATH"
+          dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json --report-format json || true
 
-          # Capture compiler warnings/errors too
-          dotnet build "$TARGET" --no-incremental -v:normal > ../out/build_output.txt || true
+      - name: .NET • Build (enable analyzers) → capture warnings
+        if: ${{ env.TECH == 'DotNet' }}
+        working-directory: target
+        run: |
+          # Enable Microsoft/Roslyn analyzers strongly so you actually get diagnostics
+          dotnet build "$TARGET" \
+            /warnaserror- \
+            -p:EnableNETAnalyzers=true \
+            -p:AnalysisLevel=latest \
+            -p:TreatWarningsAsErrors=false \
+            -nologo -v:minimal \
+            > ../out/build_output.txt 2>&1 || true
+
+      - name: .NET • Dependency vulnerabilities (optional)
+        if: ${{ env.TECH == 'DotNet' }}
+        working-directory: target
+        run: |
+          dotnet list "$TARGET" package --vulnerable --include-transitive --format json > ../out/dotnet-packages.json || echo '{}' > ../out/dotnet-packages.json
 
       # ============ PYTHON ============
       - name: Python • Install linters
@@ -189,12 +239,11 @@ jobs:
           # ---------- .NET dotnet-format ----------
           p = "out/dotnet-format.json"
           if os.path.exists(p) and os.path.getsize(p) > 0:
-              with open(p, encoding="utf-8", errors="ignore") as f:
-                  try:
-                      data = json.load(f)
-                  except Exception as e:
-                      data = None
-                      print("Failed to parse dotnet-format.json:", e)
+              try:
+                  data = json.load(open(p, encoding="utf-8", errors="ignore"))
+              except Exception as e:
+                  data = None
+                  print("Failed to parse dotnet-format.json:", e)
 
               def field(d, *names, default=None):
                   for n in names:
@@ -203,7 +252,7 @@ jobs:
                   return default
 
               def add_diag(v):
-                  add(".NET",
+                  add(".NET(format)",
                       field(v, "FilePath", "file", "Document"),
                       field(v, "LineNumber", "line", "StartLine"),
                       field(v, "Severity", "severity", "Category"),
@@ -211,14 +260,44 @@ jobs:
                       field(v, "Message", "message", "Title"))
 
               if isinstance(data, dict):
-                  # Common schema: { "Diagnostics": [ ... ] }
                   diags = data.get("Diagnostics") or data.get("violations") or data.get("results") or []
                   for v in diags:
                       add_diag(v)
               elif isinstance(data, list):
-                  # Some versions return a top-level list of diagnostics
                   for v in data:
                       add_diag(v)
+
+          # ---------- .NET build warnings/errors (compiler + analyzers) ----------
+          p = "out/build_output.txt"
+          if os.path.exists(p) and os.path.getsize(p) > 0:
+              rx = re.compile(r'(.+\.cs)\((\d+),\d+\): (warning|error) (\w+): (.+?) \[')
+              for line in open(p, encoding='utf-8', errors='ignore'):
+                  m = rx.search(line)
+                  if m:
+                      file, line_no, sev, rule, msg = m.groups()
+                      add(".NET(build)", file, line_no, sev.capitalize(), rule, msg)
+
+          # ---------- .NET dependency vulnerabilities ----------
+          p = "out/dotnet-packages.json"
+          if os.path.exists(p) and os.path.getsize(p) > 0:
+              try:
+                  data = json.load(open(p, encoding="utf-8", errors="ignore"))
+                  # dotnet list package JSON shape: { "projects": [ { "frameworks":[{"topLevelPackages":[...], "transitivePackages":[...]}] } ] }
+                  projs = data.get("projects") or []
+                  for proj in projs:
+                      for fw in proj.get("frameworks", []):
+                          for section in ("topLevelPackages", "transitivePackages"):
+                              for pkg in fw.get(section, []):
+                                  if pkg.get("vulnerabilities"):
+                                      for v in pkg["vulnerabilities"]:
+                                          add(".NET(pkg)",
+                                              f'{pkg.get("id")}@{pkg.get("requestedVersion") or pkg.get("resolvedVersion")}',
+                                              "",
+                                              v.get("severity"),
+                                              v.get("advisoryUrl") or v.get("advisoryIds") or "",
+                                              v.get("description") or "Dependency vulnerability")
+              except Exception as e:
+                  print("Failed to parse dotnet-packages.json:", e)
 
           # Python
           for tool,file in [("Bandit","out/bandit.json"),("Pylint","out/pylint.json")]:
