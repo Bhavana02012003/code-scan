@@ -116,12 +116,22 @@ jobs:
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
         run: |
+          set -e
           dotnet tool install -g dotnet-format
           export PATH="$HOME/.dotnet/tools:$PATH"
-          TARGET=$( (ls *.sln 2>/dev/null || ls *.csproj 2>/dev/null) | head -n 1 )
-          [ -z "$TARGET" ] && TARGET=$(git ls-files "*.csproj" | head -n 1)
+          # Find a solution or project
+          TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
+          if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.csproj" | head -n 1); fi
+          echo "Using target: $TARGET"
           dotnet restore "$TARGET" || true
-          dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json || true
+
+          # Emit JSON report explicitly (some versions output list, others object)
+          dotnet format "$TARGET" \
+            --verify-no-changes \
+            --report ../out/dotnet-format.json \
+            --report-format json || true
+
+          # Capture compiler warnings/errors too
           dotnet build "$TARGET" --no-incremental -v:normal > ../out/build_output.txt || true
 
       # ============ PYTHON ============
@@ -176,18 +186,40 @@ jobs:
                   r=csv.DictReader(f)
                   for d in r:
                       add("PMD", d.get("File"), d.get("Line"), d.get("Priority"), d.get("Rule"), d.get("Description"))
-          # .NET
-          p="out/dotnet-format.json"
-          if os.path.exists(p):
-              data=json.load(open(p,encoding="utf-8"))
-              for v in data.get("Diagnostics",[]):
-                  add(".NET", v.get("FilePath"), v.get("LineNumber"), v.get("Severity"), v.get("RuleId"), v.get("Message"))
-          p="out/build_output.txt"
-          if os.path.exists(p):
-              rx=re.compile(r'(.+\.cs)\((\d+),\d+\): (warning|error) (\w+): (.+?) \[')
-              for line in open(p,encoding="utf-8",errors="ignore"):
-                  m=rx.search(line)
-                  if m: file,l,sev,rule,msg=m.groups(); add("dotnet-build",file,l,sev.capitalize(),rule,msg)
+          # ---------- .NET dotnet-format ----------
+          p = "out/dotnet-format.json"
+          if os.path.exists(p) and os.path.getsize(p) > 0:
+              with open(p, encoding="utf-8", errors="ignore") as f:
+                  try:
+                      data = json.load(f)
+                  except Exception as e:
+                      data = None
+                      print("Failed to parse dotnet-format.json:", e)
+
+              def field(d, *names, default=None):
+                  for n in names:
+                      if isinstance(d, dict) and n in d:
+                          return d.get(n)
+                  return default
+
+              def add_diag(v):
+                  add(".NET",
+                      field(v, "FilePath", "file", "Document"),
+                      field(v, "LineNumber", "line", "StartLine"),
+                      field(v, "Severity", "severity", "Category"),
+                      field(v, "RuleId", "id", "DiagnosticId", "rule"),
+                      field(v, "Message", "message", "Title"))
+
+              if isinstance(data, dict):
+                  # Common schema: { "Diagnostics": [ ... ] }
+                  diags = data.get("Diagnostics") or data.get("violations") or data.get("results") or []
+                  for v in diags:
+                      add_diag(v)
+              elif isinstance(data, list):
+                  # Some versions return a top-level list of diagnostics
+                  for v in data:
+                      add_diag(v)
+
           # Python
           for tool,file in [("Bandit","out/bandit.json"),("Pylint","out/pylint.json")]:
               if os.path.exists(file):
