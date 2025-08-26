@@ -12,12 +12,12 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     env:
-      REPO_URL: ${{ github.event.client_payload.repo_url }}
-      OWNER: ${{ github.event.client_payload.owner }}
-      REPO: ${{ github.event.client_payload.repo }}
-      BRANCH: ${{ github.event.client_payload.branch || 'main' }}
-      TECH: ${{ github.event.client_payload.technology }}
-      CORR: ${{ github.event.client_payload.correlation_id }}
+      REPO_URL:  ${{ github.event.client_payload.repo_url }}
+      OWNER:     ${{ github.event.client_payload.owner }}
+      REPO:      ${{ github.event.client_payload.repo }}
+      BRANCH:    ${{ github.event.client_payload.branch || 'main' }}
+      TECH:      ${{ github.event.client_payload.technology }}
+      CORR:      ${{ github.event.client_payload.correlation_id }}
       REPORT_PATH: ${{ github.event.client_payload.report_path }}
 
     steps:
@@ -30,7 +30,6 @@ jobs:
           echo "REPO_URL=$REPO_URL"
           echo "REPORT_PATH=$REPORT_PATH"
 
-        
       # Detect if GH_PAT is present (set USE_PAT=true/false)
       - name: Detect GH_PAT
         id: has-pat
@@ -45,35 +44,32 @@ jobs:
           fi
 
       - name: Clone target repository (public)
-        if: env.USE_PAT == 'false'
+        if: ${{ env.USE_PAT == 'false' }}
         run: |
           git clone --depth 1 --branch "$BRANCH" "$REPO_URL" target
 
       - name: Clone target repository (private via GH_PAT)
-        if: env.USE_PAT == 'true'
+        if: ${{ env.USE_PAT == 'true' }}
         run: |
           URL_AUTH="https://${{ secrets.GH_PAT }}@${REPO_URL#https://}"
           git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
 
-
       # ---- Overlay config pack ----
-      # (after cloning target)
       - name: Overlay config pack
         run: |
-            set -e
-            TECH_LOWER=$(echo "$TECH" | tr '[:upper:]' '[:lower:]')
-            SRC="configs/$TECH_LOWER"
-            if [ -d "$SRC" ]; then
+          set -e
+          TECH_LOWER=$(echo "$TECH" | tr '[:upper:]' '[:lower:]')
+          SRC="configs/$TECH_LOWER"
+          if [ -d "$SRC" ]; then
             rsync -a --exclude 'tsconfig.template.json' "$SRC"/ target/
             # Only add tsconfig.json if the target uses TS
             if [ -f "$SRC/tsconfig.template.json" ] && git -C target ls-files '*.ts' '*.tsx' | grep -q .; then
-                cp "$SRC/tsconfig.template.json" target/tsconfig.json
+              cp "$SRC/tsconfig.template.json" target/tsconfig.json
             fi
             echo "Overlay complete."
-            else
+          else
             echo "No overlay for $TECH (optional)."
-            fi
-
+          fi
 
       # ---- Setup common tooling ----
       - name: Setup Node
@@ -92,13 +88,25 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      # ---- Technology-specific scans ----
-      # Salesforce
-      - name: Salesforce • Install Code Analyzer v5
+      # ============ SALESFORCE ============
+
+      # Install Salesforce CLI from official tarball (no npm, no marketplace action)
+      - name: Salesforce • Install sf CLI (tarball)
         if: ${{ env.TECH == 'Salesforce' }}
         run: |
-          npm i -g @salesforce/cli
+          set -e
+          curl -L "https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.gz" -o sf.tar.gz
+          sudo mkdir -p /usr/local/lib/sf
+          sudo tar -xzf sf.tar.gz -C /usr/local/lib/sf --strip-components=1
+          sudo ln -sf /usr/local/lib/sf/bin/sf /usr/local/bin/sf
+          sf --version
+          sf plugins --core
+
+      - name: Salesforce • Install Code Analyzer v5 plugin
+        if: ${{ env.TECH == 'Salesforce' }}
+        run: |
           sf plugins install @salesforce/plugin-code-analyzer@latest
+          sf plugins --core
 
       - name: Salesforce • Scan
         if: ${{ env.TECH == 'Salesforce' }}
@@ -108,7 +116,8 @@ jobs:
           # adjust target path if repo uses a different folder than force-app
           sf code-analyzer run --config-file .sfdx-scanner-config.yml --target force-app | grep "," > ../out/sfdx.csv || true
 
-      # .NET
+      # ============ .NET ============
+
       - name: .NET • Restore and scan
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
@@ -124,7 +133,8 @@ jobs:
           dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json || true
           dotnet build "$TARGET" --no-incremental -v:normal > ../out/build_output.txt || true
 
-      # Python
+      # ============ PYTHON ============
+
       - name: Python • Install linters
         if: ${{ env.TECH == 'Python' }}
         run: |
@@ -138,10 +148,15 @@ jobs:
           mkdir -p ../out
           bandit -r . -f json -o ../out/bandit.json || true
           find . -name "*.py" > ../out/files.txt
-          pylint $(cat ../out/files.txt) --output-format=json > ../out/pylint.json || true
+          if [ -s ../out/files.txt ]; then
+            pylint $(cat ../out/files.txt) --output-format=json > ../out/pylint.json || true
+          else
+            echo "[]" > ../out/pylint.json
+          fi
           flake8 . --format=json --output-file=../out/flake8.json || true
 
-      # React
+      # ============ REACT ============
+
       - name: React • Install deps
         if: ${{ env.TECH == 'React' }}
         working-directory: target
@@ -151,8 +166,10 @@ jobs:
         if: ${{ env.TECH == 'React' }}
         working-directory: target
         run: |
+          mkdir -p ../out
           npx eslint . --ext .js,.jsx,.ts,.tsx -f json -o ../out/eslint.json || true
-          if compgen -G "**/tsconfig*.json" > /dev/null; then
+          # type-check only if a tsconfig exists
+          if find . -name "tsconfig*.json" -type f | grep -q .; then
             npx tsc --noEmit > ../out/tsc-output.txt 2>&1 || true
           fi
           npm audit --json > ../out/audit.json || true
@@ -171,21 +188,23 @@ jobs:
 
           # Salesforce
           p="out/sfdx.csv"
-          if os.path.exists(p):
+          if os.path.exists(p) and os.path.getsize(p)>0:
             with open(p, newline='', encoding='utf-8', errors='ignore') as f:
               r=csv.DictReader(f)
               for d in r: add("Salesforce", d.get("File"), d.get("Line"), d.get("Severity"), d.get("Rule"), d.get("Message"))
 
           # .NET dotnet-format
           p="out/dotnet-format.json"
-          if os.path.exists(p):
+          if os.path.exists(p) and os.path.getsize(p)>0:
             data=json.load(open(p, encoding='utf-8', errors='ignore'))
             diags=data.get("Diagnostics") or data.get("violations") or []
-            for v in diags: add(".NET", v.get("FilePath") or v.get("file"), v.get("LineNumber") or v.get("line"),
-                                 v.get("Severity") or v.get("severity"), v.get("RuleId") or v.get("id"), v.get("Message") or v.get("message"))
+            for v in diags:
+              add(".NET", v.get("FilePath") or v.get("file"), v.get("LineNumber") or v.get("line"),
+                  v.get("Severity") or v.get("severity"), v.get("RuleId") or v.get("id"), v.get("Message") or v.get("message"))
+
           # .NET build warnings
           p="out/build_output.txt"
-          if os.path.exists(p):
+          if os.path.exists(p) and os.path.getsize(p)>0:
             rx=re.compile(r'(.+\\.cs)\\((\\d+),\\d+\\): (warning|error) (\\w+): (.+?) \\[')
             for line in open(p, encoding='utf-8', errors='ignore'):
               m=rx.search(line)
@@ -195,27 +214,31 @@ jobs:
 
           # Python bandit
           p="out/bandit.json"
-          if os.path.exists(p):
+          if os.path.exists(p) and os.path.getsize(p)>0:
             data=json.load(open(p, encoding='utf-8', errors='ignore'))
-            for r in data.get("results",[]): add("Bandit", r.get("filename"), r.get("line_number"),
-                                                 r.get("issue_severity"), r.get("test_id"), r.get("issue_text"))
+            for r in data.get("results",[]):
+              add("Bandit", r.get("filename"), r.get("line_number"),
+                  r.get("issue_severity"), r.get("test_id"), r.get("issue_text"))
+
           # Python pylint
           p="out/pylint.json"
-          if os.path.exists(p):
+          if os.path.exists(p) and os.path.getsize(p)>0:
             data=json.load(open(p, encoding='utf-8', errors='ignore'))
             for it in data:
               add("Pylint", it.get("path"), it.get("line"), (it.get("type") or "").capitalize(),
                   it.get("message-id"), it.get("message"))
+
           # Python flake8
           p="out/flake8.json"
-          if os.path.exists(p):
+          if os.path.exists(p) and os.path.getsize(p)>0:
             data=json.load(open(p, encoding='utf-8', errors='ignore'))
             for file, issues in data.items():
-              for i in issues: add("Flake8", file, i.get("line_number"), i.get("code"), i.get("code"), i.get("text"))
+              for i in issues:
+                add("Flake8", file, i.get("line_number"), i.get("code"), i.get("code"), i.get("text"))
 
           # React ESLint
           p="out/eslint.json"
-          if os.path.exists(p):
+          if os.path.exists(p) and os.path.getsize(p)>0:
             data=json.load(open(p, encoding='utf-8', errors='ignore'))
             if isinstance(data, dict): data=[data]
             for f in data:
@@ -226,15 +249,17 @@ jobs:
 
           # React tsc
           p="out/tsc-output.txt"
-          if os.path.exists(p):
+          if os.path.exists(p) and os.path.getsize(p)>0:
             rx=re.compile(r"(.+\\.(?:ts|tsx|js|jsx))\\((\\d+),\\d+\\): (error|warning) (TS\\d+): (.+)")
             for line in open(p, encoding='utf-8', errors='ignore'):
               m=rx.search(line)
-              if m: file,l,sev,code,msg=m.groups(); add("tsc", file,l, sev.capitalize(), code, msg)
+              if m:
+                file,l,sev,code,msg=m.groups()
+                add("tsc", file,l, sev.capitalize(), code, msg)
 
           # npm audit
           p="out/audit.json"
-          if os.path.exists(p):
+          if os.path.exists(p) and os.pathsize(p)>0:
             data=json.load(open(p, encoding='utf-8', errors='ignore'))
             vulns=data.get("vulnerabilities") or {}
             for pkg,v in vulns.items():
@@ -246,7 +271,8 @@ jobs:
             for a in advisories.values():
               add("npm-audit", a.get("module_name"), "", a.get("severity"), a.get("id"), a.get("title"))
 
-          with open(out,"w",newline="",encoding="utf-8") as f: csv.writer(f).writerows(rows)
+          with open(out,"w",newline="",encoding="utf-8") as f:
+            csv.writer(f).writerows(rows)
           print("Wrote", out)
           PY
 
