@@ -1,0 +1,291 @@
+Tool,File,Line,Severity,Rule,Message
+PMD,./force-app/main/default/classes/AccountInsertClass.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/AccountInsertClass.cls,105,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/AccountInsertClass.cls,108,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/AccountInsertClass.cls,108,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/AccountInsertClass.cls,109,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/AccountInsertClass.cls,109,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/AccountInsertClass.cls,110,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/AccountInsertClass.cls,110,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/AccountInsertClass.cls,113,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/AccountInsertClass.cls,113,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/AccountTriggerExampleHandler.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/AccountTriggerExampleHandler.cls,18,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/ApexSOQLexample.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/ApexSOQLexample.cls,3,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/ApexSOQLexample.cls,4,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/ApexSOQLexample.cls,4,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/AsynchronousExample.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/AsynchronousExample.cls,5,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/AsynchronousExample.cls,18,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/AsynchronousExample.cls,18,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/BatchApexExample.cls,16,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/BatchApexExample.cls,16,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/ChangePasswordController.cls,13,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/ChangePasswordControllerTest.cls,5,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/ChangePasswordControllerTest.cls,5,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/ChangePasswordControllerTest.cls,12,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/CommunitiesLandingController.cls,11,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/CommunitiesLandingControllerTest.cls,5,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/CommunitiesLandingControllerTest.cls,5,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/CommunitiesLandingControllerTest.cls,13,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/CommunitiesLoginController.cls,4,3,AvoidGlobalModifier,Avoid using global modifier
+PMD,./force-app/main/default/classes/CommunitiesLoginController.cls,6,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/CommunitiesLoginControllerTest.cls,4,3,AvoidGlobalModifier,Avoid using global modifier
+PMD,./force-app/main/default/classes/CommunitiesLoginControllerTest.cls,6,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/CommunitiesLoginControllerTest.cls,6,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/CommunitiesLoginControllerTest.cls,8,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/CommunitiesSelfRegConfirmController.cls,6,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/CommunitiesSelfRegConfirmControllerTest.cls,5,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/CommunitiesSelfRegConfirmControllerTest.cls,5,3,ApexUnitTestClassShouldHaveAsserts,Apex unit tests should System.assert() or assertEquals() or assertNotEquals()
+PMD,./force-app/main/default/classes/CommunitiesSelfRegConfirmControllerTest.cls,5,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/CommunitiesSelfRegConfirmControllerTest.cls,7,5,UnusedLocalVariable,Variable 'controller' defined but not used
+PMD,./force-app/main/default/classes/CommunitiesSelfRegController.cls,34,5,UnusedLocalVariable,Variable 'roleEnum' defined but not used
+PMD,./force-app/main/default/classes/CommunitiesSelfRegController.cls,59,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CommunitiesSelfRegController.cls,59,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CommunitiesSelfRegControllerTest.cls,6,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/CommunitiesSelfRegControllerTest.cls,6,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/CommunitiesSelfRegControllerTest.cls,14,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/CommunitiesSelfRegControllerTest.cls,18,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/CreateAccountAndUploadFileExampleCls.cls,19,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CreateAccountAndUploadFileExampleCls.cls,24,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD,./force-app/main/default/classes/CreateAccountAndUploadFileExampleCls.cls,32,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CreateAccountContactWithOneScreenCntrl.cls,2,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/CreateAccountContactWithOneScreenCntrl.cls,30,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CreateAccountContactWithOneScreenCntrl.cls,39,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CreateAccountContactWithOneScreenCntrl.cls,46,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CreateAccountController.cls,6,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CreateAccountController.cls,22,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/CreateAccountController.cls,22,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/CreateAccountController.cls,30,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CreateAccountController.cls,38,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD,./force-app/main/default/classes/CreateAccountController.cls,48,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CreateContactUsingFlowHandler.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/CreateContactUsingFlowHandler.cls,13,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CustomLookupCntrl.cls,7,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/CustomLookupCntrl.cls,22,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/ForgotPasswordController.cls,7,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/ForgotPasswordControllerTest.cls,5,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/ForgotPasswordControllerTest.cls,5,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/ForgotPasswordControllerTest.cls,10,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/FutureMethodExample.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/FutureMethodExample.cls,5,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/FutureMethodExample.cls,10,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/FutureMethodExample.cls,11,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/FutureMethodExample.cls,11,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/FutureMethodExampleTest.cls,4,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/FutureMethodExampleTest.cls,28,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/FutureOpportunityService.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/FutureOpportunityService.cls,4,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/FutureOpportunityService.cls,8,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/LightningForgotPasswordController.cls,1,3,AvoidGlobalModifier,Avoid using global modifier
+PMD,./force-app/main/default/classes/LightningForgotPasswordController.cls,3,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/LightningForgotPasswordController.cls,11,3,ApexOpenRedirect,Apex classes should safely redirect to a known location
+PMD,./force-app/main/default/classes/LightningForgotPasswordControllerTest.cls,2,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/LightningForgotPasswordControllerTest.cls,6,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningForgotPasswordControllerTest.cls,7,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningForgotPasswordControllerTest.cls,8,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningForgotPasswordControllerTest.cls,9,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningForgotPasswordControllerTest.cls,14,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningForgotPasswordControllerTest.cls,15,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningForgotPasswordControllerTest.cls,16,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningForgotPasswordControllerTest.cls,21,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningForgotPasswordControllerTest.cls,23,3,ApexAssertionsShouldIncludeMessage,'System.assertNotEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningLoginFormController.cls,1,3,AvoidGlobalModifier,Avoid using global modifier
+PMD,./force-app/main/default/classes/LightningLoginFormController.cls,3,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/LightningLoginFormControllerTest.cls,2,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/LightningLoginFormControllerTest.cls,5,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningLoginFormControllerTest.cls,7,3,ApexAssertionsShouldIncludeMessage,'System.assertNotEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningLoginFormControllerTest.cls,11,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningLoginFormControllerTest.cls,12,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningLoginFormControllerTest.cls,16,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningLoginFormControllerTest.cls,17,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningLoginFormControllerTest.cls,21,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningLoginFormControllerTest.cls,22,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningLoginFormControllerTest.cls,26,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningLoginFormControllerTest.cls,28,3,ApexAssertionsShouldIncludeMessage,'System.assertNotEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterController.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/LightningSelfRegisterController.cls,1,3,AvoidGlobalModifier,Avoid using global modifier
+PMD,./force-app/main/default/classes/LightningSelfRegisterController.cls,1,3,StdCyclomaticComplexity,The class 'LightningSelfRegisterController' has a Standard Cyclomatic Complexity of 4 (Highest = 15).
+PMD,./force-app/main/default/classes/LightningSelfRegisterController.cls,3,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/LightningSelfRegisterController.cls,27,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD,./force-app/main/default/classes/LightningSelfRegisterController.cls,27,3,StdCyclomaticComplexity,The method 'selfRegister' has a Standard Cyclomatic Complexity of 15.
+PMD,./force-app/main/default/classes/LightningSelfRegisterController.cls,27,3,NcssMethodCount,The method 'selfRegister()' has an NCSS line count of 68
+PMD,./force-app/main/default/classes/LightningSelfRegisterController.cls,27,3,CognitiveComplexity,"The method 'selfRegister(String, String, String, String, String, String, String, String, String, Boolean)' has a cognitive complexity of 28, current threshold is 15"
+PMD,./force-app/main/default/classes/LightningSelfRegisterController.cls,27,3,CyclomaticComplexity,"The method 'selfRegister(String, String, String, String, String, String, String, String, String, Boolean)' has a cyclomatic complexity of 20."
+PMD,./force-app/main/default/classes/LightningSelfRegisterController.cls,86,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD,./force-app/main/default/classes/LightningSelfRegisterController.cls,91,3,ApexOpenRedirect,Apex classes should safely redirect to a known location
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,2,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,6,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,7,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,8,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,9,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,10,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,14,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,15,3,ApexAssertionsShouldIncludeMessage,'System.assertNotEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,20,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,22,3,ApexAssertionsShouldIncludeMessage,'System.assertNotEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,23,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,24,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,25,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,26,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,27,3,ApexAssertionsShouldIncludeMessage,'System.assertNotEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,33,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,35,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,40,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,47,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,51,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,52,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,56,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,57,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,62,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,70,3,ApexAssertionsShouldIncludeMessage,'System.assertNotEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,74,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/LightningSelfRegisterControllerTest.cls,76,3,ApexAssertionsShouldIncludeMessage,'System.assertNotEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/MassDeleteContactsCls.cls,3,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/MassDeleteContactsCls.cls,8,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/MassDeleteContactsCls.cls,17,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/MassDeleteContactsCls.cls,19,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/MicrobatchSelfRegController.cls,16,5,UnusedLocalVariable,Variable 'accountName' defined but not used
+PMD,./force-app/main/default/classes/MicrobatchSelfRegController.cls,17,5,UnusedLocalVariable,Variable 'contactName' defined but not used
+PMD,./force-app/main/default/classes/MicrobatchSelfRegController.cls,48,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/MicrobatchSelfRegController.cls,48,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/MicrobatchSelfRegControllerTest.cls,4,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/MicrobatchSelfRegControllerTest.cls,4,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/MicrobatchSelfRegControllerTest.cls,12,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/MultipleAccountsCreateCls.cls,3,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/MultipleAccountsCreateCls.cls,9,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/MultipleAccountsCreateCls.cls,19,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/MultipleScreenRecordCreationExampleCls.cls,2,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/MultipleScreenRecordCreationExampleCls.cls,9,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/MultipleScreenRecordCreationExampleCls.cls,28,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/MultipleScreenRecordCreationExampleCls.cls,35,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/MyProfilePageController.cls,15,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/MyProfilePageController.cls,35,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/MyProfilePageController.cls,48,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/MyProfilePageControllerTest.cls,7,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/MyProfilePageControllerTest.cls,18,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/MyProfilePageControllerTest.cls,20,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/MyProfilePageControllerTest.cls,22,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/MyProfilePageControllerTest.cls,27,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/MyProfilePageControllerTest.cls,30,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/MyProfilePageControllerTest.cls,40,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/MyProfilePageControllerTest.cls,43,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/MyProfilePageControllerTest.cls,47,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/MyProfilePageControllerTest.cls,52,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/OpportunityService.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/OpportunityService.cls,4,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/OpportunityService.cls,9,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/OpportunityServiceTest.cls,5,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/ScheduleApexExample.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/SearchComponentCls.cls,2,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/SearchComponentCls.cls,9,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/SearchComponentCls.cls,17,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/SearchComponentCls.cls,27,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/SendEmailToObjectHandlerTest.cls,4,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/SendEmailToObjectHandlerTest.cls,4,3,ApexUnitTestClassShouldHaveAsserts,Apex unit tests should System.assert() or assertEquals() or assertNotEquals()
+PMD,./force-app/main/default/classes/SendEmailToObjectHandlerTest.cls,18,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/SendEmailToObjectHandlerTest.cls,30,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/SiteLoginController.cls,4,3,AvoidGlobalModifier,Avoid using global modifier
+PMD,./force-app/main/default/classes/SiteLoginController.cls,13,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/SiteLoginControllerTest.cls,4,3,AvoidGlobalModifier,Avoid using global modifier
+PMD,./force-app/main/default/classes/SiteLoginControllerTest.cls,5,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/SiteLoginControllerTest.cls,5,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/SiteLoginControllerTest.cls,11,3,ApexAssertionsShouldIncludeMessage,'System.assertEquals' should have 3 parameters.
+PMD,./force-app/main/default/classes/SiteRegisterController.cls,7,3,AvoidHardcodingId,Hardcoding Ids is bound to break when changing environments.
+PMD,./force-app/main/default/classes/SiteRegisterController.cls,9,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/SiteRegisterControllerTest.cls,5,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/SiteRegisterControllerTest.cls,5,3,ApexUnitTestShouldNotUseSeeAllDataTrue,Apex unit tests should not use @isTest(seeAllData = true)
+PMD,./force-app/main/default/classes/SiteRegisterControllerTest.cls,11,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/SiteRegisterControllerTest.cls,15,3,ApexAssertionsShouldIncludeMessage,'System.assert' should have 2 parameters.
+PMD,./force-app/main/default/classes/SoqlScenariosExamples.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/SoqlScenariosExamples.cls,6,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/SoqlScenariosExamples.cls,7,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/SoqlScenariosExamples.cls,7,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/SoqlScenariosExamples.cls,21,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/SyncOpportunityService.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/SyncOpportunityService.cls,3,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/SyncOpportunityService.cls,7,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/SynchronousExample.cls,1,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/SynchronousExample.cls,5,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/SynchronousExample.cls,18,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/SynchronousExample.cls,18,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/UpdateOpportunityStageBatch.cls,1,3,AvoidGlobalModifier,Avoid using global modifier
+PMD,./force-app/main/default/classes/UpdateOpportunityStageBatch.cls,18,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/UpdateOpportunityStageBatch.cls,18,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/UpdateOpportunityStageBatchTest.cls,5,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/UpdateOpportunityStageBatchTest.cls,34,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD,./force-app/main/default/classes/UpdateOpportunityStageBatchTest.cls,34,3,ApexUnitTestClassShouldHaveAsserts,Apex unit tests should System.assert() or assertEquals() or assertNotEquals()
+PMD,./force-app/main/default/classes/WelcomeClass.cls,2,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD,./force-app/main/default/classes/WelcomeClass.cls,8,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,8,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,9,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,9,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,10,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,10,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,11,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,11,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,19,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,19,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,20,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,20,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,21,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,21,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,22,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,22,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,23,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,23,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,30,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,30,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,35,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,35,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,44,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,44,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,45,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,45,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,46,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,46,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,48,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,48,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,49,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,49,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,50,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,50,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,53,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/WelcomeClass.cls,56,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,56,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,57,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,57,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,71,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,71,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,79,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,79,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,87,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,87,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,88,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,88,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,89,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,89,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,97,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,97,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WelcomeClass.cls,98,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WelcomeClass.cls,98,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WireExampleClass.cls,2,3,EmptyStatementBlock,Avoid empty block statements.
+PMD,./force-app/main/default/classes/WireExampleClass.cls,8,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/WireExampleClass.cls,9,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WireExampleClass.cls,9,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WireExampleClass.cls,20,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/WireExampleClass.cls,21,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WireExampleClass.cls,21,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WireExampleClass.cls,32,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/WireExampleClass.cls,34,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WireExampleClass.cls,34,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/classes/WireExampleClass.cls,44,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD,./force-app/main/default/classes/WireExampleClass.cls,46,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/classes/WireExampleClass.cls,46,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/triggers/AccountTriggerExample.trigger,1,3,AvoidLogicInTrigger,Avoid logic in triggers
+PMD,./force-app/main/default/triggers/AccountTriggerExample.trigger,4,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/triggers/AccountTriggerExample.trigger,4,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/triggers/AccountTriggerExample.trigger,8,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD,./force-app/main/default/triggers/AccountTriggerExample.trigger,8,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD,./force-app/main/default/triggers/ContactTrigger.trigger,1,3,AvoidLogicInTrigger,Avoid logic in triggers
