@@ -3,101 +3,39 @@ name: Remote Code Scan
 on:
   repository_dispatch:
     types: [run-scan]
-  workflow_dispatch:
-    inputs:
-      repo_url:
-        description: "Target repo URL (https)"
-        required: true
-      owner:
-        description: "Target repo owner/org"
-        required: true
-      repo:
-        description: "Target repo name"
-        required: true
-      branch:
-        description: "Branch to scan"
-        required: false
-        default: main
-      technology:
-        description: "One of: Salesforce | Java | DotNet | Python | React"
-        required: true
-      correlation_id:
-        description: "Correlation ID for report naming"
-        required: true
-      report_path:
-        description: "Path in orchestrator repo to commit normalized.csv"
-        required: true
-  push:
-    branches:
-      - main
-      - master
-      - '**/feature/**'
-      - '**/bugfix/**'
 
 permissions:
-  contents: write
+  contents: write   # we commit normalized.csv back into this repo
   actions: read
 
 jobs:
   scan:
     runs-on: ubuntu-latest
+
     env:
-      # Defaults for repository_dispatch (API)
-      REPO_URL:  ${{ github.event.client_payload.repo_url }}
-      OWNER:     ${{ github.event.client_payload.owner }}
-      REPO:      ${{ github.event.client_payload.repo }}
-      BRANCH:    ${{ github.event.client_payload.branch || 'main' }}
-      TECH:      ${{ github.event.client_payload.technology }}
-      CORR:      ${{ github.event.client_payload.correlation_id }}
+      # Payload from your LWC -> Apex -> repository_dispatch
+      REPO_URL:   ${{ github.event.client_payload.repo_url }}
+      OWNER:      ${{ github.event.client_payload.owner }}
+      REPO:       ${{ github.event.client_payload.repo }}
+      BRANCH:     ${{ github.event.client_payload.branch || 'main' }}
+      TECH:       ${{ github.event.client_payload.technology }}
+      CORR:       ${{ github.event.client_payload.correlation_id }}
       REPORT_PATH: ${{ github.event.client_payload.report_path }}
 
     steps:
       - name: Checkout orchestrator repo
         uses: actions/checkout@v4
 
-      # Map manual inputs → env when using workflow_dispatch
-      - name: Map workflow_dispatch inputs to env (manual runs)
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+      - name: Echo inputs
         run: |
-          echo "REPO_URL=${{ github.event.inputs.repo_url }}"       >> $GITHUB_ENV
-          echo "OWNER=${{ github.event.inputs.owner }}"             >> $GITHUB_ENV
-          echo "REPO=${{ github.event.inputs.repo }}"               >> $GITHUB_ENV
-          echo "BRANCH=${{ github.event.inputs.branch }}"           >> $GITHUB_ENV
-          echo "TECH=${{ github.event.inputs.technology }}"         >> $GITHUB_ENV
-          echo "CORR=${{ github.event.inputs.correlation_id }}"     >> $GITHUB_ENV
-          echo "REPORT_PATH=${{ github.event.inputs.report_path }}" >> $GITHUB_ENV
-
-      # Map push defaults → env when using push
-      - name: Map push defaults to env (push runs)
-        if: ${{ github.event_name == 'push' }}
-        run: |
-          echo "REPO_URL=https://github.com/${{ github.repository }}" >> $GITHUB_ENV
-          echo "OWNER=${{ github.repository_owner }}"                 >> $GITHUB_ENV
-          echo "REPO=${{ github.event.repository.name }}"             >> $GITHUB_ENV
-          echo "BRANCH=${{ github.ref_name }}"                        >> $GITHUB_ENV
-          # Set TECH from repo variable DEFAULT_TECH (set this in Settings → Variables), fallback to 'Salesforce'
-          TECH_VALUE="${{ vars.DEFAULT_TECH }}"
-          if [ -z "$TECH_VALUE" ]; then TECH_VALUE="Salesforce"; fi
-          echo "TECH=$TECH_VALUE"                                     >> $GITHUB_ENV
-          # Use a simple correlation id and default report path under this repo
-          echo "CORR=push-${{ github.run_id }}"                       >> $GITHUB_ENV
-          echo "REPORT_PATH=reports/${TECH_VALUE}/push-${{ github.run_id }}.csv" >> $GITHUB_ENV
-
-      - name: Show inputs
-        run: |
-          echo "EVENT=${{ github.event_name }}"
           echo "TECH=$TECH"
           echo "REPO_URL=$REPO_URL"
-          echo "OWNER=$OWNER"
-          echo "REPO=$REPO"
           echo "BRANCH=$BRANCH"
           echo "REPORT_PATH=$REPORT_PATH"
-          echo "CORR=$CORR"
 
-      # Detect PAT for private target repos
+      # ---------- Clone target repo (supports private via GH_PAT) ----------
       - name: Detect GH_PAT
-        id: has-pat
-        shell: bash
+        id: detect-pat
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
@@ -107,138 +45,133 @@ jobs:
             echo "USE_PAT=false" >> "$GITHUB_ENV"
           fi
 
-      - name: Clone target repository (public)
+      - name: Clone (public)
         if: ${{ env.USE_PAT == 'false' }}
-        run: git clone --depth 1 --branch "$BRANCH" "$REPO_URL" target
+        run: |
+          set -e
+          echo "Cloning public repo: $REPO_URL ($BRANCH)"
+          git clone --depth 1 --branch "$BRANCH" "$REPO_URL" target
 
-      - name: Clone target repository (private via GH_PAT)
+      - name: Clone (private via PAT)
         if: ${{ env.USE_PAT == 'true' }}
         run: |
-          URL_AUTH="https://${{ secrets.GH_PAT }}@${REPO_URL#https://}"
+          set -e
+          STRIPPED="${REPO_URL#https://}"
+          URL_AUTH="https://${{ secrets.GH_PAT }}@${STRIPPED}"
+          echo "Cloning private repo (masked URL) on branch $BRANCH"
           git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
 
-      # ---- Optional config overlay (react/python/etc) ----
-      - name: Overlay config pack (optional)
+      # ---------- Optional config overlay per technology ----------
+      - name: Overlay config pack
         run: |
-          TECH_UPPER="$TECH"
-          TECH_LOWER=$(echo "$TECH_UPPER" | tr '[:upper:]' '[:lower:]')
+          set -e
+          TECH_LOWER=$(echo "$TECH" | tr '[:upper:]' '[:lower:]')
           SRC="configs/$TECH_LOWER"
           if [ -d "$SRC" ]; then
+            echo "Overlaying $SRC -> target/"
             rsync -a --exclude 'tsconfig.template.json' "$SRC"/ target/
             if [ -f "$SRC/tsconfig.template.json" ] && git -C target ls-files '*.ts' '*.tsx' | grep -q .; then
               cp "$SRC/tsconfig.template.json" target/tsconfig.json
             fi
-            echo "Overlayed $SRC into target/"
           else
             echo "No overlay for $TECH (optional)."
           fi
 
-      # ---- Setup common tooling ----
-      - uses: actions/setup-node@v4
+      # ---------- Toolchains ----------
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-      - uses: actions/setup-python@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - uses: actions/setup-dotnet@v4
+
+      - name: Setup .NET
         if: ${{ env.TECH == 'DotNet' }}
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - uses: actions/setup-java@v4
-        if: ${{ env.TECH == 'Salesforce' || env.TECH == 'Java' }}
+
+      # =========================================================
+      # ================  SALESFORCE (PMD)  =====================
+      # =========================================================
+      - name: Salesforce • Setup Java
+        if: ${{ env.TECH == 'Salesforce' }}
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # ============ SALESFORCE (PMD) ============
-      - name: Salesforce • Download PMD 6.x
+      - name: Salesforce • Download PMD
         if: ${{ env.TECH == 'Salesforce' }}
         run: |
           set -e
           PMD_VER=6.55.0
           curl -L "https://github.com/pmd/pmd/releases/download/pmd_releases/${PMD_VER}/pmd-bin-${PMD_VER}.zip" -o pmd.zip
-          sudo apt-get update && sudo apt-get install -y unzip
+          sudo apt-get update -y
+          sudo apt-get install -y unzip
           unzip -q pmd.zip
           mv "pmd-bin-${PMD_VER}" pmd
-          chmod +x pmd/bin/run.sh
-          echo "PMD_HOME=$GITHUB_WORKSPACE/pmd" >> $GITHUB_ENV
+          ls -la pmd/bin
 
-      - name: Salesforce • Full scan with PMD → CSV
+      - name: Salesforce • Full scan (Apex) → CSV
         if: ${{ env.TECH == 'Salesforce' }}
         working-directory: target
         run: |
           set -e
           mkdir -p ../out
-          if [ ! -x ../pmd/bin/run.sh ]; then
-            echo "PMD script not found at ../pmd/bin/run.sh"; ls -la ..; exit 1
-          fi
-          FA=$(find . -type d -name "force-app" | head -n 1)
-          if [ -z "$FA" ]; then FA="."; fi
-          ../pmd/bin/run.sh pmd \
-            -d "$FA" \
+
+          ROOT="force-app"
+          [ -d "force-app" ] || ROOT="src"
+          [ -d "$ROOT" ] || ROOT="."
+
+          echo "Scanning Apex under: $ROOT"
+          echo "Apex class files found:"
+          git ls-files "$ROOT/**/*.cls" | wc -l || true
+
+          ../../pmd/bin/run.sh pmd \
+            -d "$ROOT" \
             -f csv \
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > ../out/pmd.csv || true
+
+          echo "==== PMD CSV head ===="
+          head -n 5 ../out/pmd.csv || true
+
           if [ ! -s ../out/pmd.csv ]; then
             echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
           fi
 
-      # ============ JAVA (PMD) ============
-      - name: Java • Download PMD 6.x
-        if: ${{ env.TECH == 'Java' }}
-        run: |
-          set -e
-          PMD_VER=6.55.0
-          curl -L "https://github.com/pmd/pmd/releases/download/pmd_releases/${PMD_VER}/pmd-bin-${PMD_VER}.zip" -o pmd.zip
-          sudo apt-get update && sudo apt-get install -y unzip
-          unzip -q pmd.zip
-          mv "pmd-bin-${PMD_VER}" pmd-java
-          chmod +x pmd-java/bin/run.sh
-
-      - name: Java • Run PMD → CSV
-        if: ${{ env.TECH == 'Java' }}
-        working-directory: target
-        run: |
-          set -e
-          mkdir -p ../out
-          JAVA_SRC=$(find . -type d \( -name "src" -o -name "java" \) | head -n 1)
-          if [ -z "$JAVA_SRC" ]; then JAVA_SRC="."; fi
-          ../pmd-java/bin/run.sh pmd \
-            -d "$JAVA_SRC" \
-            -f csv \
-            -R category/java/bestpractices.xml,category/java/codestyle.xml,category/java/errorprone.xml,category/java/performance.xml,category/java/security.xml \
-            > ../out/java-pmd.csv || true
-          if [ ! -s ../out/java-pmd.csv ]; then
-            echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/java-pmd.csv
-          fi
-
-      # ============ .NET ============
-      - name: .NET • Restore and scan (format + analyzers + build)
+      # =========================================================
+      # =====================   .NET   ==========================
+      # =========================================================
+      - name: .NET • Restore / format / build
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
         run: |
           set -e
+          dotnet tool install -g dotnet-format
+          export PATH="$HOME/.dotnet/tools:$PATH"
+
           TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
-          if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.sln" "*.csproj" | head -n 1); fi
-          if [ -z "$TARGET" ]; then echo "No .sln or .csproj found"; exit 0; fi
+          if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.csproj" | head -n 1); fi
+          if [ -z "$TARGET" ]; then
+            echo "No .sln or .csproj found; writing empty outputs."
+            mkdir -p ../out; echo "[]" > ../out/dotnet-format.json; : > ../out/build_output.txt; exit 0
+          fi
           echo "Using target: $TARGET"
 
           dotnet restore "$TARGET" || true
 
-          dotnet tool install -g dotnet-format
-          export PATH="$HOME/.dotnet/tools:$PATH"
-          mkdir -p ../out
           dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json --report-format json || true
 
-          dotnet build "$TARGET" \
-            -p:EnableNETAnalyzers=true \
-            -p:AnalysisLevel=latest \
-            -v:normal > ../out/build_output.txt || true
+          dotnet build "$TARGET" --no-incremental -v:normal > ../out/build_output.txt || true
 
-          echo "==== First build diagnostics lines ===="
-          head -n 200 ../out/build_output.txt || true
-
-      # ============ PYTHON ============
+      # =========================================================
+      # ====================  PYTHON  ===========================
+      # =========================================================
       - name: Python • Install linters
         if: ${{ env.TECH == 'Python' }}
         run: |
@@ -249,6 +182,7 @@ jobs:
         if: ${{ env.TECH == 'Python' }}
         working-directory: target
         run: |
+          set -e
           mkdir -p ../out
           bandit -r . -f json -o ../out/bandit.json || true
           find . -name "*.py" > ../out/files.txt
@@ -259,16 +193,20 @@ jobs:
           fi
           flake8 . --format=json --output-file=../out/flake8.json || true
 
-      # ============ REACT ============
+      # =========================================================
+      # =====================  REACT  ===========================
+      # =========================================================
       - name: React • Install deps
         if: ${{ env.TECH == 'React' }}
         working-directory: target
-        run: npm ci || npm install
+        run: |
+          npm ci || npm install
 
-      - name: React • ESLint/tsc/audit
+      - name: React • ESLint / tsc / audit
         if: ${{ env.TECH == 'React' }}
         working-directory: target
         run: |
+          set -e
           mkdir -p ../out
           npx eslint . --ext .js,.jsx,.ts,.tsx -f json -o ../out/eslint.json || true
           if find . -name "tsconfig*.json" -type f | grep -q .; then
@@ -276,7 +214,9 @@ jobs:
           fi
           npm audit --json > ../out/audit.json || true
 
-      # ============ Normalize ============
+      # =========================================================
+      # ==================  Normalize → CSV  ====================
+      # =========================================================
       - name: Normalize to CSV
         run: |
           python - << 'PY'
@@ -284,43 +224,34 @@ jobs:
           rows=[["Tool","File","Line","Severity","Rule","Message"]]
           out="out/normalized.csv"
           os.makedirs("out", exist_ok=True)
+          def add(tool,f,l,s,r,m): rows.append([tool,f or "",str(l or ""),str(s or ""),str(r or ""), (m or "").replace("\n"," ").strip()])
 
-          def add(tool,f,l,s,r,m):
-              rows.append([tool, f or "", str(l or ""), str(s or ""), str(r or ""), (m or "").replace("\n"," ").strip()])
-
-          # ---------- Salesforce PMD ----------
+          # ---- Salesforce PMD CSV ----
           p="out/pmd.csv"
           if os.path.exists(p) and os.path.getsize(p)>0:
-              with open(p,newline="",encoding="utf-8",errors="ignore") as f:
-                  r=csv.DictReader(f)
-                  for d in r:
-                      add("PMD", d.get("File"), d.get("Line"), d.get("Priority"), d.get("Rule"), d.get("Description"))
+              try:
+                  with open(p,newline="",encoding="utf-8",errors="ignore") as f:
+                      r=csv.DictReader(f)
+                      # PMD CSV headers: Problem,Package,File,Priority,Line,Description,Rule set,Rule
+                      for d in r:
+                          add("PMD", d.get("File"), d.get("Line"), d.get("Priority"), d.get("Rule"), d.get("Description"))
+              except Exception as e:
+                  print("PMD parse error:", e)
 
-          # ---------- Java PMD ----------
-          p="out/java-pmd.csv"
-          if os.path.exists(p) and os.path.getsize(p)>0:
-              with open(p,newline="",encoding="utf-8",errors="ignore") as f:
-                  r=csv.DictReader(f)
-                  for d in r:
-                      add("PMD(Java)", d.get("File"), d.get("Line"), d.get("Priority"), d.get("Rule"), d.get("Description"))
-
-          # ---------- .NET dotnet-format ----------
+          # ---- .NET dotnet-format JSON ----
           p="out/dotnet-format.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               try:
-                  data=json.load(open(p,encoding="utf-8",errors="ignore"))
+                  data=json.load(open(p,encoding="utf-8"))
               except Exception as e:
-                  data=None
-                  print("Failed to parse dotnet-format.json:", e)
+                  data=None; print("dotnet-format parse error:", e)
 
               def field(d,*names,default=None):
                   for n in names:
-                      if isinstance(d,dict) and n in d:
-                          return d.get(n)
+                      if isinstance(d,dict) and n in d: return d.get(n)
                   return default
-
               def add_diag(v):
-                  add(".NET(format)",
+                  add(".NET",
                       field(v,"FilePath","file","Document"),
                       field(v,"LineNumber","line","StartLine"),
                       field(v,"Severity","severity","Category"),
@@ -328,56 +259,60 @@ jobs:
                       field(v,"Message","message","Title"))
 
               if isinstance(data,dict):
-                  for v in data.get("Diagnostics") or data.get("violations") or data.get("results") or []:
+                  for v in (data.get("Diagnostics") or data.get("violations") or data.get("results") or []):
                       add_diag(v)
               elif isinstance(data,list):
-                  for v in data:
-                      add_diag(v)
+                  for v in data: add_diag(v)
 
-          # ---------- .NET build warnings/errors ----------
+          # ---- .NET build warnings/errors (text) ----
           p="out/build_output.txt"
-          if os.path.exists(p) and os.pathgetsize(p)>0:
+          if os.path.exists(p) and os.path.getsize(p)>0:
               rx=re.compile(r'(.+\.cs)\((\d+),\d+\): (warning|error) (\w+): (.+?) \[')
               for line in open(p,encoding="utf-8",errors="ignore"):
                   m=rx.search(line)
                   if m:
-                      file, line_no, sev, rule, msg = m.groups()
-                      add(".NET(build)", file, line_no, sev.capitalize(), rule, msg)
+                      file,l,sev,rule,msg=m.groups()
+                      add("dotnet-build", file, l, sev.capitalize(), rule, msg)
 
-          # ---------- Python ----------
+          # ---- Python ----
           p="out/bandit.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               data=json.load(open(p,encoding="utf-8"))
-              for r in data.get("results",[]): add("Bandit",r.get("filename"),r.get("line_number"),r.get("issue_severity"),r.get("test_id"),r.get("issue_text"))
-
+              for r in data.get("results",[]):
+                  add("Bandit", r.get("filename"), r.get("line_number"), r.get("issue_severity"), r.get("test_id"), r.get("issue_text"))
           p="out/pylint.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               data=json.load(open(p,encoding="utf-8"))
-              for it in data: add("Pylint",it.get("path"),it.get("line"),it.get("type"),it.get("message-id"),it.get("message"))
-
+              if isinstance(data,list):
+                  for it in data:
+                      sev = (it.get("type") or "").capitalize()
+                      add("Pylint", it.get("path"), it.get("line"), sev, it.get("message-id"), it.get("message"))
           p="out/flake8.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               data=json.load(open(p,encoding="utf-8"))
-              for file,issues in data.items():
-                  for i in issues: add("Flake8",file,i.get("line_number"),i.get("code"),i.get("code"),i.get("text"))
+              for file, issues in data.items():
+                  for i in issues:
+                      add("Flake8", file, i.get("line_number"), i.get("code"), i.get("code"), i.get("text"))
 
-          # ---------- React ----------
+          # ---- React ----
           p="out/eslint.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               data=json.load(open(p,encoding="utf-8"))
               if isinstance(data,dict): data=[data]
               for f in data:
+                  fn=f.get("filePath")
                   for m in f.get("messages",[]):
-                      add("ESLint",f.get("filePath"),m.get("line"),"Error" if m.get("severity")==2 else "Warning",m.get("ruleId"),m.get("message"))
+                      sev="Error" if m.get("severity")==2 else "Warning"
+                      add("ESLint", fn, m.get("line"), sev, m.get("ruleId"), m.get("message"))
 
           p="out/tsc-output.txt"
           if os.path.exists(p) and os.path.getsize(p)>0:
-              rx=re.compile(r"(.+\.(?:ts|tsx|js|jsx))\((\d+),\d+\): (error|warning) (TS\\d+): (.+)")
+              rx=re.compile(r"(.+\.(?:ts|tsx|js|jsx))\((\d+),\d+\): (error|warning) (TS\d+): (.+)")
               for line in open(p,encoding="utf-8",errors="ignore"):
                   m=rx.search(line)
                   if m:
                       file,l,sev,code,msg=m.groups()
-                      add("tsc",file,l,sev.capitalize(),code,msg)
+                      add("tsc", file, l, sev.capitalize(), code, msg)
 
           p="out/audit.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
@@ -385,15 +320,17 @@ jobs:
               for pkg,v in (data.get("vulnerabilities") or {}).items():
                   for item in v.get("via",[]):
                       if isinstance(item,dict):
-                          add("npm-audit",pkg,"",v.get("severity"),item.get("name"),item.get("title"))
+                          add("npm-audit", pkg, "", v.get("severity"), item.get("name") or item.get("title"), item.get("title"))
 
           with open(out,"w",newline="",encoding="utf-8") as f:
               csv.writer(f).writerows(rows)
           print("Wrote", out, "rows:", len(rows)-1)
           PY
 
+      # ---------- Commit normalized CSV into orchestrator repo ----------
       - name: Commit report into orchestrator
         run: |
+          set -e
           mkdir -p "$(dirname "$REPORT_PATH")"
           cp out/normalized.csv "$REPORT_PATH"
           git config user.name "orchestrator-bot"
@@ -402,7 +339,9 @@ jobs:
           git commit -m "Scan report: $OWNER/$REPO ($TECH) • $CORR" || echo "Nothing to commit"
           git push
 
-      - uses: actions/upload-artifact@v4
+      # Optional: artifact for manual download from the Actions run UI
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
           name: report-${{ env.CORR }}
           path: out/normalized.csv
