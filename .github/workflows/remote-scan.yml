@@ -1,13 +1,13 @@
 name: Remote Code Scan
- 
+
 on:
   repository_dispatch:
     types: [run-scan]
- 
+
 permissions:
   contents: write
   actions: read
- 
+
 jobs:
   scan:
     runs-on: ubuntu-latest
@@ -19,17 +19,16 @@ jobs:
       TECH:      ${{ github.event.client_payload.technology }}
       CORR:      ${{ github.event.client_payload.correlation_id }}
       REPORT_PATH: ${{ github.event.client_payload.report_path }}
- 
+
     steps:
       - name: Checkout orchestrator repo
         uses: actions/checkout@v4
- 
+
       - name: Show inputs
         run: |
           echo "TECH=$TECH"
           echo "REPO_URL=$REPO_URL"
           echo "REPORT_PATH=$REPORT_PATH"
- 
       # Detect PAT
       - name: Detect GH_PAT
         id: has-pat
@@ -42,17 +41,15 @@ jobs:
           else
             echo "USE_PAT=false" >> "$GITHUB_ENV"
           fi
- 
       - name: Clone target repository (public)
         if: ${{ env.USE_PAT == 'false' }}
         run: git clone --depth 1 --branch "$BRANCH" "$REPO_URL" target
- 
+
       - name: Clone target repository (private via GH_PAT)
         if: ${{ env.USE_PAT == 'true' }}
         run: |
           URL_AUTH="https://${{ secrets.GH_PAT }}@${REPO_URL#https://}"
           git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
- 
       # ---- Overlay config pack ----
       - name: Overlay config pack
         run: |
@@ -67,7 +64,6 @@ jobs:
           else
             echo "No overlay for $TECH (optional)."
           fi
- 
       # ---- Setup common tooling ----
       - uses: actions/setup-node@v4
         with:
@@ -79,7 +75,7 @@ jobs:
         if: ${{ env.TECH == 'DotNet' }}
         with:
           dotnet-version: '8.0.x'
- 
+
       # ============ SALESFORCE (PMD) ============
       - name: Salesforce • Setup Java
         if: ${{ env.TECH == 'Salesforce' }}
@@ -87,7 +83,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
- 
+
       - name: Salesforce • Download PMD 6.x
         if: ${{ env.TECH == 'Salesforce' }}
         run: |
@@ -99,47 +95,39 @@ jobs:
           mv "pmd-bin-${PMD_VER}" pmd
           chmod +x pmd/bin/run.sh
           echo "PMD_HOME=$GITHUB_WORKSPACE/pmd" >> $GITHUB_ENV
- 
       - name: Salesforce • Full scan with PMD → CSV
         if: ${{ env.TECH == 'Salesforce' }}
         working-directory: target
         run: |
           set -e
           mkdir -p ../out
- 
           # Ensure PMD is where we expect it (from target/, it's ../pmd)
           if [ ! -x ../pmd/bin/run.sh ]; then
             echo "PMD script not found at ../pmd/bin/run.sh. Listing workspace for debug:"
             ls -la ..
             exit 1
           fi
- 
           # Find correct force-app path (handles nested repos)
           FA=$(find . -type d -name "force-app" | head -n 1)
           if [ -z "$FA" ]; then
             echo "No force-app folder found; scanning repo root."
             FA="."
           fi
- 
           echo "Scanning Apex under: $FA"
           echo "Apex class files found:"
           find "$FA" -type f -name "*.cls" | wc -l || true
- 
           # Run PMD (from target/ → ../pmd/bin/run.sh)
           ../pmd/bin/run.sh pmd \
             -d "$FA" \
             -f csv \
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > ../out/pmd.csv || true
- 
           echo "==== PMD CSV head ===="
           head -n 10 ../out/pmd.csv || true
- 
           # Always ensure a CSV exists with header
           if [ ! -s ../out/pmd.csv ]; then
             echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
           fi
- 
       # ============ .NET ============
       - name: .NET • Restore and scan (format + analyzers + build)
         if: ${{ env.TECH == 'DotNet' }}
@@ -151,26 +139,20 @@ jobs:
           if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.sln" "*.csproj" | head -n 1); fi
           if [ -z "$TARGET" ]; then echo "No .sln or .csproj found"; exit 0; fi
           echo "Using target: $TARGET"
- 
           dotnet restore "$TARGET" || true
- 
           # dotnet-format: write JSON report (may be empty if no style issues)
           dotnet tool install -g dotnet-format
           export PATH="$HOME/.dotnet/tools:$PATH"
           mkdir -p ../out
           dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json --report-format json || true
- 
           # Enable Roslyn analyzers explicitly to produce diagnostics
           # (works even if the project doesn't set these properties)
           dotnet build "$TARGET" \
             -p:EnableNETAnalyzers=true \
             -p:AnalysisLevel=latest \
             -v:normal > ../out/build_output.txt || true
- 
           echo "==== First build diagnostics lines ===="
           head -n 200 ../out/build_output.txt || true
- 
- 
       # ============ PYTHON ============
       - name: Python • Install linters
         if: ${{ env.TECH == 'Python' }}
@@ -190,7 +172,6 @@ jobs:
             echo "[]" > ../out/pylint.json
           fi
           flake8 . --format=json --output-file=../out/flake8.json || true
- 
       # ============ REACT ============
       - name: React • Install deps
         if: ${{ env.TECH == 'React' }}
@@ -206,7 +187,6 @@ jobs:
             npx tsc --noEmit > ../out/tsc-output.txt 2>&1 || true
           fi
           npm audit --json > ../out/audit.json || true
- 
       # ============ Normalize ============
       - name: Normalize to CSV
         run: |
@@ -231,13 +211,11 @@ jobs:
               except Exception as e:
                   data = None
                   print("Failed to parse dotnet-format.json:", e)
- 
               def field(d, *names, default=None):
                   for n in names:
                       if isinstance(d, dict) and n in d:
                           return d.get(n)
                   return default
- 
               def add_diag(v):
                   add(".NET(format)",
                       field(v, "FilePath", "file", "Document"),
@@ -245,7 +223,6 @@ jobs:
                       field(v, "Severity", "severity", "Category"),
                       field(v, "RuleId", "id", "DiagnosticId", "rule"),
                       field(v, "Message", "message", "Title"))
- 
               if isinstance(data, dict):
                   diags = data.get("Diagnostics") or data.get("violations") or data.get("results") or []
                   for v in diags:
@@ -253,7 +230,6 @@ jobs:
               elif isinstance(data, list):
                   for v in data:
                       add_diag(v)
- 
           # ---------- .NET build warnings/errors (compiler + analyzers) ----------
           p = "out/build_output.txt"
           if os.path.exists(p) and os.path.getsize(p) > 0:
@@ -263,7 +239,6 @@ jobs:
                   if m:
                       file, line_no, sev, rule, msg = m.groups()
                       add(".NET(build)", file, line_no, sev.capitalize(), rule, msg)
- 
           # ---------- .NET dependency vulnerabilities ----------
           p = "out/dotnet-packages.json"
           if os.path.exists(p) and os.path.getsize(p) > 0:
@@ -285,7 +260,6 @@ jobs:
                                               v.get("description") or "Dependency vulnerability")
               except Exception as e:
                   print("Failed to parse dotnet-packages.json:", e)
- 
           # Python
           for tool,file in [("Bandit","out/bandit.json"),("Pylint","out/pylint.json")]:
               if os.path.exists(file):
@@ -321,7 +295,6 @@ jobs:
           with open(out,"w",newline="",encoding="utf-8") as f: csv.writer(f).writerows(rows)
           print("Wrote", out, "rows:", len(rows)-1)
           PY
- 
       - name: Commit report into orchestrator
         run: |
           mkdir -p "$(dirname "$REPORT_PATH")"
@@ -331,7 +304,6 @@ jobs:
           git add "$REPORT_PATH"
           git commit -m "Scan report: $OWNER/$REPO ($TECH) • $CORR" || echo "Nothing to commit"
           git push
- 
       - uses: actions/upload-artifact@v4
         with:
           name: report-${{ env.CORR }}
