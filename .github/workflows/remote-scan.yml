@@ -30,6 +30,7 @@ jobs:
           echo "REPO_URL=$REPO_URL"
           echo "REPORT_PATH=$REPORT_PATH"
 
+      # Detect PAT
       - name: Detect GH_PAT
         id: has-pat
         shell: bash
@@ -52,40 +53,45 @@ jobs:
           URL_AUTH="https://${{ secrets.GH_PAT }}@${REPO_URL#https://}"
           git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
 
+      # ---- Setup common tooling ----
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-
       - uses: actions/setup-dotnet@v4
         if: ${{ env.TECH == 'DotNet' }}
         with:
           dotnet-version: '8.0.x'
-
       - uses: actions/setup-java@v4
         if: ${{ env.TECH == 'Salesforce' || env.TECH == 'Java' }}
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # ===== SALESFORCE =====
-      - name: Salesforce • Download PMD
+      # ============ SALESFORCE (PMD) ============
+      - name: Salesforce • Download PMD 6.x
         if: ${{ env.TECH == 'Salesforce' }}
         run: |
+          set -e
           PMD_VER=6.55.0
-          curl -LO https://github.com/pmd/pmd/releases/download/pmd_releases/${PMD_VER}/pmd-bin-${PMD_VER}.zip
-          unzip -q pmd-bin-${PMD_VER}.zip
-          mv pmd-bin-${PMD_VER} pmd
+          curl -L "https://github.com/pmd/pmd/releases/download/pmd_releases/${PMD_VER}/pmd-bin-${PMD_VER}.zip" -o pmd.zip
+          sudo apt-get update && sudo apt-get install -y unzip
+          unzip -q pmd.zip
+          mv "pmd-bin-${PMD_VER}" pmd
           chmod +x pmd/bin/run.sh
+          echo "PMD_HOME=$GITHUB_WORKSPACE/pmd" >> $GITHUB_ENV
 
-      - name: Salesforce • Run PMD
+      - name: Salesforce • Full scan with PMD → CSV
         if: ${{ env.TECH == 'Salesforce' }}
         working-directory: target
         run: |
+          set -e
           mkdir -p ../out
+          if [ ! -x ../pmd/bin/run.sh ]; then
+            echo "PMD script not found at ../pmd/bin/run.sh"; ls -la ..; exit 1
+          fi
           FA=$(find . -type d -name "force-app" | head -n 1)
           if [ -z "$FA" ]; then FA="."; fi
           ../pmd/bin/run.sh pmd \
@@ -93,21 +99,27 @@ jobs:
             -f csv \
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > ../out/pmd.csv || true
+          if [ ! -s ../out/pmd.csv ]; then
+            echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
+          fi
 
-      # ===== JAVA =====
-      - name: Java • Download PMD
+      # ============ JAVA (PMD) ============
+      - name: Java • Download PMD 6.x
         if: ${{ env.TECH == 'Java' }}
         run: |
+          set -e
           PMD_VER=6.55.0
-          curl -LO https://github.com/pmd/pmd/releases/download/pmd_releases/${PMD_VER}/pmd-bin-${PMD_VER}.zip
-          unzip -q pmd-bin-${PMD_VER}.zip
-          mv pmd-bin-${PMD_VER} pmd-java
+          curl -L "https://github.com/pmd/pmd/releases/download/pmd_releases/${PMD_VER}/pmd-bin-${PMD_VER}.zip" -o pmd.zip
+          sudo apt-get update && sudo apt-get install -y unzip
+          unzip -q pmd.zip
+          mv "pmd-bin-${PMD_VER}" pmd-java
           chmod +x pmd-java/bin/run.sh
 
-      - name: Java • Run PMD
+      - name: Java • Run PMD → CSV
         if: ${{ env.TECH == 'Java' }}
         working-directory: target
         run: |
+          set -e
           mkdir -p ../out
           JAVA_SRC=$(find . -type d \( -name "src" -o -name "java" \) | head -n 1)
           if [ -z "$JAVA_SRC" ]; then JAVA_SRC="."; fi
@@ -116,28 +128,44 @@ jobs:
             -f csv \
             -R category/java/bestpractices.xml,category/java/codestyle.xml,category/java/errorprone.xml,category/java/performance.xml,category/java/security.xml \
             > ../out/java-pmd.csv || true
+          if [ ! -s ../out/java-pmd.csv ]; then
+            echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/java-pmd.csv
+          fi
 
-      # ===== DOTNET =====
-      - name: .NET • Scan & Build
+      # ============ .NET ============
+      - name: .NET • Restore and scan (format + analyzers + build)
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
         run: |
+          set -e
           TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
           if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.sln" "*.csproj" | head -n 1); fi
+          if [ -z "$TARGET" ]; then echo "No .sln or .csproj found"; exit 0; fi
+          echo "Using target: $TARGET"
+
           dotnet restore "$TARGET" || true
+
           dotnet tool install -g dotnet-format
           export PATH="$HOME/.dotnet/tools:$PATH"
           mkdir -p ../out
           dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json --report-format json || true
-          dotnet build "$TARGET" -v:normal > ../out/build_output.txt || true
 
-      # ===== PYTHON =====
-      - name: Python • Install Linters
+          dotnet build "$TARGET" \
+            -p:EnableNETAnalyzers=true \
+            -p:AnalysisLevel=latest \
+            -v:normal > ../out/build_output.txt || true
+
+          echo "==== First build diagnostics lines ===="
+          head -n 200 ../out/build_output.txt || true
+
+      # ============ PYTHON ============
+      - name: Python • Install linters
         if: ${{ env.TECH == 'Python' }}
         run: |
+          python -m pip install --upgrade pip
           pip install bandit pylint flake8 flake8-json
 
-      - name: Python • Run Linters
+      - name: Python • Scan
         if: ${{ env.TECH == 'Python' }}
         working-directory: target
         run: |
@@ -146,48 +174,136 @@ jobs:
           find . -name "*.py" > ../out/files.txt
           if [ -s ../out/files.txt ]; then
             pylint $(cat ../out/files.txt) --output-format=json > ../out/pylint.json || true
+          else
+            echo "[]" > ../out/pylint.json
           fi
           flake8 . --format=json --output-file=../out/flake8.json || true
 
-      # ===== REACT =====
-      - name: React • Install Dependencies
+      # ============ REACT ============
+      - name: React • Install deps
         if: ${{ env.TECH == 'React' }}
         working-directory: target
         run: npm ci || npm install
 
-      - name: React • Run Linters
+      - name: React • ESLint/tsc/audit
         if: ${{ env.TECH == 'React' }}
         working-directory: target
         run: |
           mkdir -p ../out
           npx eslint . --ext .js,.jsx,.ts,.tsx -f json -o ../out/eslint.json || true
-          if find . -name "tsconfig*.json" | grep -q .; then
+          if find . -name "tsconfig*.json" -type f | grep -q .; then
             npx tsc --noEmit > ../out/tsc-output.txt 2>&1 || true
           fi
           npm audit --json > ../out/audit.json || true
 
-      # ===== NORMALIZE ALL =====
-      - name: Normalize Reports to CSV
+      # ============ Normalize ============
+      - name: Normalize to CSV
         run: |
-          python - << 'EOF'
-          import os, csv, json
-          rows = [["Tool", "File", "Line", "Severity", "Rule", "Message"]]
-          def add(tool, f, l, s, r, m): rows.append([tool, f or "", str(l or ""), str(s or ""), str(r or ""), (m or "").strip()])
+          python - << 'PY'
+          import os, json, csv, re
+          rows=[["Tool","File","Line","Severity","Rule","Message"]]
+          out="out/normalized.csv"
           os.makedirs("out", exist_ok=True)
+          def add(tool,f,l,s,r,m): rows.append([tool,f or "",str(l or ""),str(s or ""),str(r or ""), (m or "").replace("\n"," ").strip()])
 
-          def read_csv(file, tool):
-              if os.path.exists(file) and os.path.getsize(file) > 0:
-                  with open(file, newline="", encoding="utf-8") as f:
-                      for row in csv.DictReader(f):
-                          add(tool, row.get("File"), row.get("Line"), row.get("Priority"), row.get("Rule"), row.get("Description"))
+          # ---------- Salesforce PMD ----------
+          p="out/pmd.csv"
+          if os.path.exists(p) and os.path.getsize(p)>0:
+              with open(p,newline="",encoding="utf-8",errors="ignore") as f:
+                  r=csv.DictReader(f)
+                  for d in r:
+                      add("PMD", d.get("File"), d.get("Line"), d.get("Priority"), d.get("Rule"), d.get("Description"))
 
-          read_csv("out/pmd.csv", "PMD")
-          read_csv("out/java-pmd.csv", "PMD(Java)")
+          # ---------- Java PMD ----------
+          p="out/java-pmd.csv"
+          if os.path.exists(p) and os.path.getsize(p)>0:
+              with open(p,newline="",encoding="utf-8",errors="ignore") as f:
+                  r=csv.DictReader(f)
+                  for d in r:
+                      add("PMD(Java)", d.get("File"), d.get("Line"), d.get("Priority"), d.get("Rule"), d.get("Description"))
 
-          with open("out/normalized.csv", "w", newline="", encoding="utf-8") as f:
+          # ---------- .NET dotnet-format ----------
+          p = "out/dotnet-format.json"
+          if os.path.exists(p) and os.path.getsize(p) > 0:
+              try:
+                  data = json.load(open(p, encoding="utf-8", errors="ignore"))
+              except Exception as e:
+                  data = None
+                  print("Failed to parse dotnet-format.json:", e)
+
+              def field(d, *names, default=None):
+                  for n in names:
+                      if isinstance(d, dict) and n in d:
+                          return d.get(n)
+                  return default
+
+              def add_diag(v):
+                  add(".NET(format)",
+                      field(v, "FilePath", "file", "Document"),
+                      field(v, "LineNumber", "line", "StartLine"),
+                      field(v, "Severity", "severity", "Category"),
+                      field(v, "RuleId", "id", "DiagnosticId", "rule"),
+                      field(v, "Message", "message", "Title"))
+
+              if isinstance(data, dict):
+                  diags = data.get("Diagnostics") or data.get("violations") or data.get("results") or []
+                  for v in diags:
+                      add_diag(v)
+              elif isinstance(data, list):
+                  for v in data:
+                      add_diag(v)
+
+          # ---------- .NET build warnings/errors ----------
+          p = "out/build_output.txt"
+          if os.path.exists(p) and os.path.getsize(p) > 0:
+              rx = re.compile(r'(.+\.cs)\((\d+),\d+\): (warning|error) (\w+): (.+?) \[')
+              for line in open(p, encoding='utf-8', errors='ignore'):
+                  m = rx.search(line)
+                  if m:
+                      file, line_no, sev, rule, msg = m.groups()
+                      add(".NET(build)", file, line_no, sev.capitalize(), rule, msg)
+
+          # ---------- Python ----------
+          p="out/bandit.json"
+          if os.path.exists(p) and os.path.getsize(p)>0:
+              data=json.load(open(p,encoding="utf-8"))
+              for r in data.get("results",[]): add("Bandit",r.get("filename"),r.get("line_number"),r.get("issue_severity"),r.get("test_id"),r.get("issue_text"))
+          p="out/pylint.json"
+          if os.path.exists(p) and os.path.getsize(p)>0:
+              data=json.load(open(p,encoding="utf-8"))
+              for it in data: add("Pylint",it.get("path"),it.get("line"),it.get("type"),it.get("message-id"),it.get("message"))
+          p="out/flake8.json"
+          if os.path.exists(p) and os.path.getsize(p)>0:
+              data=json.load(open(p,encoding="utf-8"))
+              for file,issues in data.items():
+                  for i in issues: add("Flake8",file,i.get("line_number"),i.get("code"),i.get("code"),i.get("text"))
+
+          # ---------- React ----------
+          p="out/eslint.json"
+          if os.path.exists(p) and os.path.getsize(p)>0:
+              data=json.load(open(p,encoding="utf-8"))
+              if isinstance(data,dict): data=[data]
+              for f in data:
+                  for m in f.get("messages",[]): add("ESLint",f.get("filePath"),m.get("line"),"Error" if m.get("severity")==2 else "Warning",m.get("ruleId"),m.get("message"))
+          p="out/tsc-output.txt"
+          if os.path.exists(p) and os.path.getsize(p)>0:
+              rx=re.compile(r"(.+\.(?:ts|tsx|js|jsx))\((\d+),\d+\): (error|warning) (TS\d+): (.+)")
+              for line in open(p,encoding="utf-8",errors="ignore"):
+                  m=rx.search(line)
+                  if m:
+                      file,l,sev,code,msg=m.groups()
+                      add("tsc",file,l,sev.capitalize(),code,msg)
+          p="out/audit.json"
+          if os.path.exists(p) and os.path.getsize(p)>0:
+              data=json.load(open(p,encoding="utf-8"))
+              for pkg,v in (data.get("vulnerabilities") or {}).items():
+                  for item in v.get("via",[]):
+                      if isinstance(item,dict): add("npm-audit",pkg,"",v.get("severity"),item.get("name"),item.get("title"))
+
+          with open(out,"w",newline="",encoding="utf-8") as f:
               csv.writer(f).writerows(rows)
-          print("Wrote", len(rows) - 1, "rows to normalized.csv")
-          EOF
+          print("Wrote", out, "rows:", len(rows)-1)
+          PY
 
       - name: Commit report into orchestrator
         run: |
