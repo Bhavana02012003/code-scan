@@ -339,7 +339,7 @@ jobs:
           git commit -m "Scan report: $OWNER/$REPO ($TECH) • $CORR" || echo "Nothing to commit"
           git push
 
-      # Optional: artifact for manual download from the Actions run UI
+      # Optional: artifact for manual download from the Actions run UI 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
