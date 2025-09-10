@@ -3,6 +3,30 @@ name: Remote Code Scan
 on:
   repository_dispatch:
     types: [run-scan]
+  workflow_dispatch:
+    inputs:
+      repo_url:
+        description: "Target repo URL (https)"
+        required: true
+      owner:
+        description: "Target repo owner/org"
+        required: true
+      repo:
+        description: "Target repo name"
+        required: true
+      branch:
+        description: "Branch to scan"
+        required: false
+        default: main
+      technology:
+        description: "One of: Salesforce | Java | DotNet | Python | React"
+        required: true
+      correlation_id:
+        description: "Correlation ID for report naming"
+        required: true
+      report_path:
+        description: "Path in orchestrator repo to commit normalized.csv"
+        required: true
 
 permissions:
   contents: write
@@ -24,13 +48,25 @@ jobs:
       - name: Checkout orchestrator repo
         uses: actions/checkout@v4
 
+      # Map manual inputs → env when using workflow_dispatch
+      - name: Map workflow_dispatch inputs to env (manual runs)
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          echo "REPO_URL=${{ github.event.inputs.repo_url }}"       >> $GITHUB_ENV
+          echo "OWNER=${{ github.event.inputs.owner }}"             >> $GITHUB_ENV
+          echo "REPO=${{ github.event.inputs.repo }}"               >> $GITHUB_ENV
+          echo "BRANCH=${{ github.event.inputs.branch }}"           >> $GITHUB_ENV
+          echo "TECH=${{ github.event.inputs.technology }}"         >> $GITHUB_ENV
+          echo "CORR=${{ github.event.inputs.correlation_id }}"     >> $GITHUB_ENV
+          echo "REPORT_PATH=${{ github.event.inputs.report_path }}" >> $GITHUB_ENV
+
       - name: Show inputs
         run: |
           echo "TECH=$TECH"
           echo "REPO_URL=$REPO_URL"
           echo "REPORT_PATH=$REPORT_PATH"
 
-      # Detect PAT
+      # Detect PAT for private target repos
       - name: Detect GH_PAT
         id: has-pat
         shell: bash
@@ -52,6 +88,21 @@ jobs:
         run: |
           URL_AUTH="https://${{ secrets.GH_PAT }}@${REPO_URL#https://}"
           git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
+
+      # ---- Optional config overlay (react/python/etc) ----
+      - name: Overlay config pack (optional)
+        run: |
+          TECH_LOWER=$(echo "$TECH" | tr '[:upper:]' '[:lower:]')
+          SRC="configs/$TECH_LOWER"
+          if [ -d "$SRC" ]; then
+            rsync -a --exclude 'tsconfig.template.json' "$SRC"/ target/
+            if [ -f "$SRC/tsconfig.template.json" ] && git -C target ls-files '*.ts' '*.tsx' | grep -q .; then
+              cp "$SRC/tsconfig.template.json" target/tsconfig.json
+            fi
+            echo "Overlay complete."
+          else
+            echo "No overlay for $TECH (optional)."
+          fi
 
       # ---- Setup common tooling ----
       - uses: actions/setup-node@v4
@@ -204,7 +255,9 @@ jobs:
           rows=[["Tool","File","Line","Severity","Rule","Message"]]
           out="out/normalized.csv"
           os.makedirs("out", exist_ok=True)
-          def add(tool,f,l,s,r,m): rows.append([tool,f or "",str(l or ""),str(s or ""),str(r or ""), (m or "").replace("\n"," ").strip()])
+
+          def add(tool,f,l,s,r,m):
+              rows.append([tool, f or "", str(l or ""), str(s or ""), str(r or ""), (m or "").replace("\n"," ").strip()])
 
           # ---------- Salesforce PMD ----------
           p="out/pmd.csv"
@@ -223,42 +276,41 @@ jobs:
                       add("PMD(Java)", d.get("File"), d.get("Line"), d.get("Priority"), d.get("Rule"), d.get("Description"))
 
           # ---------- .NET dotnet-format ----------
-          p = "out/dotnet-format.json"
-          if os.path.exists(p) and os.path.getsize(p) > 0:
+          p="out/dotnet-format.json"
+          if os.path.exists(p) and os.path.getsize(p)>0:
               try:
-                  data = json.load(open(p, encoding="utf-8", errors="ignore"))
+                  data=json.load(open(p,encoding="utf-8",errors="ignore"))
               except Exception as e:
-                  data = None
+                  data=None
                   print("Failed to parse dotnet-format.json:", e)
 
-              def field(d, *names, default=None):
+              def field(d,*names,default=None):
                   for n in names:
-                      if isinstance(d, dict) and n in d:
+                      if isinstance(d,dict) and n in d:
                           return d.get(n)
                   return default
 
               def add_diag(v):
                   add(".NET(format)",
-                      field(v, "FilePath", "file", "Document"),
-                      field(v, "LineNumber", "line", "StartLine"),
-                      field(v, "Severity", "severity", "Category"),
-                      field(v, "RuleId", "id", "DiagnosticId", "rule"),
-                      field(v, "Message", "message", "Title"))
+                      field(v,"FilePath","file","Document"),
+                      field(v,"LineNumber","line","StartLine"),
+                      field(v,"Severity","severity","Category"),
+                      field(v,"RuleId","id","DiagnosticId","rule"),
+                      field(v,"Message","message","Title"))
 
-              if isinstance(data, dict):
-                  diags = data.get("Diagnostics") or data.get("violations") or data.get("results") or []
-                  for v in diags:
+              if isinstance(data,dict):
+                  for v in data.get("Diagnostics") or data.get("violations") or data.get("results") or []:
                       add_diag(v)
-              elif isinstance(data, list):
+              elif isinstance(data,list):
                   for v in data:
                       add_diag(v)
 
           # ---------- .NET build warnings/errors ----------
-          p = "out/build_output.txt"
-          if os.path.exists(p) and os.path.getsize(p) > 0:
-              rx = re.compile(r'(.+\.cs)\((\d+),\d+\): (warning|error) (\w+): (.+?) \[')
-              for line in open(p, encoding='utf-8', errors='ignore'):
-                  m = rx.search(line)
+          p="out/build_output.txt"
+          if os.path.exists(p) and os.path.getsize(p)>0:
+              rx=re.compile(r'(.+\.cs)\((\d+),\d+\): (warning|error) (\w+): (.+?) \[')
+              for line in open(p,encoding="utf-8",errors="ignore"):
+                  m=rx.search(line)
                   if m:
                       file, line_no, sev, rule, msg = m.groups()
                       add(".NET(build)", file, line_no, sev.capitalize(), rule, msg)
@@ -268,10 +320,12 @@ jobs:
           if os.path.exists(p) and os.path.getsize(p)>0:
               data=json.load(open(p,encoding="utf-8"))
               for r in data.get("results",[]): add("Bandit",r.get("filename"),r.get("line_number"),r.get("issue_severity"),r.get("test_id"),r.get("issue_text"))
+
           p="out/pylint.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               data=json.load(open(p,encoding="utf-8"))
               for it in data: add("Pylint",it.get("path"),it.get("line"),it.get("type"),it.get("message-id"),it.get("message"))
+
           p="out/flake8.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               data=json.load(open(p,encoding="utf-8"))
@@ -284,21 +338,25 @@ jobs:
               data=json.load(open(p,encoding="utf-8"))
               if isinstance(data,dict): data=[data]
               for f in data:
-                  for m in f.get("messages",[]): add("ESLint",f.get("filePath"),m.get("line"),"Error" if m.get("severity")==2 else "Warning",m.get("ruleId"),m.get("message"))
+                  for m in f.get("messages",[]):
+                      add("ESLint",f.get("filePath"),m.get("line"),"Error" if m.get("severity")==2 else "Warning",m.get("ruleId"),m.get("message"))
+
           p="out/tsc-output.txt"
           if os.path.exists(p) and os.path.getsize(p)>0:
-              rx=re.compile(r"(.+\.(?:ts|tsx|js|jsx))\((\d+),\d+\): (error|warning) (TS\d+): (.+)")
+              rx=re.compile(r"(.+\.(?:ts|tsx|js|jsx))\((\d+),\d+\): (error|warning) (TS\\d+): (.+)")
               for line in open(p,encoding="utf-8",errors="ignore"):
                   m=rx.search(line)
                   if m:
                       file,l,sev,code,msg=m.groups()
                       add("tsc",file,l,sev.capitalize(),code,msg)
+
           p="out/audit.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               data=json.load(open(p,encoding="utf-8"))
               for pkg,v in (data.get("vulnerabilities") or {}).items():
                   for item in v.get("via",[]):
-                      if isinstance(item,dict): add("npm-audit",pkg,"",v.get("severity"),item.get("name"),item.get("title"))
+                      if isinstance(item,dict):
+                          add("npm-audit",pkg,"",v.get("severity"),item.get("name"),item.get("title"))
 
           with open(out,"w",newline="",encoding="utf-8") as f:
               csv.writer(f).writerows(rows)
