@@ -21,7 +21,7 @@ jobs:
       REPORT_PATH: ${{ github.event.client_payload.report_path }}
 
     steps:
-      - name: Checkout orchestrator repo
+      - name: Checkout orchestrator repos
         uses: actions/checkout@v4
 
       - name: Show inputs
