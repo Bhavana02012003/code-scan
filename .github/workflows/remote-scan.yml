@@ -172,7 +172,7 @@ jobs:
             echo "[]" > ../out/pylint.json
           fi
           flake8 . --format=json --output-file=../out/flake8.json || true
-      # ============ REACT ============
+      # ============ REACT =============
       - name: React • Install deps
         if: ${{ env.TECH == 'React' }}
         working-directory: target
