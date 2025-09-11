@@ -30,7 +30,7 @@ jobs:
           echo "REPO_URL=$REPO_URL"
           echo "REPORT_PATH=$REPORT_PATH"
 
-      # Detect PAT
+      # ---- Clone target (public or with GH_PAT) ----
       - name: Detect GH_PAT
         id: has-pat
         shell: bash
@@ -53,7 +53,7 @@ jobs:
           URL_AUTH="https://${{ secrets.GH_PAT }}@${REPO_URL#https://}"
           git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
 
-      # ---- Overlay config pack ----
+      # ---- Overlay config pack (optional per-tech files) ----
       - name: Overlay config pack
         run: |
           TECH_LOWER=$(echo "$TECH" | tr '[:upper:]' '[:lower:]')
@@ -68,7 +68,7 @@ jobs:
             echo "No overlay for $TECH (optional)."
           fi
 
-      # ---- Setup common tooling ----
+      # ---- Common toolchains ----
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -100,7 +100,6 @@ jobs:
           unzip -q pmd.zip
           mv "pmd-bin-${PMD_VER}" pmd
           chmod +x pmd/bin/run.sh
-          echo "PMD_HOME=$GITHUB_WORKSPACE/pmd" >> $GITHUB_ENV
 
       - name: Salesforce • Full scan with PMD → CSV
         if: ${{ env.TECH == 'Salesforce' }}
@@ -108,15 +107,8 @@ jobs:
         run: |
           set -e
           mkdir -p ../out
-          if [ ! -x ../pmd/bin/run.sh ]; then
-            echo "PMD not found"; ls -la ..; exit 1
-          fi
-          FA=$(find . -type d -name "force-app" | head -n 1)
-          [ -z "$FA" ] && FA="."
-          echo "Scanning Apex under: $FA"
-          ../pmd/bin/run.sh pmd \
-            -d "$FA" \
-            -f csv \
+          FA=$(find . -type d -name "force-app" | head -n 1); [ -z "$FA" ] && FA="."
+          ../pmd/bin/run.sh pmd -d "$FA" -f csv \
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > ../out/pmd.csv || true
           [ -s ../out/pmd.csv ] || echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
@@ -131,6 +123,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      # PMD for Java source
       - name: Java • Download PMD 6.x
         if: ${{ env.TECH == 'Java' }}
         run: |
@@ -148,40 +141,35 @@ jobs:
         run: |
           set -e
           mkdir -p ../out
-          ROOT="."
-          echo "Scanning Java under: $ROOT"
-          ../pmd_java/bin/run.sh pmd \
-            -d "$ROOT" \
-            -f csv \
+          ../pmd_java/bin/run.sh pmd -d "." -f csv \
             -R category/java/bestpractices.xml,category/java/design.xml,category/java/errorprone.xml,category/java/performance.xml,category/java/security.xml,category/java/codestyle.xml,category/java/multithreading.xml \
             > ../out/pmd_java.csv || true
           [ -s ../out/pmd_java.csv ] || echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd_java.csv
 
-      - name: Java • Dependency-Check (if Maven present)
+      # OWASP Dependency-Check (CLI) for Java deps (works with Maven/Gradle or plain libs)
+      - name: Java • OWASP Dependency-Check (CLI)
         if: ${{ env.TECH == 'Java' }}
         working-directory: target
         run: |
           set -e
           mkdir -p ../out
-          if [ -f "pom.xml" ] || [ -f "./mvnw" ]; then
-            echo "Maven project detected → running OWASP Dependency-Check via Maven"
-            # dependency-check will write target/dependency-check-report.json
-            mvn -q -DskipTests org.owasp:dependency-check-maven:check || true
-            JSON=$(find . -name "dependency-check-report.json" | head -n 1 || true)
-            if [ -n "$JSON" ]; then
-              cp "$JSON" ../out/dependency-check.json
-            else
-              echo "{}" > ../out/dependency-check.json
-            fi
-          else
-            echo "No Maven build found; skipping Dependency-Check."
-            echo "{}" > ../out/dependency-check.json
+          DC_VER=9.0.9
+          curl -L "https://github.com/jeremylong/DependencyCheck/releases/download/v${DC_VER}/dependency-check-${DC_VER}-release.zip" -o dc.zip
+          unzip -q dc.zip
+          mv dependency-check bin_dc
+          # Use NVD (default). The first run may download data; allow failures to not break the job.
+          ./bin_dc/bin/dependency-check.sh --scan "." --format JSON --out ../out --project "$REPO" || true
+          # Normalize output file name
+          JSON=$(ls ../out/*.json 2>/dev/null | head -n1 || true)
+          if [ -n "$JSON" ] && [ "$JSON" != "../out/dependency-check.json" ]; then
+            mv "$JSON" ../out/dependency-check.json
           fi
+          [ -f ../out/dependency-check.json ] || echo "{}" > ../out/dependency-check.json
 
       # =========================================================
       # ========================= .NET ==========================
       # =========================================================
-      - name: .NET • Restore and scan (format + analyzers + build + vulns)
+      - name: .NET • Restore and scan (format + analyzers + vulns)
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
         run: |
@@ -191,18 +179,11 @@ jobs:
           export PATH="$HOME/.dotnet/tools:$PATH"
           TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
           if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.sln" "*.csproj" | head -n 1); fi
-          if [ -z "$TARGET" ]; then
-            echo "No .sln or .csproj found"
-            echo "[]" > ../out/dotnet-format.json
-            : > ../out/build_output.txt
-            echo "{}" > ../out/dotnet-packages.json
-            exit 0
-          fi
+          if [ -z "$TARGET" ]; then echo "No .sln or .csproj found"; echo "[]" > ../out/dotnet-format.json; : > ../out/build_output.txt; echo "{}" > ../out/dotnet-packages.json; exit 0; fi
           echo "Using target: $TARGET"
           dotnet restore "$TARGET" || true
           dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json --report-format json || true
           dotnet build "$TARGET" -p:EnableNETAnalyzers=true -p:AnalysisLevel=latest --no-incremental -v:normal > ../out/build_output.txt || true
-          # NuGet vulnerabilities
           dotnet list "$TARGET" package --vulnerable --include-transitive --format json > ../out/dotnet-packages.json || echo "{}" > ../out/dotnet-packages.json
 
       # =========================================================
@@ -257,45 +238,42 @@ jobs:
           os.makedirs("out", exist_ok=True)
           def add(tool,f,l,s,r,m): rows.append([tool,f or "",str(l or ""),str(s or ""),str(r or ""), (m or "").replace("\n"," ").strip()])
 
-          # ---- Salesforce PMD (Apex) ----
+          # Salesforce PMD (Apex)
           p="out/pmd.csv"
           if os.path.exists(p) and os.path.getsize(p)>0:
+              import csv as _csv
               with open(p,newline="",encoding="utf-8",errors="ignore") as f:
-                  r=csv.DictReader(f)
-                  for d in r:
-                      add("PMD(Apex)", d.get("File"), d.get("Line"), d.get("Priority"), d.get("Rule"), d.get("Description"))
+                  r=_csv.DictReader(f)
+                  for d in r: add("PMD(Apex)", d.get("File"), d.get("Line"), d.get("Priority"), d.get("Rule"), d.get("Description"))
 
-          # ---- Java PMD ----
+          # Java PMD
           p="out/pmd_java.csv"
           if os.path.exists(p) and os.path.getsize(p)>0:
+              import csv as _csv
               with open(p,newline="",encoding="utf-8",errors="ignore") as f:
-                  r=csv.DictReader(f)
-                  for d in r:
-                      add("PMD(Java)", d.get("File"), d.get("Line"), d.get("Priority"), d.get("Rule"), d.get("Description"))
+                  r=_csv.DictReader(f)
+                  for d in r: add("PMD(Java)", d.get("File"), d.get("Line"), d.get("Priority"), d.get("Rule"), d.get("Description"))
 
-          # ---- Java Dependency-Check JSON (via Maven) ----
+          # Java Dependency-Check
           p="out/dependency-check.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               try:
                   data=json.load(open(p,encoding="utf-8"))
-                  for dep in data.get("dependencies", []):
+                  for dep in data.get("dependencies",[]) or []:
                       file = dep.get("fileName") or dep.get("filePath")
-                      for v in dep.get("vulnerabilities", []) or []:
-                          sev = (v.get("severity") or "").capitalize()
-                          rule = (v.get("name") or v.get("source")) or ""
-                          msg  = v.get("description") or v.get("title") or "Dependency vulnerability"
+                      for v in dep.get("vulnerabilities",[]) or []:
+                          sev=(v.get("severity") or "").capitalize()
+                          rule=v.get("name") or ",".join(v.get("cwes",[]) or [])
+                          msg=v.get("description") or v.get("title") or "Dependency vulnerability"
                           add("DepCheck(Java)", file, "", sev, rule, msg)
               except Exception as e:
                   print("DepCheck parse error:", e)
 
-          # ---- .NET dotnet-format JSON ----
+          # .NET dotnet-format
           p="out/dotnet-format.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
-              try:
-                  data=json.load(open(p,encoding="utf-8"))
-              except Exception as e:
-                  data=None; print("dotnet-format parse error:", e)
-
+              try: data=json.load(open(p,encoding="utf-8"))
+              except Exception as e: data=None; print("dotnet-format parse error:", e)
               def field(d,*names,default=None):
                   for n in names:
                       if isinstance(d,dict) and n in d: return d.get(n)
@@ -307,14 +285,12 @@ jobs:
                       field(v,"Severity","severity","Category"),
                       field(v,"RuleId","id","DiagnosticId","rule"),
                       field(v,"Message","message","Title"))
-
               if isinstance(data,dict):
-                  for v in (data.get("Diagnostics") or data.get("violations") or data.get("results") or []):
-                      add_diag(v)
+                  for v in (data.get("Diagnostics") or data.get("violations") or data.get("results") or []): add_diag(v)
               elif isinstance(data,list):
                   for v in data: add_diag(v)
 
-          # ---- .NET build warnings/errors ----
+          # .NET build (compiler/analyzers)
           p="out/build_output.txt"
           if os.path.exists(p) and os.path.getsize(p)>0:
               rx=re.compile(r'(.+\.cs)\((\d+),\d+\): (warning|error) (\w+): (.+?) \[')
@@ -324,7 +300,7 @@ jobs:
                       file,l,sev,rule,msg=m.groups()
                       add(".NET(build)", file, l, sev.capitalize(), rule, msg)
 
-          # ---- .NET NuGet vulnerabilities (dotnet list package) ----
+          # .NET NuGet vulns
           p="out/dotnet-packages.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               try:
@@ -333,8 +309,7 @@ jobs:
                       for fw in proj.get("frameworks", []):
                           for section in ("topLevelPackages","transitivePackages"):
                               for pkg in fw.get(section, []) or []:
-                                  vulns=pkg.get("vulnerabilities") or []
-                                  for v in vulns:
+                                  for v in (pkg.get("vulnerabilities") or []):
                                       sev=v.get("severity")
                                       rule=v.get("advisoryUrl") or ",".join(v.get("advisoryIds") or [])
                                       msg=v.get("description") or "NuGet dependency vulnerability"
@@ -342,7 +317,7 @@ jobs:
               except Exception as e:
                   print("dotnet-packages parse error:", e)
 
-          # ---- Python ----
+          # Python
           p="out/bandit.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               data=json.load(open(p,encoding="utf-8"))
@@ -358,10 +333,9 @@ jobs:
           if os.path.exists(p) and os.path.getsize(p)>0:
               data=json.load(open(p,encoding="utf-8"))
               for file,issues in data.items():
-                  for i in issues:
-                      add("Flake8", file, i.get("line_number"), i.get("code"), i.get("code"), i.get("text"))
+                  for i in issues: add("Flake8", file, i.get("line_number"), i.get("code"), i.get("code"), i.get("text"))
 
-          # ---- React ----
+          # React
           p="out/eslint.json"
           if os.path.exists(p) and os.path.getsize(p)>0:
               data=json.load(open(p,encoding="utf-8"))
@@ -392,6 +366,7 @@ jobs:
           print("Wrote", out, "rows:", len(rows)-1)
           PY
 
+      # ---- Commit the CSV back into orchestrator repo ----
       - name: Commit report into orchestrator
         run: |
           mkdir -p "$(dirname "$REPORT_PATH")"
