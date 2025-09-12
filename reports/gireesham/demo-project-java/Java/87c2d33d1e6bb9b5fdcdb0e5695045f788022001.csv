@@ -1,0 +1,6 @@
+Tool,File,Line,Severity,Rule,Message
+PMD(Java),./src/main/java/com/example/demo/DemoApplication.java,7,3,UseUtilityClass,"All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning."
+PMD(Java),./src/main/java/com/example/demo/DemoApplication.java,9,3,MethodArgumentCouldBeFinal,Parameter 'args' is not assigned and could be declared final
+PMD(Java),./src/main/java/com/example/demo/DemoApplication.java,11,2,SystemPrintln,System.out.println is used
+PMD(Java),./src/test/java/com/example/demo/DemoApplicationTests.java,7,3,AtLeastOneConstructor,Each class should declare at least one constructor
+PMD(Java),./src/test/java/com/example/demo/DemoApplicationTests.java,10,3,JUnitTestsShouldIncludeAssert,JUnit tests should include assert() or fail()
