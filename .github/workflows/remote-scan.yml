@@ -31,6 +31,7 @@ jobs:
           echo "REPORT_PATH=$REPORT_PATH"
 
       # ---- Clone target (public or with GH_PAT) ----
+      # ---- Detect if GH_PAT is available ----
       - name: Detect GH_PAT
         id: has-pat
         shell: bash
@@ -43,15 +44,17 @@ jobs:
             echo "USE_PAT=false" >> "$GITHUB_ENV"
           fi
 
-      - name: Clone target repository (public)
-        if: ${{ env.USE_PAT == 'false' }}
-        run: git clone --depth 1 --branch "$BRANCH" "$REPO_URL" target
-
-      - name: Clone target repository (private via GH_PAT)
-        if: ${{ env.USE_PAT == 'true' }}
+      # ---- Clone target repo ----
+      - name: Clone target repository
         run: |
-          URL_AUTH="https://${{ secrets.GH_PAT }}@${REPO_URL#https://}"
-          git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
+          if [ "${USE_PAT}" = "true" ]; then
+            echo "🔐 Using GH_PAT to clone private repo"
+            URL_AUTH="https://${{ secrets.GH_PAT }}@${REPO_URL#https://}"
+            git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
+          else
+            echo "🌍 Cloning public repo"
+            git clone --depth 1 --branch "$BRANCH" "$REPO_URL" target
+          fi
 
       # ---- Overlay config pack (optional per-tech files) ----
       - name: Overlay config pack
