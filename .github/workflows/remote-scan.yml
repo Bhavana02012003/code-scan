@@ -34,24 +34,29 @@ jobs:
           echo "REPORT_PATH=$REPORT_PATH"
 
       # =========================================================
-      # Authenticate as GitHub App and get installation token
+      # === Generate GitHub App token dynamically (private repo)
       # =========================================================
-      - name: Authenticate as GitHub App
-        id: app-auth
+      - name: Generate GitHub App token
+        id: app-token
         uses: tibdex/github-app-token@v2
         with:
-          app_id: ${{ secrets.GH_APP_ID }}
-          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          installation_retrieval_mode: repository
 
       # =========================================================
-      # Clone target repository (works for both public + private)
+      # === Clone target repo (public OR private via GitHub App)
       # =========================================================
       - name: Clone target repository
         run: |
-          TOKEN="${{ steps.app-auth.outputs.token }}"
-          URL_AUTH="https://x-access-token:${TOKEN}@github.com/${OWNER}/${REPO}.git"
-          echo "🔐 Cloning $URL_AUTH (branch=$BRANCH)"
-          git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
+          if git ls-remote "$REPO_URL" &>/dev/null; then
+            echo "🌍 Public repo detected"
+            git clone --depth 1 --branch "$BRANCH" "$REPO_URL" target
+          else
+            echo "🔐 Private repo detected, using GitHub App token"
+            URL_AUTH="https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/${OWNER}/${REPO}.git"
+            git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
+          fi
 
       # ---- Overlay config pack (optional per-tech files) ----
       - name: Overlay config pack
@@ -366,7 +371,6 @@ jobs:
           print("Wrote", out, "rows:", len(rows)-1)
           PY
 
-      # ---- Commit the CSV back into orchestrator repo ----
       - name: Commit report into orchestrator
         run: |
           mkdir -p "$(dirname "$REPORT_PATH")"
