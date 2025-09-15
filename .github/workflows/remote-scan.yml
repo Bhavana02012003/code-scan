@@ -28,33 +28,30 @@ jobs:
         run: |
           echo "TECH=$TECH"
           echo "REPO_URL=$REPO_URL"
+          echo "OWNER=$OWNER"
+          echo "REPO=$REPO"
+          echo "BRANCH=$BRANCH"
           echo "REPORT_PATH=$REPORT_PATH"
 
-      # ---- Clone target (public or with GH_PAT) ----
-      # ---- Detect if GH_PAT is available ----
-      - name: Detect GH_PAT
-        id: has-pat
-        shell: bash
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
-        run: |
-          if [ -n "${GH_PAT}" ]; then
-            echo "USE_PAT=true" >> "$GITHUB_ENV"
-          else
-            echo "USE_PAT=false" >> "$GITHUB_ENV"
-          fi
+      # =========================================================
+      # Authenticate as GitHub App and get installation token
+      # =========================================================
+      - name: Authenticate as GitHub App
+        id: app-auth
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.GH_APP_ID }}
+          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
-      # ---- Clone target repo ----
+      # =========================================================
+      # Clone target repository (works for both public + private)
+      # =========================================================
       - name: Clone target repository
         run: |
-          if [ "${USE_PAT}" = "true" ]; then
-            echo "🔐 Using GH_PAT to clone private repo"
-            URL_AUTH="https://${{ secrets.GH_PAT }}@${REPO_URL#https://}"
-            git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
-          else
-            echo "🌍 Cloning public repo"
-            git clone --depth 1 --branch "$BRANCH" "$REPO_URL" target
-          fi
+          TOKEN="${{ steps.app-auth.outputs.token }}"
+          URL_AUTH="https://x-access-token:${TOKEN}@github.com/${OWNER}/${REPO}.git"
+          echo "🔐 Cloning $URL_AUTH (branch=$BRANCH)"
+          git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
 
       # ---- Overlay config pack (optional per-tech files) ----
       - name: Overlay config pack
