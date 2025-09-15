@@ -151,7 +151,7 @@ jobs:
             > ../out/pmd_java.csv || true
           [ -s ../out/pmd_java.csv ] || echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd_java.csv
 
-      # OWASP Dependency-Check (CLI) for Java deps (works with Maven/Gradle or plain libs)
+      # OWASP Dependency-Check (CLI) for Java dep (works with Maven/Gradle or plain libs)
       - name: Java • OWASP Dependency-Check (CLI)
         if: ${{ env.TECH == 'Java' }}
         working-directory: target
