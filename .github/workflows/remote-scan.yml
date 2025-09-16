@@ -37,12 +37,11 @@ jobs:
       # === Generate GitHub App token dynamically (private repo)
       # =========================================================
       - name: Generate GitHub App token
-        id: app-token
+        id: generate_token
         uses: tibdex/github-app-token@v2
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-          installation_retrieval_mode: repository
+          app_id: ${{ secrets.GH_APP_ID }}
+          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
       # =========================================================
       # === Clone target repo (public OR private via GitHub App)
