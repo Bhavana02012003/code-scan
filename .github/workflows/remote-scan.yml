@@ -43,22 +43,14 @@ jobs:
           app_id: ${{ secrets.GH_APP_ID }}
           private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
-       #Normalize into lower case   
-
-      - name: Normalize REPO URL
-        run: |
-          REPO_URL_LOWER=$(echo "$REPO_URL" | tr '[:upper:]' '[:lower:]')
-          echo "REPO_URL=$REPO_URL_LOWER" >> $GITHUB_ENV
-
-
+      
       # =========================================================
       # === Clone target repo (public OR private via GitHub App)
       # =========================================================
       - name: Clone target repository
         run: |
           TOKEN=${{ steps.generate_token.outputs.token }}
-          # remove any trailing slash from REPO_URL
-          REPO_URL_CLEAN=$(echo "$REPO_URL" | sed 's/\/$//')
+          REPO_URL_CLEAN=$(echo "$REPO_URL" | sed 's/\/$//')  # just strip trailing slash
           echo "🔐 Cloning with App token: $REPO_URL_CLEAN"
           git clone --depth 1 --branch "$BRANCH" "https://x-access-token:${TOKEN}@${REPO_URL_CLEAN#https://}" target
 
