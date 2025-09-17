@@ -33,15 +33,27 @@ jobs:
           echo "BRANCH=$BRANCH"
           echo "REPORT_PATH=$REPORT_PATH"
 
-      # =========================================================
-      # === Generate GitHub App token dynamically (private repo)
-      # =========================================================
+      - name: Checkout orchestrator repo
+        uses: actions/checkout@v4
+
+      - name: Get installation ID dynamically
+        id: get_installation
+        run: |
+          OWNER=${{ env.OWNER }}
+          INSTALL_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GH_APP_PRIVATE_KEY }}" \
+                          -H "Accept: application/vnd.github+json" \
+                          https://api.github.com/app/installations \
+                        | jq -r ".[] | select(.account.login==\"$OWNER\") | .id")
+          echo "installation_id=$INSTALL_ID" >> $GITHUB_OUTPUT
+
       - name: Generate GitHub App token
         id: generate_token
         uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.GH_APP_ID }}
           private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          installation_retrieval_mode: id
+          installation_retrieval_payload: ${{ steps.get_installation.outputs.installation_id }}
 
 
       - name: Debug repo access
