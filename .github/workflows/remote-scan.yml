@@ -43,6 +43,15 @@ jobs:
           app_id: ${{ secrets.GH_APP_ID }}
           private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
+
+
+      - name: Test App token permissions
+        run: |
+          TOKEN=${{ steps.generate_token.outputs.token }}
+          curl -H "Authorization: Bearer $TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/naresh-art/TestingGitActions
+
       
       # =========================================================
       # === Clone target repo (public OR private via GitHub App)
