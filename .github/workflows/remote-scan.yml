@@ -57,8 +57,10 @@ jobs:
       - name: Clone target repository
         run: |
           TOKEN=${{ steps.generate_token.outputs.token }}
-          URL_AUTH="https://x-access-token:${TOKEN}@${REPO_URL#https://}"
-          git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
+          # remove any trailing slash from REPO_URL
+          REPO_URL_CLEAN=$(echo "$REPO_URL" | sed 's/\/$//')
+          echo "🔐 Cloning with App token: $REPO_URL_CLEAN"
+          git clone --depth 1 --branch "$BRANCH" "https://x-access-token:${TOKEN}@${REPO_URL_CLEAN#https://}" target
 
       # ---- Overlay config pack (optional per-tech files) ----
       - name: Overlay config pack
