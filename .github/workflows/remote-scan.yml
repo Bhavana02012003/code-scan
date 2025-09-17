@@ -44,6 +44,16 @@ jobs:
           private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
 
+      - name: Debug repo access
+        run: |
+          TOKEN=${{ steps.generate_token.outputs.token }}
+          OWNER=naresh-art
+          REPO=TestingGitActions
+          curl -i -H "Authorization: Bearer $TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/$OWNER/$REPO
+
+
 
       - name: Test App token permissions
         run: |
