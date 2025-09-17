@@ -43,6 +43,13 @@ jobs:
           app_id: ${{ secrets.GH_APP_ID }}
           private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
+       #Normalize into lower case   
+
+      - name: Normalize REPO URL
+        run: |
+          REPO_URL_LOWER=$(echo "$REPO_URL" | tr '[:upper:]' '[:lower:]')
+          echo "REPO_URL=$REPO_URL_LOWER" >> $GITHUB_ENV
+
 
       # =========================================================
       # === Clone target repo (public OR private via GitHub App)
@@ -50,9 +57,8 @@ jobs:
       - name: Clone target repository
         run: |
           TOKEN=${{ steps.generate_token.outputs.token }}
-          CLEAN_URL=$(echo "$REPO_URL" | sed 's/\/$//')   # remove trailing slash
-          echo "🔐 Cloning with App token: $CLEAN_URL"
-          git clone --depth 1 --branch "$BRANCH" "https://x-access-token:${TOKEN}@${CLEAN_URL#https://}" target
+          URL_AUTH="https://x-access-token:${TOKEN}@${REPO_URL#https://}"
+          git clone --depth 1 --branch "$BRANCH" "$URL_AUTH" target
 
       # ---- Overlay config pack (optional per-tech files) ----
       - name: Overlay config pack
