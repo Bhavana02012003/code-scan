@@ -36,39 +36,12 @@ jobs:
       - name: Checkout orchestrator repo
         uses: actions/checkout@v4
 
-      - name: Get installation ID dynamically
-        id: get_installation
-        run: |
-          APP_ID=${{ secrets.GH_APP_ID }}
-          PRIVATE_KEY="${{ secrets.GH_APP_PRIVATE_KEY }}"
-
-          # Save private key to a file
-          echo "$PRIVATE_KEY" > app.pem
-
-          # Install jwt-cli to generate a JWT
-          npm install -g jwt-cli
-
-          # Create JWT valid for 10 minutes
-          JWT=$(jwt encode --algorithm RS256 --secret @app.pem \
-            --exp "$(($(date +%s) + 600))" \
-            --iss "$APP_ID")
-
-          # Call GitHub API to get installation ID for the OWNER
-          OWNER=${{ env.OWNER }}
-          INSTALL_ID=$(curl -s -H "Authorization: Bearer $JWT" \
-                            -H "Accept: application/vnd.github+json" \
-                            https://api.github.com/app/installations \
-                        | jq -r ".[] | select(.account.login==\"$OWNER\") | .id")
-
-          echo "installation_id=$INSTALL_ID" >> $GITHUB_OUTPUT
-
       - name: Generate GitHub App token
         id: generate_token
         uses: tibdex/github-app-token@v2
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-          # Ensure the repo owner is correct (naresh-art)
+          app_id: ${{ secrets.GH_APP_ID }}
+          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           installation_retrieval_mode: repository
           installation_retrieval_payload: naresh-art/TestingGitActions
 
