@@ -2,7 +2,7 @@ name: Remote Code Scan
 
 on:
   repository_dispatch:
-    types: [run-scan]
+    types: [fix-violation]
 
 permissions:
   contents: write
