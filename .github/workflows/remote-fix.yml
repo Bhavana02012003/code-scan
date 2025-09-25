@@ -34,7 +34,6 @@ jobs:
           git config --global user.email "autofix@example.com"
           git clone --branch "$BRANCH" \
             https://x-access-token:${{ steps.generate_token.outputs.token }}@github.com/${OWNER}/${REPO}.git target
-
       # 🔹 Apply language-specific safe fixes
       - name: Autofix • React (ESLint --fix)
         if: ${{ env.TECH == 'React' }}
@@ -46,7 +45,6 @@ jobs:
           else
             npx eslint . --ext .js,.jsx,.ts,.tsx --fix || true
           fi
-
       - name: Autofix • .NET (dotnet format)
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
@@ -59,7 +57,6 @@ jobs:
           else
             dotnet format || true
           fi
-
       - name: Autofix • Python (autopep8)
         if: ${{ env.TECH == 'Python' }}
         working-directory: target
@@ -71,7 +68,6 @@ jobs:
           else
             autopep8 -ri . || true
           fi
-
       # (Skip Salesforce Apex and Java PMD – no safe auto-fix available)
 
       - name: Commit & push if changed
