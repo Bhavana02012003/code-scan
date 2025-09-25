@@ -1,0 +1,1466 @@
+Tool,File,Line,Severity,Rule,Message
+Bandit,./comparision.py,7,LOW,B403,Consider possible security implications associated with pickle module.
+Bandit,./comparision.py,45,MEDIUM,B301,"Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue."
+Bandit,./comparision.py,49,MEDIUM,B301,"Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue."
+Bandit,./comparision.py,51,MEDIUM,B301,"Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue."
+Bandit,./cropped_embeddings.py,9,LOW,B403,Consider possible security implications associated with pickle module.
+Bandit,./main.py,4,MEDIUM,B104,Possible binding to all interfaces.
+Bandit,./utils/embedding_comparison.py,4,LOW,B403,Consider possible security implications associated with pickle module.
+Bandit,./utils/embedding_comparison.py,78,MEDIUM,B301,"Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue."
+Bandit,./utils/embedding_comparison.py,80,MEDIUM,B301,"Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue."
+Bandit,./utils/mock_segmentation.py,153,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,154,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,169,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,170,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,178,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,179,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,184,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,185,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,186,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,187,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,201,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,202,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Bandit,./utils/mock_segmentation.py,203,LOW,B311,Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+Pylint,comparision.py,14,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,21,Convention,C0301,Line too long (120/100)
+Pylint,comparision.py,26,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,36,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,38,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,42,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,46,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,50,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,52,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,70,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,71,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,77,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,78,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,82,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,130,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,152,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,160,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,178,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,180,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,269,Convention,C0301,Line too long (132/100)
+Pylint,comparision.py,283,Convention,C0301,Line too long (105/100)
+Pylint,comparision.py,307,Convention,C0301,Line too long (101/100)
+Pylint,comparision.py,331,Convention,C0301,Line too long (109/100)
+Pylint,comparision.py,347,Convention,C0301,Line too long (107/100)
+Pylint,comparision.py,353,Convention,C0301,Line too long (127/100)
+Pylint,comparision.py,362,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,366,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,372,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,373,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,378,Convention,C0301,Line too long (152/100)
+Pylint,comparision.py,379,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,380,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,384,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,388,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,396,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,398,Convention,C0303,Trailing whitespace
+Pylint,comparision.py,405,Convention,C0304,Final newline missing
+Pylint,comparision.py,1,Error,E0401,Unable to import 'numpy'
+Pylint,comparision.py,3,Error,E0401,Unable to import 'pandas'
+Pylint,comparision.py,5,Error,E0401,Unable to import 'faiss'
+Pylint,comparision.py,37,Convention,C0103,"Constant name ""top_k"" doesn't conform to UPPER_CASE naming style"
+Pylint,comparision.py,57,Convention,C0103,"Constant name ""coordinates_file"" doesn't conform to UPPER_CASE naming style"
+Pylint,comparision.py,61,Warning,W1514,Using open without explicitly specifying an encoding
+Pylint,comparision.py,85,Warning,W0621,Redefining name 'cropped_img_path' from outer scope (line 185)
+Pylint,comparision.py,87,Warning,W0621,Redefining name 'coords' from outer scope (line 191)
+Pylint,comparision.py,133,Warning,W0621,Redefining name 'cropped_img_path' from outer scope (line 185)
+Pylint,comparision.py,207,Convention,C0103,"Constant name ""img_index"" doesn't conform to UPPER_CASE naming style"
+Pylint,comparision.py,376,Warning,W0621,Redefining name 'path' from outer scope (line 165)
+Pylint,comparision.py,399,Warning,W1309,Using an f-string that does not have any interpolated variables
+Pylint,comparision.py,7,Convention,C0411,"standard import ""pickle"" should be placed before third party imports ""numpy"", ""pandas"", ""faiss"""
+Pylint,comparision.py,9,Convention,C0411,"standard import ""os"" should be placed before third party imports ""numpy"", ""pandas"", ""faiss"""
+Pylint,comparision.py,11,Convention,C0411,"standard import ""sys"" should be placed before third party imports ""numpy"", ""pandas"", ""faiss"""
+Pylint,comparision.py,13,Convention,C0411,"standard import ""json"" should be placed before third party imports ""numpy"", ""pandas"", ""faiss"""
+Pylint,utils/embedding_comparison.py,57,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,62,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,66,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,70,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,74,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,79,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,81,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,88,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,90,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,94,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,104,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,109,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,112,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,122,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,131,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,135,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,141,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,148,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,153,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,159,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,164,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,169,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,176,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,183,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,191,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,193,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,196,Convention,C0303,Trailing whitespace
+Pylint,utils/embedding_comparison.py,199,Convention,C0304,Final newline missing
+Pylint,utils/embedding_comparison.py,1,Error,E0401,Unable to import 'numpy'
+Pylint,utils/embedding_comparison.py,2,Error,E0401,Unable to import 'pandas'
+Pylint,utils/embedding_comparison.py,3,Error,E0401,Unable to import 'faiss'
+Pylint,utils/embedding_comparison.py,50,Refactor,R0914,Too many local variables (39/15)
+Pylint,utils/embedding_comparison.py,197,Warning,W0718,Catching too general exception Exception
+Pylint,utils/embedding_comparison.py,60,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/embedding_comparison.py,64,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/embedding_comparison.py,86,Warning,W1514,Using open without explicitly specifying an encoding
+Pylint,utils/embedding_comparison.py,128,Warning,W0127,Assigning the same variable 'actual_image_path' to itself
+Pylint,utils/embedding_comparison.py,54,Refactor,R1702,Too many nested blocks (7/5)
+Pylint,utils/embedding_comparison.py,194,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/embedding_comparison.py,198,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/embedding_comparison.py,50,Refactor,R0912,Too many branches (23/12)
+Pylint,utils/embedding_comparison.py,50,Refactor,R0915,Too many statements (77/50)
+Pylint,utils/embedding_comparison.py,4,Convention,C0411,"standard import ""pickle"" should be placed before third party imports ""numpy"", ""pandas"", ""faiss"""
+Pylint,utils/embedding_comparison.py,5,Convention,C0411,"standard import ""os"" should be placed before third party imports ""numpy"", ""pandas"", ""faiss"""
+Pylint,utils/embedding_comparison.py,6,Convention,C0411,"standard import ""json"" should be placed before third party imports ""numpy"", ""pandas"", ""faiss"""
+Pylint,utils/embedding_comparison.py,7,Convention,C0411,"standard import ""logging"" should be placed before third party imports ""numpy"", ""pandas"", ""faiss"""
+Pylint,utils/embedding_comparison.py,9,Warning,W0611,Unused format_cable_distribution imported from utils.switch_analyzer
+Pylint,utils/embedding_comparison.py,9,Warning,W0611,Unused format_led_status imported from utils.switch_analyzer
+Pylint,utils/mock_segmentation.py,31,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,38,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,41,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,46,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,51,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,55,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,63,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,68,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,72,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,73,Convention,C0301,Line too long (108/100)
+Pylint,utils/mock_segmentation.py,75,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,83,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,91,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,96,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,104,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,106,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,114,Convention,C0301,Line too long (134/100)
+Pylint,utils/mock_segmentation.py,119,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,126,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,130,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,143,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,151,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,157,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,162,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,171,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,175,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,182,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,188,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,192,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,206,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,219,Convention,C0303,Trailing whitespace
+Pylint,utils/mock_segmentation.py,234,Convention,C0304,Final newline missing
+Pylint,utils/mock_segmentation.py,4,Error,E0401,Unable to import 'PIL'
+Pylint,utils/mock_segmentation.py,22,Refactor,R0914,Too many local variables (32/15)
+Pylint,utils/mock_segmentation.py,144,Warning,W0718,Catching too general exception Exception
+Pylint,utils/mock_segmentation.py,36,Warning,W0718,Catching too general exception Exception
+Pylint,utils/mock_segmentation.py,39,Convention,C0103,"Variable name ""OUTPUT_DIR"" doesn't conform to snake_case naming style"
+Pylint,utils/mock_segmentation.py,40,Convention,C0103,"Variable name ""COORDINATES_FILE"" doesn't conform to snake_case naming style"
+Pylint,utils/mock_segmentation.py,94,Warning,W1514,Using open without explicitly specifying an encoding
+Pylint,utils/mock_segmentation.py,105,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/mock_segmentation.py,145,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/mock_segmentation.py,35,Warning,W0612,Unused variable 'width'
+Pylint,utils/mock_segmentation.py,35,Warning,W0612,Unused variable 'height'
+Pylint,utils/mock_segmentation.py,150,Convention,C0415,Import outside toplevel (random)
+Pylint,utils/mock_segmentation.py,5,Convention,C0411,"standard import ""shutil"" should be placed before third party import ""PIL.Image"""
+Pylint,utils/mock_segmentation.py,9,Warning,W0611,Unused DetailedSwitchPortAnalyzer imported from utils.detailed_switch_analyzer
+Pylint,utils/segmentation.py,30,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,35,Convention,C0301,Line too long (129/100)
+Pylint,utils/segmentation.py,37,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,41,Convention,C0301,Line too long (125/100)
+Pylint,utils/segmentation.py,43,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,48,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,57,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,62,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,65,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,70,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,75,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,80,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,85,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,89,Convention,C0301,Line too long (110/100)
+Pylint,utils/segmentation.py,91,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,93,Convention,C0301,Line too long (120/100)
+Pylint,utils/segmentation.py,98,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,106,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,108,Convention,C0301,Line too long (111/100)
+Pylint,utils/segmentation.py,111,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,118,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,126,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,131,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,132,Convention,C0301,Line too long (120/100)
+Pylint,utils/segmentation.py,139,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,140,Convention,C0301,Line too long (127/100)
+Pylint,utils/segmentation.py,143,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,153,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,159,Convention,C0301,Line too long (104/100)
+Pylint,utils/segmentation.py,162,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,164,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,166,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,171,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,179,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,181,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,186,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,190,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,194,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,204,Convention,C0303,Trailing whitespace
+Pylint,utils/segmentation.py,3,Error,E0401,Unable to import 'cv2'
+Pylint,utils/segmentation.py,5,Error,E0401,Unable to import 'numpy'
+Pylint,utils/segmentation.py,6,Error,E0401,Unable to import 'ultralytics'
+Pylint,utils/segmentation.py,16,Refactor,R0914,Too many local variables (54/15)
+Pylint,utils/segmentation.py,205,Warning,W0718,Catching too general exception Exception
+Pylint,utils/segmentation.py,23,Convention,C0103,"Variable name ""GENERAL_MODEL_PATH"" doesn't conform to snake_case naming style"
+Pylint,utils/segmentation.py,24,Convention,C0103,"Variable name ""PORTS_MODEL_PATH"" doesn't conform to snake_case naming style"
+Pylint,utils/segmentation.py,25,Convention,C0103,"Variable name ""OUTPUT_DIR"" doesn't conform to snake_case naming style"
+Pylint,utils/segmentation.py,26,Convention,C0103,"Variable name ""CONF_THRESHOLD"" doesn't conform to snake_case naming style"
+Pylint,utils/segmentation.py,27,Convention,C0103,"Variable name ""COORDINATES_FILE"" doesn't conform to snake_case naming style"
+Pylint,utils/segmentation.py,28,Convention,C0103,"Variable name ""MARGIN"" doesn't conform to snake_case naming style"
+Pylint,utils/segmentation.py,29,Convention,C0103,"Variable name ""MIN_DIM"" doesn't conform to snake_case naming style"
+Pylint,utils/segmentation.py,50,Convention,C0103,"Variable name ""TARGET_CLASS_MAP"" doesn't conform to snake_case naming style"
+Pylint,utils/segmentation.py,59,Convention,C0415,Import outside toplevel (shutil)
+Pylint,utils/segmentation.py,96,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/segmentation.py,99,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/segmentation.py,129,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/segmentation.py,169,Warning,W1514,Using open without explicitly specifying an encoding
+Pylint,utils/segmentation.py,180,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/segmentation.py,191,Warning,W0718,Catching too general exception Exception
+Pylint,utils/segmentation.py,185,Convention,C0415,Import outside toplevel (utils.embedding_comparison.compare_with_catalog)
+Pylint,utils/segmentation.py,192,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/segmentation.py,206,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/segmentation.py,16,Refactor,R0912,Too many branches (13/12)
+Pylint,utils/segmentation.py,16,Refactor,R0915,Too many statements (89/50)
+Pylint,utils/segmentation.py,4,Convention,C0411,"standard import ""json"" should be placed before third party import ""cv2"""
+Pylint,utils/segmentation.py,7,Convention,C0411,"standard import ""logging"" should be placed before third party imports ""cv2"", ""numpy"", ""ultralytics.YOLO"""
+Pylint,utils/segmentation.py,2,Warning,W0611,Unused import sys
+Pylint,utils/segmentation.py,5,Warning,W0611,Unused numpy imported as np
+Pylint,utils/cable_port_lookup.py,13,Convention,C0301,Line too long (116/100)
+Pylint,utils/cable_port_lookup.py,32,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,36,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,40,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,44,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,62,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,65,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,77,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,81,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,84,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,90,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,97,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,104,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,118,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,123,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,134,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,137,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,154,Convention,C0303,Trailing whitespace
+Pylint,utils/cable_port_lookup.py,177,Convention,C0304,Final newline missing
+Pylint,utils/cable_port_lookup.py,45,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/cable_port_lookup.py,48,Refactor,R0914,Too many local variables (17/15)
+Pylint,utils/cable_port_lookup.py,138,Warning,W0718,Catching too general exception Exception
+Pylint,utils/cable_port_lookup.py,79,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/cable_port_lookup.py,79,Warning,W1309,Using an f-string that does not have any interpolated variables
+Pylint,utils/cable_port_lookup.py,101,Warning,W0718,Catching too general exception Exception
+Pylint,utils/cable_port_lookup.py,88,Convention,C0415,Import outside toplevel (pandas)
+Pylint,utils/cable_port_lookup.py,99,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/cable_port_lookup.py,102,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/cable_port_lookup.py,115,Warning,W0718,Catching too general exception Exception
+Pylint,utils/cable_port_lookup.py,116,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/cable_port_lookup.py,135,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/cable_port_lookup.py,139,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/cable_port_lookup.py,48,Refactor,R0911,Too many return statements (7/6)
+Pylint,utils/cable_port_lookup.py,48,Refactor,R0912,Too many branches (17/12)
+Pylint,utils/switch_analyzer.py,29,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,34,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,41,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,44,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,47,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,50,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,55,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,61,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,73,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,85,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,89,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,96,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,101,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,106,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,114,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,124,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,134,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,140,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,153,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,166,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,169,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,175,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,181,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,183,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,195,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,202,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,205,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,211,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,217,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,221,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,223,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,232,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,235,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,250,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,254,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,261,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,265,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,272,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,277,Convention,C0301,Line too long (146/100)
+Pylint,utils/switch_analyzer.py,278,Convention,C0303,Trailing whitespace
+Pylint,utils/switch_analyzer.py,279,Convention,C0304,Final newline missing
+Pylint,utils/switch_analyzer.py,1,Error,E0401,Unable to import 'cv2'
+Pylint,utils/switch_analyzer.py,2,Error,E0401,Unable to import 'numpy'
+Pylint,utils/switch_analyzer.py,74,Warning,W0718,Catching too general exception Exception
+Pylint,utils/switch_analyzer.py,27,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/switch_analyzer.py,32,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/switch_analyzer.py,45,Warning,W0718,Catching too general exception Exception
+Pylint,utils/switch_analyzer.py,46,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/switch_analyzer.py,75,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/switch_analyzer.py,78,Refactor,R0914,Too many local variables (24/15)
+Pylint,utils/switch_analyzer.py,141,Warning,W0718,Catching too general exception Exception
+Pylint,utils/switch_analyzer.py,142,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/switch_analyzer.py,184,Warning,W0718,Catching too general exception Exception
+Pylint,utils/switch_analyzer.py,185,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/switch_analyzer.py,224,Warning,W0718,Catching too general exception Exception
+Pylint,utils/switch_analyzer.py,225,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/switch_analyzer.py,3,Convention,C0411,"standard import ""os"" should be placed before third party imports ""cv2"", ""numpy"""
+Pylint,utils/switch_analyzer.py,4,Convention,C0411,"standard import ""logging"" should be placed before third party imports ""cv2"", ""numpy"""
+Pylint,utils/switch_analyzer.py,5,Convention,C0411,"standard import ""typing.Dict"" should be placed before third party imports ""cv2"", ""numpy"""
+Pylint,utils/switch_analyzer.py,5,Warning,W0611,Unused List imported from typing
+Pylint,utils/switch_analyzer.py,5,Warning,W0611,Unused Tuple imported from typing
+Pylint,utils/detailed_switch_analyzer.py,9,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,12,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,26,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,33,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,36,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,54,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,57,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,63,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,66,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,69,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,74,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,77,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,82,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,83,Convention,C0301,Line too long (120/100)
+Pylint,utils/detailed_switch_analyzer.py,84,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,86,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,90,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,94,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,96,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,100,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,102,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,106,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,109,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,111,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,114,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,116,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,120,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,125,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,128,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,130,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,136,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,138,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,140,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,144,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,156,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,158,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,161,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,164,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,167,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,169,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,174,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,177,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,185,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,187,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,191,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,193,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,197,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,201,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,204,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,208,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,212,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,215,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,217,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,221,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,224,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,227,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,241,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,245,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,250,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,254,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,259,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,261,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,265,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,267,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,270,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,273,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,282,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,286,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,287,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,293,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,306,Convention,C0301,Line too long (103/100)
+Pylint,utils/detailed_switch_analyzer.py,307,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,309,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,311,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,315,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,319,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,323,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,327,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,332,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,334,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,338,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,341,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,353,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,358,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,371,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,376,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,379,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,382,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,397,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,409,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,414,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,420,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,425,Convention,C0303,Trailing whitespace
+Pylint,utils/detailed_switch_analyzer.py,437,Convention,C0301,Line too long (115/100)
+Pylint,utils/detailed_switch_analyzer.py,442,Convention,C0304,Final newline missing
+Pylint,utils/detailed_switch_analyzer.py,1,Error,E0401,Unable to import 'cv2'
+Pylint,utils/detailed_switch_analyzer.py,2,Error,E0401,Unable to import 'numpy'
+Pylint,utils/detailed_switch_analyzer.py,38,Refactor,R1705,"Unnecessary ""elif"" after ""return"", remove the leading ""el"" from ""elif"""
+Pylint,utils/detailed_switch_analyzer.py,37,Refactor,R0911,Too many return statements (8/6)
+Pylint,utils/detailed_switch_analyzer.py,55,Refactor,R0914,Too many local variables (17/15)
+Pylint,utils/detailed_switch_analyzer.py,56,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/detailed_switch_analyzer.py,87,Warning,W0718,Catching too general exception Exception
+Pylint,utils/detailed_switch_analyzer.py,61,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/detailed_switch_analyzer.py,65,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/detailed_switch_analyzer.py,68,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/detailed_switch_analyzer.py,83,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/detailed_switch_analyzer.py,88,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/detailed_switch_analyzer.py,93,Warning,W0612,Unused variable 'aspect_ratio'
+Pylint,utils/detailed_switch_analyzer.py,103,Refactor,R0914,Too many local variables (21/15)
+Pylint,utils/detailed_switch_analyzer.py,126,Refactor,R0916,Too many boolean expressions in if statement (6/5)
+Pylint,utils/detailed_switch_analyzer.py,141,Refactor,R0914,Too many local variables (20/15)
+Pylint,utils/detailed_switch_analyzer.py,157,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/detailed_switch_analyzer.py,188,Refactor,R0914,Too many local variables (21/15)
+Pylint,utils/detailed_switch_analyzer.py,242,Refactor,R0914,Too many local variables (18/15)
+Pylint,utils/detailed_switch_analyzer.py,304,Warning,W0718,Catching too general exception Exception
+Pylint,utils/detailed_switch_analyzer.py,305,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/detailed_switch_analyzer.py,368,Warning,W0718,Catching too general exception Exception
+Pylint,utils/detailed_switch_analyzer.py,369,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/detailed_switch_analyzer.py,389,Warning,W0718,Catching too general exception Exception
+Pylint,utils/detailed_switch_analyzer.py,390,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,utils/detailed_switch_analyzer.py,372,Warning,W0613,Unused argument 'port_roi'
+Pylint,utils/detailed_switch_analyzer.py,8,Refactor,R0903,Too few public methods (1/2)
+Pylint,utils/detailed_switch_analyzer.py,3,Convention,C0411,"standard import ""json"" should be placed before third party imports ""cv2"", ""numpy"""
+Pylint,utils/detailed_switch_analyzer.py,4,Convention,C0411,"standard import ""os"" should be placed before third party imports ""cv2"", ""numpy"""
+Pylint,utils/detailed_switch_analyzer.py,5,Convention,C0411,"standard import ""datetime.datetime"" should be placed before third party imports ""cv2"", ""numpy"""
+Pylint,utils/detailed_switch_analyzer.py,6,Convention,C0411,"standard import ""logging"" should be placed before third party imports ""cv2"", ""numpy"""
+Pylint,utils/detailed_switch_analyzer.py,3,Warning,W0611,Unused import json
+Pylint,utils/detailed_switch_analyzer.py,4,Warning,W0611,Unused import os
+Pylint,convert_excel_to_csv.py,12,Convention,C0303,Trailing whitespace
+Pylint,convert_excel_to_csv.py,15,Convention,C0303,Trailing whitespace
+Pylint,convert_excel_to_csv.py,22,Convention,C0303,Trailing whitespace
+Pylint,convert_excel_to_csv.py,27,Convention,C0303,Trailing whitespace
+Pylint,convert_excel_to_csv.py,32,Convention,C0303,Trailing whitespace
+Pylint,convert_excel_to_csv.py,39,Convention,C0303,Trailing whitespace
+Pylint,convert_excel_to_csv.py,42,Convention,C0303,Trailing whitespace
+Pylint,convert_excel_to_csv.py,48,Convention,C0304,Final newline missing
+Pylint,convert_excel_to_csv.py,11,Convention,C0415,Import outside toplevel (pandas)
+Pylint,convert_excel_to_csv.py,36,Warning,W0718,Catching too general exception Exception
+Pylint,convert_excel_to_csv.py,5,Warning,W0611,Unused import csv
+Pylint,convert_excel_to_csv.py,6,Warning,W0611,Unused import sys
+Pylint,cable_port.py,1,Error,E0401,Unable to import 'pandas'
+Pylint,cable_port.py,17,Warning,W1309,Using an f-string that does not have any interpolated variables
+Pylint,create_sample_cables.py,42,Convention,C0304,Final newline missing
+Pylint,create_sample_cables.py,1,Error,E0401,Unable to import 'pandas'
+Pylint,main.py,7,Convention,C0305,Trailing newlines
+Pylint,cropped_embeddings.py,49,Convention,C0303,Trailing whitespace
+Pylint,cropped_embeddings.py,76,Convention,C0303,Trailing whitespace
+Pylint,cropped_embeddings.py,84,Convention,C0303,Trailing whitespace
+Pylint,cropped_embeddings.py,87,Convention,C0303,Trailing whitespace
+Pylint,cropped_embeddings.py,99,Convention,C0304,Final newline missing
+Pylint,cropped_embeddings.py,3,Error,E0401,Unable to import 'numpy'
+Pylint,cropped_embeddings.py,4,Error,E0401,Unable to import 'PIL'
+Pylint,cropped_embeddings.py,5,Error,E0401,Unable to import 'tqdm'
+Pylint,cropped_embeddings.py,6,Error,E0401,Unable to import 'torch'
+Pylint,cropped_embeddings.py,7,Error,E0401,Unable to import 'clip'
+Pylint,cropped_embeddings.py,8,Error,E0401,Unable to import 'faiss'
+Pylint,cropped_embeddings.py,12,Convention,C0103,"Constant name ""device"" doesn't conform to UPPER_CASE naming style"
+Pylint,cropped_embeddings.py,25,Warning,W0718,Catching too general exception Exception
+Pylint,cropped_embeddings.py,82,Convention,C0103,"Constant name ""segmented_dir"" doesn't conform to UPPER_CASE naming style"
+Pylint,cropped_embeddings.py,83,Convention,C0103,"Constant name ""output_file"" doesn't conform to UPPER_CASE naming style"
+Pylint,cropped_embeddings.py,9,Convention,C0411,"standard import ""pickle"" should be placed before third party imports ""numpy"", ""PIL.Image"", ""tqdm.tqdm"", ""torch"", ""clip"", ""faiss"""
+Pylint,segment.py,58,Convention,C0301,Line too long (102/100)
+Pylint,segment.py,62,Convention,C0301,Line too long (112/100)
+Pylint,segment.py,77,Convention,C0301,Line too long (103/100)
+Pylint,segment.py,93,Convention,C0301,Line too long (112/100)
+Pylint,segment.py,101,Convention,C0301,Line too long (119/100)
+Pylint,segment.py,125,Convention,C0304,Final newline missing
+Pylint,segment.py,3,Error,E0401,Unable to import 'cv2'
+Pylint,segment.py,5,Error,E0401,Unable to import 'numpy'
+Pylint,segment.py,6,Error,E0401,Unable to import 'ultralytics'
+Pylint,segment.py,51,Convention,C0103,"Constant name ""object_counter"" doesn't conform to UPPER_CASE naming style"
+Pylint,segment.py,52,Convention,C0103,"Constant name ""region_counter"" doesn't conform to UPPER_CASE naming style"
+Pylint,segment.py,77,Convention,C0103,"Constant name ""filename"" doesn't conform to UPPER_CASE naming style"
+Pylint,segment.py,101,Convention,C0103,"Constant name ""port_filename"" doesn't conform to UPPER_CASE naming style"
+Pylint,segment.py,120,Warning,W1514,Using open without explicitly specifying an encoding
+Pylint,segment.py,4,Convention,C0411,"standard import ""json"" should be placed before third party import ""cv2"""
+Pylint,segment.py,5,Warning,W0611,Unused numpy imported as np
+Pylint,app.py,3,Error,E0401,Unable to import 'flask'
+Pylint,app.py,30,Warning,W0401,Wildcard import routes
+Pylint,app.py,30,Convention,C0413,"Import ""from routes import *"" should be placed at the top of the module"
+Pylint,app.py,30,Warning,W0614,"Unused import(s) VALID_CREDENTIALS, json, io, zipfile, home, login_required, MockUser, inject_user, login, logout, analyze, about, features, contact, upload_file, download_results, download_all_results, too_large, internal_error, wraps, render_template, request, redirect, url_for, flash, jsonify, send_file, session, secure_filename, process_image and allowed_file from wildcard import of routes"
+Pylint,models.py,2,Convention,C0304,Final newline missing
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,10,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,13,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,27,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,34,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,37,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,55,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,58,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,63,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,66,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,69,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,74,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,77,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,80,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,85,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,86,Convention,C0301,Line too long (109/100)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,87,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,89,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,93,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,95,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,99,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,101,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,103,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,107,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,110,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,112,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,115,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,117,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,121,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,126,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,129,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,131,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,137,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,139,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,141,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,145,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,157,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,159,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,162,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,165,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,168,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,170,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,175,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,178,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,186,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,188,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,192,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,194,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,198,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,202,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,205,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,209,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,213,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,216,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,218,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,222,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,225,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,228,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,242,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,246,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,250,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,254,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,259,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,261,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,265,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,267,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,270,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,273,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,282,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,286,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,287,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,293,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,308,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,310,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,312,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,316,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,320,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,323,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,327,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,332,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,334,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,338,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,341,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,353,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,358,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,368,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,373,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,377,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,381,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,384,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,387,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,392,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,405,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,417,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,422,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,428,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,433,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,445,Convention,C0301,Line too long (115/100)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,451,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,454,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,457,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,475,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,477,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,479,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,481,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,484,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,486,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,491,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,493,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,498,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,502,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,510,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,513,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,516,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,520,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,524,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,526,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,528,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,532,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,536,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,542,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,547,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,552,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,558,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,563,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,568,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,572,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,577,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,587,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,589,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,594,Convention,C0301,Line too long (101/100)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,595,Convention,C0301,Line too long (101/100)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,598,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,606,Convention,C0303,Trailing whitespace
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,610,Convention,C0304,Final newline missing
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,1,Error,E0401,Unable to import 'cv2'
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,2,Error,E0401,Unable to import 'numpy'
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,6,Error,E0401,Unable to import 'matplotlib.pyplot'
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,39,Refactor,R1705,"Unnecessary ""elif"" after ""return"", remove the leading ""el"" from ""elif"""
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,38,Refactor,R0911,Too many return statements (8/6)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,56,Refactor,R0914,Too many local variables (16/15)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,104,Refactor,R0914,Too many local variables (21/15)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,127,Refactor,R0916,Too many boolean expressions in if statement (6/5)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,142,Refactor,R0914,Too many local variables (20/15)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,189,Refactor,R0914,Too many local variables (21/15)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,243,Refactor,R0914,Too many local variables (17/15)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,369,Refactor,R0914,Too many local variables (21/15)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,369,Warning,W0613,Unused argument 'port_roi'
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,452,Refactor,R0914,Too many local variables (17/15)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,508,Warning,W0718,Catching too general exception Exception
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,505,Warning,W1514,Using open without explicitly specifying an encoding
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,529,Refactor,R0914,Too many local variables (17/15)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,560,Warning,W1309,Using an f-string that does not have any interpolated variables
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,565,Warning,W1309,Using an f-string that does not have any interpolated variables
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,569,Warning,W1309,Using an f-string that does not have any interpolated variables
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,588,Warning,W0621,Redefining name 'detector' from outer scope (line 610)
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,3,Convention,C0411,"standard import ""json"" should be placed before third party imports ""cv2"", ""numpy"""
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,4,Convention,C0411,"standard import ""os"" should be placed before third party imports ""cv2"", ""numpy"""
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,5,Convention,C0411,"standard import ""datetime.datetime"" should be placed before third party imports ""cv2"", ""numpy"""
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,7,Convention,C0411,"standard import ""pathlib.Path"" should be placed before third party imports ""cv2"", ""numpy"", ""matplotlib.pyplot"""
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,6,Warning,W0611,Unused matplotlib.pyplot imported as plt
+Pylint,attached_assets/currentport_cableanalysis_1750337982997.py,7,Warning,W0611,Unused Path imported from pathlib
+Pylint,routes.py,46,Convention,C0303,Trailing whitespace
+Pylint,routes.py,50,Convention,C0303,Trailing whitespace
+Pylint,routes.py,58,Convention,C0303,Trailing whitespace
+Pylint,routes.py,86,Convention,C0303,Trailing whitespace
+Pylint,routes.py,91,Convention,C0303,Trailing whitespace
+Pylint,routes.py,93,Convention,C0303,Trailing whitespace
+Pylint,routes.py,97,Convention,C0303,Trailing whitespace
+Pylint,routes.py,106,Convention,C0303,Trailing whitespace
+Pylint,routes.py,109,Convention,C0303,Trailing whitespace
+Pylint,routes.py,113,Convention,C0303,Trailing whitespace
+Pylint,routes.py,115,Convention,C0303,Trailing whitespace
+Pylint,routes.py,116,Convention,C0303,Trailing whitespace
+Pylint,routes.py,121,Convention,C0303,Trailing whitespace
+Pylint,routes.py,148,Convention,C0303,Trailing whitespace
+Pylint,routes.py,152,Convention,C0303,Trailing whitespace
+Pylint,routes.py,155,Convention,C0303,Trailing whitespace
+Pylint,routes.py,159,Convention,C0303,Trailing whitespace
+Pylint,routes.py,163,Convention,C0303,Trailing whitespace
+Pylint,routes.py,169,Convention,C0303,Trailing whitespace
+Pylint,routes.py,171,Convention,C0303,Trailing whitespace
+Pylint,routes.py,178,Convention,C0303,Trailing whitespace
+Pylint,routes.py,7,Error,E0401,Unable to import 'flask'
+Pylint,routes.py,8,Error,E0401,Unable to import 'werkzeug.utils'
+Pylint,routes.py,15,Warning,W0404,Reimport 'zipfile' (imported line 5)
+Pylint,routes.py,16,Warning,W0404,Reimport 'io' (imported line 4)
+Pylint,routes.py,32,Refactor,R0903,Too few public methods (1/2)
+Pylint,routes.py,40,Refactor,R1735,"Consider using '{""current_user"": MockUser()}' instead of a call to 'dict'."
+Pylint,routes.py,51,Refactor,R1705,"Unnecessary ""else"" after ""return"", remove the ""else"" and de-indent the code inside it"
+Pylint,routes.py,122,Warning,W0718,Catching too general exception Exception
+Pylint,routes.py,102,Convention,C0415,Import outside toplevel (time)
+Pylint,routes.py,111,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,routes.py,114,Refactor,R1705,"Unnecessary ""else"" after ""return"", remove the ""else"" and de-indent the code inside it"
+Pylint,routes.py,123,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,routes.py,136,Warning,W0718,Catching too general exception Exception
+Pylint,routes.py,137,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,routes.py,179,Warning,W0718,Catching too general exception Exception
+Pylint,routes.py,161,Warning,W1514,Using open without explicitly specifying an encoding
+Pylint,routes.py,180,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,routes.py,185,Warning,W0613,Unused argument 'e'
+Pylint,routes.py,191,Warning,W1203,Use lazy % formatting in logging functions
+Pylint,routes.py,15,Convention,C0411,"standard import ""zipfile"" should be placed before third party imports ""flask.render_template"", ""werkzeug.utils.secure_filename"" and first party import ""app.app"""
+Pylint,routes.py,16,Convention,C0411,"standard import ""io"" should be placed before third party imports ""flask.render_template"", ""werkzeug.utils.secure_filename"" and first party import ""app.app"""
+Pylint,routes.py,15,Convention,C0412,Imports from package zipfile are not grouped
+Pylint,routes.py,16,Convention,C0412,Imports from package io are not grouped
+Pylint,routes.py,7,Warning,W0611,Unused jsonify imported from flask
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==attached_assets.currentport_cableanalysis_1750337982997:[159:246] ==utils.detailed_switch_analyzer:[158:245]         margin_x = max(5, w // 50)         margin_y = max(5, h // 30)          usable_w = w - 2 * margin_x         usable_h = h - 2 * margin_y          port_w = usable_w / cols         port_h = usable_h / rows          port_regions = []          for row in range(rows):             for col in range(cols):                 x = int(margin_x + col * port_w)                 y = int(margin_y + row * port_h)                  w_port = int(port_w * 0.9)                 h_port = int(port_h * 0.9)                  if w_port > 8 and h_port > 8:                     port_regions.append({                         'bbox': (x, y, w_port, h_port),                         'area': w_port * h_port,                         'score': 1.0,                         'port_number': row * cols + col + 1                     })          return port_regions      def _remove_overlapping_regions(self, candidates):         if not candidates:             return []          candidates.sort(key=lambda x: x['score'], reverse=True)          filtered = []         for candidate in candidates:             x, y, w, h = candidate['bbox']              overlap_found = False             for existing in filtered:                 ex, ey, ew, eh = existing['bbox']                  ix1, iy1 = max(x, ex), max(y, ey)                 ix2, iy2 = min(x + w, ex + ew), min(y + h, ey + eh)                  if ix1 < ix2 and iy1 < iy2:                     intersection = (ix2 - ix1) * (iy2 - iy1)                     area1, area2 = w * h, ew * eh                      if intersection > 0.3 * min(area1, area2):                         overlap_found = True                         break              if not overlap_found:                 filtered.append(candidate)          return filtered      def _thorough_port_analysis(self, image, port_region, port_number):         x, y, w, h = port_region['bbox']         port_roi = image[y:y+h, x:x+w]          if port_roi.size == 0:             return self._create_empty_port_result(port_region, port_number)          cable_result = self._conservative_cable_detection(port_roi)         led_result = self._led_status_detection(port_roi)          return {             'port_number': int(port_number),             'bbox': [int(coord) for coord in port_region['bbox']],             'has_cable': bool(cable_result['has_cable']),             'cable_color': cable_result['color'],             'cable_confidence': float(cable_result['confidence']),             'led_status': led_result['status'],             'led_confidence': float(led_result['confidence']),             'detection_details': {                 'cable_analysis': cable_result['details'],                 'led_analysis': led_result['details']             }         }      def _conservative_cable_detection(self, port_roi):         if port_roi.size == 0:             return {'has_cable': False, 'color': None, 'confidence': 0.0, 'details': {}}"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==attached_assets.currentport_cableanalysis_1750337982997:[246:300] ==utils.detailed_switch_analyzer:[246:300]         hsv_roi = cv2.cvtColor(port_roi, cv2.COLOR_BGR2HSV)         gray_roi = cv2.cvtColor(port_roi, cv2.COLOR_BGR2GRAY)         total_pixels = port_roi.shape[0] * port_roi.shape[1]          color_scores = {}         best_color = None         max_color_score = 0.0          for color_name, color_range in self.cable_colors.items():             mask = cv2.inRange(hsv_roi, color_range['lower'], color_range['upper'])             color_pixels = cv2.countNonZero(mask)             score = color_pixels / total_pixels if total_pixels > 0 else 0              color_scores[color_name] = round(float(score), 4)              if score > max_color_score:                 max_color_score = score                 best_color = color_name          features = self._detailed_feature_analysis(port_roi, gray_roi, hsv_roi)          has_cable = False         confidence = 0.0          if max_color_score > self.min_color_coverage:             supporting_evidence = 0              if features['edge_density'] > 0.03:                 supporting_evidence += 1             if features['saturation_mean'] > 50:                 supporting_evidence += 1             if features['brightness_std'] > 20:                 supporting_evidence += 1             if 40 < features['brightness_mean'] < 180:                 supporting_evidence += 1              if supporting_evidence >= 2:                 has_cable = True                 confidence = max_color_score * 0.7 + (supporting_evidence / 4) * 0.3          elif (features['edge_density'] > 0.08 and               features['saturation_mean'] > 80 and               features['brightness_std'] > 40):             has_cable = True             confidence = 0.4             best_color = self._find_secondary_color(color_scores)          return {             'has_cable': has_cable,             'color': best_color if has_cable and max_color_score > 0.05 else None,             'confidence': round(confidence, 3),             'details': {                 'color_scores': color_scores,                 'max_color_score': round(max_color_score, 4),"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==attached_assets.currentport_cableanalysis_1750337982997:[101:157] ==utils.detailed_switch_analyzer:[100:156]         return port_regions      def _edge_based_port_detection(self, image):         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)         h, w = gray.shape          edges1 = cv2.Canny(gray, 30, 100)         edges2 = cv2.Canny(gray, 50, 150)          edges = cv2.bitwise_or(edges1, edges2)          kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))         edges = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel)          contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)          port_candidates = []         min_area = 200         max_area = (w * h) // 20          for contour in contours:             x, y, w_rect, h_rect = cv2.boundingRect(contour)             area = w_rect * h_rect             aspect_ratio = w_rect / h_rect if h_rect > 0 else 0              if (min_area < area < max_area and                 0.3 < aspect_ratio < 4.0 and                 x > 2 and y > 2 and                 x + w_rect < w - 2 and y + h_rect < h - 2):                  port_candidates.append({                     'bbox': (x, y, w_rect, h_rect),                     'area': area,                     'score': area / 1000.0                 })          filtered_ports = self._remove_overlapping_regions(port_candidates)          return filtered_ports[:50]      def _comprehensive_grid_detection(self, image):         h, w = image.shape[:2]         aspect_ratio = w / h          if aspect_ratio > 7:             rows, cols = 2, 24         elif aspect_ratio > 5:             if h > 80:                 rows, cols = 2, 24             else:                 rows, cols = 1, 24         elif aspect_ratio > 3:             rows, cols = 1, 24         else:             rows, cols = 1, 12"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==attached_assets.currentport_cableanalysis_1750337982997:[320:369] ==utils.detailed_switch_analyzer:[320:367]         hsv_roi = cv2.cvtColor(port_roi, cv2.COLOR_BGR2HSV)         total_pixels = port_roi.shape[0] * port_roi.shape[1]          led_detections = {}         max_led_coverage = 0.0         dominant_led = None          for led_color, color_range in self.led_colors.items():             mask = cv2.inRange(hsv_roi, color_range['lower'], color_range['upper'])             led_pixels = cv2.countNonZero(mask)             coverage = led_pixels / total_pixels if total_pixels > 0 else 0              led_detections[led_color] = round(float(coverage), 4)              if coverage > max_led_coverage:                 max_led_coverage = coverage                 dominant_led = led_color          status = 'inactive'         confidence = 0.0          if max_led_coverage > 0.02:             if dominant_led == 'green':                 status = 'active'             elif dominant_led == 'orange':                 status = 'link'             elif dominant_led == 'red':                 status = 'error'             elif dominant_led == 'blue':                 status = 'activity'             else:                 status = 'unknown'              confidence = min(max_led_coverage * 20, 1.0)         else:             status = 'inactive'             confidence = 0.8          return {             'status': status,             'confidence': round(confidence, 3),             'details': {                 'led_detections': led_detections,                 'max_coverage': round(max_led_coverage, 4),                 'dominant_led': dominant_led             }         }      def _detailed_feature_analysis(self, port_roi, gray_roi, hsv_roi):"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==attached_assets.currentport_cableanalysis_1750337982997:[11:56] ==utils.detailed_switch_analyzer:[10:55]         self.debug_mode = debug_mode          self.cable_colors = {             'yellow': {'lower': np.array([20, 100, 100]), 'upper': np.array([30, 255, 255])},             'blue': {'lower': np.array([100, 80, 80]), 'upper': np.array([130, 255, 255])},             'teal': {'lower': np.array([80, 80, 80]), 'upper': np.array([95, 255, 255])},             'cyan': {'lower': np.array([85, 80, 80]), 'upper': np.array([105, 255, 255])},             'purple': {'lower': np.array([130, 80, 80]), 'upper': np.array([160, 255, 255])},             'green': {'lower': np.array([40, 80, 80]), 'upper': np.array([75, 255, 255])},             'red': {'lower': np.array([0, 100, 100]), 'upper': np.array([10, 255, 255])},             'orange': {'lower': np.array([10, 100, 100]), 'upper': np.array([20, 255, 255])},             'black': {'lower': np.array([0, 0, 0]), 'upper': np.array([180, 255, 50])},             'white': {'lower': np.array([0, 0, 200]), 'upper': np.array([180, 30, 255])},             'gray': {'lower': np.array([0, 0, 50]), 'upper': np.array([180, 30, 150])},         }          self.led_colors = {             'green': {'lower': np.array([40, 100, 100]), 'upper': np.array([80, 255, 255])},             'orange': {'lower': np.array([10, 100, 100]), 'upper': np.array([25, 255, 255])},             'red': {'lower': np.array([0, 100, 100]), 'upper': np.array([10, 255, 255])},             'blue': {'lower': np.array([100, 100, 100]), 'upper': np.array([130, 255, 255])}         }          self.min_color_coverage = 0.15         self.min_combined_score = 0.6      def _convert_to_json_serializable(self, obj):         if isinstance(obj, dict):             return {key: self._convert_to_json_serializable(value) for key, value in obj.items()}         elif isinstance(obj, list):             return [self._convert_to_json_serializable(item) for item in obj]         elif isinstance(obj, tuple):             return [self._convert_to_json_serializable(item) for item in obj]         elif isinstance(obj, np.integer):             return int(obj)         elif isinstance(obj, np.floating):             return float(obj)         elif isinstance(obj, np.bool_):             return bool(obj)         elif isinstance(obj, np.ndarray):             return obj.tolist()         else:             return obj      def analyze_switch_image(self, image_path, switch_name=""Unknown""):"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==attached_assets.currentport_cableanalysis_1750337982997:[403:438] ==utils.detailed_switch_analyzer:[395:430]             }      def _create_empty_port_result(self, port_region, port_number):         return {             'port_number': int(port_number),             'bbox': [int(x) for x in port_region['bbox']],             'has_cable': False,             'cable_color': None,             'cable_confidence': 0.0,             'led_status': 'inactive',             'led_confidence': 0.0,             'detection_details': {'error': 'Empty or invalid port region'}         }      def _generate_comprehensive_results(self, image, port_analyses, switch_name):         total_ports = len(port_analyses)         connected_ports = sum(1 for p in port_analyses if p['has_cable'])         empty_ports = total_ports - connected_ports          cable_distribution = {}         for port in port_analyses:             if port['has_cable'] and port['cable_color']:                 color = port['cable_color']                 cable_distribution[color] = cable_distribution.get(color, 0) + 1          led_distribution = {}         for port in port_analyses:             status = port.get('led_status', 'inactive')             led_distribution[status] = led_distribution.get(status, 0) + 1          return {             'switch_info': {                 'name': switch_name,                 'image_dimensions': [int(x) for x in image.shape],                 'analysis_timestamp': datetime.now().isoformat(),"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==comparision:[86:154] ==utils.embedding_comparison:[15:53]     coords = {}     # Try exact path first     if cropped_img_path in coordinates_data:         coords = coordinates_data[cropped_img_path]     else:         # Try without leading slash         path_without_slash = cropped_img_path.lstrip('/')         if path_without_slash in coordinates_data:             coords = coordinates_data[path_without_slash]         else:             # Try with leading slash             path_with_slash = '/' + cropped_img_path.lstrip('/')             if path_with_slash in coordinates_data:                 coords = coordinates_data[path_with_slash]             else:                 # Try filename matching as last resort                 filename = os.path.basename(cropped_img_path)                 for key in coordinates_data.keys():                     if os.path.basename(key) == filename:                         coords = coordinates_data[key]                         break     return coords  def clean_cropped_path(cropped_img_path):     if 'segmented_outputs' in cropped_img_path:         parts = cropped_img_path.split('segmented_outputs')         if len(parts) > 1:             cropped_img_path = '/static/segmented_outputs' + parts[1].replace('\\', '/')         else:             cropped_img_path = cropped_img_path.replace('\\', '/')             if ':' in cropped_img_path:                 cropped_img_path = '/' + '/'.join(cropped_img_path.split('/')[-3:])     return cropped_img_path  def compare_with_catalog(segmented_outputs_dir):     """"""     Compare segmented images with catalog embeddings and return results for card display     """""""
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==comparision:[194:250] ==utils.embedding_comparison:[136:169]             if category in catalog_data and category in metadata:                 crop_embeds = cropped_data[category][""image_embeddings""]                 crop_paths = cropped_data[category][""image_paths""]                 cat_embeds = catalog_data[category][""image_embeddings""]                  # Find the index of this specific image                 img_index = None                 for i, path in enumerate(crop_paths):                     if clean_cropped_path(path) == cropped_img_path:                         img_index = i                         break                  if img_index is not None and len(cat_embeds) > 0:                     # Get embedding for this specific image                     crop_embed = l2_normalize(np.array([crop_embeds[img_index]]))                     cat_embeds_norm = l2_normalize(np.array(cat_embeds))                      # Find best match using FAISS                     dim = cat_embeds_norm.shape[1]                     index = faiss.IndexFlatIP(dim)                     index.add(cat_embeds_norm)                     distances, indices = index.search(crop_embed, 1)                      if len(indices[0]) > 0:                         best_idx = indices[0][0]                         best_score = float(distances[0][0])                         meta_row = metadata[category].iloc[best_idx]                          # Clean catalog image path                         matched_img = meta_row['Image']                         if isinstance(matched_img, str) and 'static' in matched_img:                             matched_img = '/' + matched_img.split('static', 1)[1].replace('\\', '/')"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==attached_assets.currentport_cableanalysis_1750337982997:[439:452] ==utils.detailed_switch_analyzer:[431:442]             },             'summary': {                 'total_ports': int(total_ports),                 'connected_ports': int(connected_ports),                 'empty_ports': int(empty_ports),                 'utilization_rate': round(float(connected_ports / total_ports * 100) if total_ports > 0 else 0, 1),                 'cable_distribution': cable_distribution,                 'led_distribution': led_distribution             },             'ports': port_analyses         }"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==segment:[101:113] ==utils.segmentation:[140:153]             port_path = os.path.join(OUTPUT_DIR, ""Port"", port_filename)             crop_and_save(port_crop, port_path)              rel_port_path = port_path.replace(""\\"", ""/"")             coordinates_data[rel_port_path] = {                 ""x1"": x1 + px1, ""y1"": y1 + py1,                 ""x2"": x1 + px2, ""y2"": y1 + py2,                 ""width"": px2 - px1, ""height"": py2 - py1,                 ""confidence"": float(port_conf),                 ""class_name"": ""Port"",                 ""parent_region"": f""{class_name}_{region_counter}""             }"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==utils.mock_segmentation:[92:104] ==utils.segmentation:[167:179]         os.makedirs(os.path.dirname(COORDINATES_FILE), exist_ok=True)         with open(COORDINATES_FILE, 'w') as f:             json.dump(coordinates_data, f, indent=2)          # Group images by class         grouped_images = {}         for img_data in segmented_images:             class_name = img_data['class']             if class_name not in grouped_images:                 grouped_images[class_name] = []             grouped_images[class_name].append(img_data)"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==comparision:[160:178] ==utils.embedding_comparison:[94:105]         for category in sorted(all_categories):             crop_paths = cropped_data[category][""image_paths""]             for path in crop_paths:                 cleaned_path = clean_cropped_path(path)                 all_cropped_images.append({                     'path': cleaned_path,                     'category': category,                     'original_path': path                 })          # Process each cropped image"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==segment:[90:100] ==utils.segmentation:[129:139]                 port_results = port_model(crop, conf=CONF_THRESHOLD, verbose=False)[0]                  for port_idx, (port_box, port_conf) in enumerate(zip(port_results.boxes.xyxy, port_results.boxes.conf)):                     px1, py1, px2, py2 = map(int, port_box)                     px1 = max(0, px1 - MARGIN)                     py1 = max(0, py1 - MARGIN)                     px2 = min(crop.shape[1], px2 + MARGIN)                     py2 = min(crop.shape[0], py2 + MARGIN)                     port_crop = crop[py1:py2, px1:px2]"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==segment:[77:88] ==utils.segmentation:[108:118]             out_path = os.path.join(OUTPUT_DIR, save_class, filename)             crop_and_save(crop, out_path)              rel_path = out_path.replace(""\\"", ""/"")             coordinates_data[rel_path] = {                 ""x1"": x1, ""y1"": y1, ""x2"": x2, ""y2"": y2,                 ""width"": x2 - x1, ""height"": y2 - y1,                 ""confidence"": float(conf), ""class_name"": class_name             }"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==attached_assets.currentport_cableanalysis_1750337982997:[309:320] ==utils.detailed_switch_analyzer:[308:319]         cable_colors = {k: v for k, v in color_scores.items()                        if k not in ['black', 'gray', 'white'] and v > 0.02}          if cable_colors:             return max(cable_colors.items(), key=lambda x: x[1])[0]         return None      def _led_status_detection(self, port_roi):         if port_roi.size == 0:             return {'status': 'inactive', 'confidence': 0.0, 'details': {}}"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==segment:[68:76] ==utils.segmentation:[99:107]     x1, y1, x2, y2 = map(int, box)     x1 = max(0, x1 - MARGIN)     y1 = max(0, y1 - MARGIN)     x2 = min(img.shape[1], x2 + MARGIN)     y2 = min(img.shape[0], y2 + MARGIN)     crop = img[y1:y2, x1:x2]      save_class = TARGET_CLASS_MAP[class_name]"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==segment:[55:64] ==utils.segmentation:[86:95]     h, w = region.shape[:2]     if h < MIN_DIM or w < MIN_DIM:         region = cv2.resize(region, (max(w, MIN_DIM), max(h, MIN_DIM)), interpolation=cv2.INTER_CUBIC)     cv2.imwrite(path, region, [int(cv2.IMWRITE_JPEG_QUALITY), 100])  # --- Loop Through Detections --- for box, cls_id, conf in zip(general_results.boxes.xyxy, general_results.boxes.cls, general_results.boxes.conf):     class_name = general_class_names.get(int(cls_id), f""Unknown_{int(cls_id)}"")     if class_name not in TARGET_CLASS_MAP:"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==segment:[27:36] ==utils.segmentation:[49:59] TARGET_CLASS_MAP = {     'Cable': 'Cable',     'Port': 'Port',     'Rack': 'Rack',     'Switch': 'Switch',     'fuse': 'Rack' }  # --- Prepare Output Folders ---"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==segment:[8:17] ==utils.segmentation:[22:31] GENERAL_MODEL_PATH = ""best.pt""         # For Cable, Switch, Rack, Fuse PORTS_MODEL_PATH = ""port_best.pt""      # For Port detection OUTPUT_DIR = ""static/segmented_outputs"" CONF_THRESHOLD = 0.2 COORDINATES_FILE = ""static/segmented_outputs/coordinates.json"" MARGIN = 10           # Extra padding in pixels MIN_DIM = 128         # Minimum dimension for clarity  # --- Input Validation ---"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==attached_assets.currentport_cableanalysis_1750337982997:[69:77] ==utils.detailed_switch_analyzer:[69:77]         port_analyses = []         for i, region in enumerate(port_regions):             port_analysis = self._thorough_port_analysis(image, region, i + 1)             port_analyses.append(port_analysis)          results = self._generate_comprehensive_results(image, port_analyses, switch_name)         results = self._convert_to_json_serializable(results)"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==comparision:[50:64] ==utils.embedding_comparison:[79:88]         metadata = pd.read_pickle(metadata_path)          # Load coordinates data         coordinates_data = {}         coordinates_file = ""static/segmented_outputs/coordinates.json""         if os.path.exists(coordinates_file):             with open(coordinates_file, 'r') as f:                 coordinates_data = json.load(f)"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==segment:[113:122] ==utils.segmentation:[162:172]                 region_counter += 1              object_counter += 1          # Save coordinates         os.makedirs(os.path.dirname(COORDINATES_FILE), exist_ok=True)         with open(COORDINATES_FILE, 'w') as f:             json.dump(coordinates_data, f, indent=2)          # Group images by class for better organization"
+Pylint,routes.py,1,Refactor,R0801,"Similar lines in 2 files ==segment:[46:55] ==utils.segmentation:[77:83] general_results = general_model(img, conf=CONF_THRESHOLD, verbose=False)[0] general_class_names = general_model.names  coordinates_data = {} object_counter = 0 region_counter = 0  # --- Crop Utility --- def crop_and_save(region, path):"
+Pylint,routes.py,1,Refactor,R0401,Cyclic import (app -> routes)
+Flake8,./app.py,13,E501,E501,line too long (88 > 79 characters)
+Flake8,./app.py,30,F403,F403,'from routes import *' used; unable to detect undefined names
+Flake8,./app.py,30,F401,F401,'routes.*' imported but unused
+Flake8,./app.py,30,E402,E402,module level import not at top of file
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,6,F401,F401,'matplotlib.pyplot as plt' imported but unused
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,7,F401,F401,'pathlib.Path' imported but unused
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,9,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,10,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,13,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,15,E501,E501,line too long (93 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,16,E501,E501,line too long (91 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,17,E501,E501,line too long (89 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,18,E501,E501,line too long (90 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,19,E501,E501,line too long (93 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,20,E501,E501,line too long (90 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,21,E501,E501,line too long (89 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,22,E501,E501,line too long (93 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,23,E501,E501,line too long (87 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,24,E501,E501,line too long (89 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,25,E501,E501,line too long (87 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,27,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,29,E501,E501,line too long (92 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,30,E501,E501,line too long (93 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,31,E501,E501,line too long (89 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,32,E501,E501,line too long (92 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,34,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,37,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,40,E501,E501,line too long (97 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,55,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,58,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,63,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,66,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,69,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,74,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,75,E501,E501,line too long (89 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,77,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,79,E501,E501,line too long (82 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,80,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,85,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,86,E501,E501,line too long (109 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,87,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,89,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,93,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,95,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,99,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,101,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,103,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,107,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,110,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,112,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,115,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,116,E501,E501,line too long (89 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,117,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,121,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,126,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,129,W291,W291,trailing whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,130,E129,E129,visually indented line with same indent as next logical line
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,131,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,137,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,139,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,141,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,145,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,157,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,159,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,162,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,165,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,168,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,170,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,175,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,178,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,186,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,188,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,192,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,194,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,198,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,202,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,205,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,209,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,213,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,216,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,218,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,222,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,225,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,228,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,242,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,245,E501,E501,line too long (88 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,246,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,250,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,254,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,256,E501,E501,line too long (83 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,259,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,261,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,265,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,267,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,270,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,273,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,282,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,285,E501,E501,line too long (84 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,286,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,287,W291,W291,trailing whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,293,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,296,E501,E501,line too long (82 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,303,E501,E501,line too long (85 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,308,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,310,W291,W291,trailing whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,311,E128,E128,continuation line under-indented for visual indent
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,312,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,316,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,320,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,323,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,327,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,329,E501,E501,line too long (83 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,332,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,334,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,338,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,341,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,353,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,358,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,368,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,373,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,377,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,381,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,383,E501,E501,line too long (85 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,384,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,387,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,392,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,405,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,417,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,418,E501,E501,line too long (81 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,422,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,427,E501,E501,line too long (80 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,428,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,433,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,445,E501,E501,line too long (115 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,451,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,452,E501,E501,line too long (80 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,454,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,457,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,475,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,477,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,479,W291,W291,trailing whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,480,E128,E128,continuation line under-indented for visual indent
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,480,E501,E501,line too long (97 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,481,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,483,E501,E501,line too long (91 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,484,W291,W291,trailing whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,485,E128,E128,continuation line under-indented for visual indent
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,485,E501,E501,line too long (88 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,486,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,489,E128,E128,continuation line under-indented for visual indent
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,489,E501,E501,line too long (88 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,491,W291,W291,trailing whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,492,E128,E128,continuation line under-indented for visual indent
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,492,E501,E501,line too long (87 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,493,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,494,E501,E501,line too long (80 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,497,E128,E128,continuation line under-indented for visual indent
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,497,E501,E501,line too long (100 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,498,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,502,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,510,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,513,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,516,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,520,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,523,E501,E501,line too long (81 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,524,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,526,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,528,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,532,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,536,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,539,E501,E501,line too long (83 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,541,E501,E501,line too long (93 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,542,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,545,E501,E501,line too long (80 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,547,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,552,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,558,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,560,F541,F541,f-string is missing placeholders
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,561,E501,E501,line too long (97 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,563,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,565,F541,F541,f-string is missing placeholders
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,566,E501,E501,line too long (96 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,568,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,569,F541,F541,f-string is missing placeholders
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,572,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,576,E501,E501,line too long (80 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,577,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,584,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,587,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,589,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,591,E501,E501,line too long (100 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,592,E501,E501,line too long (100 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,592,W291,W291,trailing whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,593,E501,E501,line too long (100 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,594,E501,E501,line too long (101 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,595,E501,E501,line too long (101 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,596,E501,E501,line too long (100 > 79 characters)
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,598,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,606,W293,W293,blank line contains whitespace
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,609,E305,E305,"expected 2 blank lines after class or function definition, found 1"
+Flake8,./attached_assets/currentport_cableanalysis_1750337982997.py,610,W292,W292,no newline at end of file
+Flake8,./cable_port.py,17,F541,F541,f-string is missing placeholders
+Flake8,./comparision.py,14,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,21,E501,E501,line too long (120 > 79 characters)
+Flake8,./comparision.py,26,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,36,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,37,E261,E261,at least two spaces before inline comment
+Flake8,./comparision.py,38,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,42,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,46,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,50,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,52,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,70,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,71,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,77,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,78,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,82,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,85,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./comparision.py,130,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,133,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./comparision.py,141,E501,E501,line too long (88 > 79 characters)
+Flake8,./comparision.py,149,E501,E501,line too long (83 > 79 characters)
+Flake8,./comparision.py,152,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,155,E305,E305,"expected 2 blank lines after class or function definition, found 1"
+Flake8,./comparision.py,160,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,178,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,180,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,249,E501,E501,line too long (92 > 79 characters)
+Flake8,./comparision.py,269,E501,E501,line too long (132 > 79 characters)
+Flake8,./comparision.py,283,E501,E501,line too long (105 > 79 characters)
+Flake8,./comparision.py,293,E501,E501,line too long (88 > 79 characters)
+Flake8,./comparision.py,307,E501,E501,line too long (101 > 79 characters)
+Flake8,./comparision.py,317,E501,E501,line too long (93 > 79 characters)
+Flake8,./comparision.py,331,E501,E501,line too long (109 > 79 characters)
+Flake8,./comparision.py,341,E501,E501,line too long (93 > 79 characters)
+Flake8,./comparision.py,347,E501,E501,line too long (107 > 79 characters)
+Flake8,./comparision.py,353,E501,E501,line too long (127 > 79 characters)
+Flake8,./comparision.py,362,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,366,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,367,E501,E501,line too long (82 > 79 characters)
+Flake8,./comparision.py,372,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,373,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,378,E501,E501,line too long (152 > 79 characters)
+Flake8,./comparision.py,379,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,380,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,384,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,388,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,396,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,398,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,399,F541,F541,f-string is missing placeholders
+Flake8,./comparision.py,405,W293,W293,blank line contains whitespace
+Flake8,./comparision.py,405,W292,W292,no newline at end of file
+Flake8,./convert_excel_to_csv.py,5,F401,F401,'csv' imported but unused
+Flake8,./convert_excel_to_csv.py,6,F401,F401,'sys' imported but unused
+Flake8,./convert_excel_to_csv.py,8,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./convert_excel_to_csv.py,12,W293,W293,blank line contains whitespace
+Flake8,./convert_excel_to_csv.py,15,W293,W293,blank line contains whitespace
+Flake8,./convert_excel_to_csv.py,22,W293,W293,blank line contains whitespace
+Flake8,./convert_excel_to_csv.py,27,W293,W293,blank line contains whitespace
+Flake8,./convert_excel_to_csv.py,32,W293,W293,blank line contains whitespace
+Flake8,./convert_excel_to_csv.py,39,W293,W293,blank line contains whitespace
+Flake8,./convert_excel_to_csv.py,42,W293,W293,blank line contains whitespace
+Flake8,./convert_excel_to_csv.py,47,E305,E305,"expected 2 blank lines after class or function definition, found 1"
+Flake8,./convert_excel_to_csv.py,48,W292,W292,no newline at end of file
+Flake8,./create_sample_cables.py,7,W291,W291,trailing whitespace
+Flake8,./create_sample_cables.py,18,W291,W291,trailing whitespace
+Flake8,./create_sample_cables.py,42,W292,W292,no newline at end of file
+Flake8,./cropped_embeddings.py,19,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./cropped_embeddings.py,21,E501,E501,line too long (87 > 79 characters)
+Flake8,./cropped_embeddings.py,30,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./cropped_embeddings.py,37,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./cropped_embeddings.py,49,W293,W293,blank line contains whitespace
+Flake8,./cropped_embeddings.py,74,E305,E305,"expected 2 blank lines after class or function definition, found 1"
+Flake8,./cropped_embeddings.py,76,W293,W293,blank line contains whitespace
+Flake8,./cropped_embeddings.py,84,W293,W293,blank line contains whitespace
+Flake8,./cropped_embeddings.py,87,W293,W293,blank line contains whitespace
+Flake8,./cropped_embeddings.py,99,W292,W292,no newline at end of file
+Flake8,./main.py,7,W391,W391,blank line at end of file
+Flake8,./models.py,2,W292,W292,no newline at end of file
+Flake8,./routes.py,7,F401,F401,'flask.jsonify' imported but unused
+Flake8,./routes.py,7,E501,E501,line too long (97 > 79 characters)
+Flake8,./routes.py,15,F811,F811,redefinition of unused 'zipfile' from line 5
+Flake8,./routes.py,16,F811,F811,redefinition of unused 'io' from line 4
+Flake8,./routes.py,18,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,23,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,32,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,38,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,42,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,46,W293,W293,blank line contains whitespace
+Flake8,./routes.py,50,W293,W293,blank line contains whitespace
+Flake8,./routes.py,51,E501,E501,line too long (85 > 79 characters)
+Flake8,./routes.py,55,E501,E501,line too long (85 > 79 characters)
+Flake8,./routes.py,58,W293,W293,blank line contains whitespace
+Flake8,./routes.py,61,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,68,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,73,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,77,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,81,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,85,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,86,W291,W291,trailing whitespace
+Flake8,./routes.py,91,W293,W293,blank line contains whitespace
+Flake8,./routes.py,93,W293,W293,blank line contains whitespace
+Flake8,./routes.py,97,W293,W293,blank line contains whitespace
+Flake8,./routes.py,106,W293,W293,blank line contains whitespace
+Flake8,./routes.py,107,E501,E501,line too long (81 > 79 characters)
+Flake8,./routes.py,109,W293,W293,blank line contains whitespace
+Flake8,./routes.py,113,W293,W293,blank line contains whitespace
+Flake8,./routes.py,115,W291,W291,trailing whitespace
+Flake8,./routes.py,116,E128,E128,continuation line under-indented for visual indent
+Flake8,./routes.py,116,W291,W291,trailing whitespace
+Flake8,./routes.py,117,E128,E128,continuation line under-indented for visual indent
+Flake8,./routes.py,121,W293,W293,blank line contains whitespace
+Flake8,./routes.py,127,E501,E501,line too long (89 > 79 characters)
+Flake8,./routes.py,130,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,141,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,147,E501,E501,line too long (92 > 79 characters)
+Flake8,./routes.py,148,W293,W293,blank line contains whitespace
+Flake8,./routes.py,152,W293,W293,blank line contains whitespace
+Flake8,./routes.py,155,W293,W293,blank line contains whitespace
+Flake8,./routes.py,159,W293,W293,blank line contains whitespace
+Flake8,./routes.py,163,W293,W293,blank line contains whitespace
+Flake8,./routes.py,167,E501,E501,line too long (91 > 79 characters)
+Flake8,./routes.py,169,W293,W293,blank line contains whitespace
+Flake8,./routes.py,171,W293,W293,blank line contains whitespace
+Flake8,./routes.py,178,W293,W293,blank line contains whitespace
+Flake8,./routes.py,184,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./routes.py,189,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./segment.py,5,F401,F401,'numpy as np' imported but unused
+Flake8,./segment.py,55,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./segment.py,58,E501,E501,line too long (102 > 79 characters)
+Flake8,./segment.py,62,E305,E305,"expected 2 blank lines after class or function definition, found 1"
+Flake8,./segment.py,62,E501,E501,line too long (112 > 79 characters)
+Flake8,./segment.py,77,E501,E501,line too long (103 > 79 characters)
+Flake8,./segment.py,93,E501,E501,line too long (112 > 79 characters)
+Flake8,./segment.py,101,E501,E501,line too long (119 > 79 characters)
+Flake8,./segment.py,125,W292,W292,no newline at end of file
+Flake8,./utils/cable_port_lookup.py,7,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/cable_port_lookup.py,9,E501,E501,line too long (98 > 79 characters)
+Flake8,./utils/cable_port_lookup.py,13,E501,E501,line too long (116 > 79 characters)
+Flake8,./utils/cable_port_lookup.py,19,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/cable_port_lookup.py,25,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/cable_port_lookup.py,32,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,36,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,38,E501,E501,line too long (88 > 79 characters)
+Flake8,./utils/cable_port_lookup.py,40,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,44,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,45,E501,E501,line too long (93 > 79 characters)
+Flake8,./utils/cable_port_lookup.py,48,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/cable_port_lookup.py,51,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,54,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,59,E501,E501,line too long (88 > 79 characters)
+Flake8,./utils/cable_port_lookup.py,62,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,65,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,77,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,79,F541,F541,f-string is missing placeholders
+Flake8,./utils/cable_port_lookup.py,81,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,84,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,90,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,97,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,99,E501,E501,line too long (92 > 79 characters)
+Flake8,./utils/cable_port_lookup.py,102,E501,E501,line too long (80 > 79 characters)
+Flake8,./utils/cable_port_lookup.py,104,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,118,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,122,E501,E501,line too long (82 > 79 characters)
+Flake8,./utils/cable_port_lookup.py,123,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,134,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,137,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,142,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/cable_port_lookup.py,145,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,148,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,154,W293,W293,blank line contains whitespace
+Flake8,./utils/cable_port_lookup.py,177,W292,W292,no newline at end of file
+Flake8,./utils/detailed_switch_analyzer.py,3,F401,F401,'json' imported but unused
+Flake8,./utils/detailed_switch_analyzer.py,4,F401,F401,'os' imported but unused
+Flake8,./utils/detailed_switch_analyzer.py,8,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/detailed_switch_analyzer.py,9,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,12,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,14,E501,E501,line too long (93 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,15,E501,E501,line too long (91 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,16,E501,E501,line too long (89 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,17,E501,E501,line too long (90 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,18,E501,E501,line too long (93 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,19,E501,E501,line too long (90 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,20,E501,E501,line too long (89 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,21,E501,E501,line too long (93 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,22,E501,E501,line too long (87 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,23,E501,E501,line too long (89 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,24,E501,E501,line too long (87 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,26,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,28,E501,E501,line too long (92 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,29,E501,E501,line too long (93 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,30,E501,E501,line too long (89 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,31,E501,E501,line too long (92 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,33,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,36,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,39,E501,E501,line too long (97 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,54,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,57,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,63,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,66,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,69,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,72,E501,E501,line too long (82 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,74,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,75,E501,E501,line too long (93 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,77,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,82,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,83,E501,E501,line too long (120 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,84,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,86,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,90,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,93,F841,F841,local variable 'aspect_ratio' is assigned to but never used
+Flake8,./utils/detailed_switch_analyzer.py,94,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,96,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,100,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,102,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,106,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,109,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,111,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,114,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,115,E501,E501,line too long (89 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,116,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,120,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,125,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,128,W291,W291,trailing whitespace
+Flake8,./utils/detailed_switch_analyzer.py,129,E129,E129,visually indented line with same indent as next logical line
+Flake8,./utils/detailed_switch_analyzer.py,130,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,136,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,138,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,140,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,144,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,156,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,158,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,161,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,164,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,167,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,169,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,174,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,177,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,185,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,187,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,191,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,193,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,197,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,201,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,204,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,208,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,212,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,215,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,217,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,221,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,224,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,227,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,241,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,244,E501,E501,line too long (88 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,245,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,250,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,254,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,256,E501,E501,line too long (87 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,259,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,261,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,265,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,266,E501,E501,line too long (83 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,267,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,270,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,273,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,282,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,285,E501,E501,line too long (88 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,286,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,287,W291,W291,trailing whitespace
+Flake8,./utils/detailed_switch_analyzer.py,293,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,296,E501,E501,line too long (86 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,306,E501,E501,line too long (103 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,307,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,309,W291,W291,trailing whitespace
+Flake8,./utils/detailed_switch_analyzer.py,310,E128,E128,continuation line under-indented for visual indent
+Flake8,./utils/detailed_switch_analyzer.py,311,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,315,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,319,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,323,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,327,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,329,E501,E501,line too long (87 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,332,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,334,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,338,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,341,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,353,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,358,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,370,E501,E501,line too long (90 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,371,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,376,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,379,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,381,E501,E501,line too long (89 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,382,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,397,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,409,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,410,E501,E501,line too long (81 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,414,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,419,E501,E501,line too long (80 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,420,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,425,W293,W293,blank line contains whitespace
+Flake8,./utils/detailed_switch_analyzer.py,437,E501,E501,line too long (115 > 79 characters)
+Flake8,./utils/detailed_switch_analyzer.py,442,W292,W292,no newline at end of file
+Flake8,./utils/embedding_comparison.py,9,F401,F401,'utils.switch_analyzer.format_cable_distribution' imported but unused
+Flake8,./utils/embedding_comparison.py,9,F401,F401,'utils.switch_analyzer.format_led_status' imported but unused
+Flake8,./utils/embedding_comparison.py,9,E501,E501,line too long (100 > 79 characters)
+Flake8,./utils/embedding_comparison.py,12,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/embedding_comparison.py,15,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/embedding_comparison.py,39,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/embedding_comparison.py,43,E501,E501,line too long (88 > 79 characters)
+Flake8,./utils/embedding_comparison.py,47,E501,E501,line too long (83 > 79 characters)
+Flake8,./utils/embedding_comparison.py,50,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/embedding_comparison.py,52,E501,E501,line too long (88 > 79 characters)
+Flake8,./utils/embedding_comparison.py,57,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,60,E501,E501,line too long (81 > 79 characters)
+Flake8,./utils/embedding_comparison.py,62,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,66,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,70,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,74,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,79,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,81,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,88,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,90,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,94,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,104,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,109,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,111,E501,E501,line too long (82 > 79 characters)
+Flake8,./utils/embedding_comparison.py,112,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,122,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,131,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,135,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,141,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,148,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,151,E501,E501,line too long (81 > 79 characters)
+Flake8,./utils/embedding_comparison.py,153,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,159,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,164,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,167,E501,E501,line too long (84 > 79 characters)
+Flake8,./utils/embedding_comparison.py,168,E501,E501,line too long (100 > 79 characters)
+Flake8,./utils/embedding_comparison.py,169,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,176,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,180,E501,E501,line too long (85 > 79 characters)
+Flake8,./utils/embedding_comparison.py,182,E501,E501,line too long (81 > 79 characters)
+Flake8,./utils/embedding_comparison.py,183,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,184,E501,E501,line too long (84 > 79 characters)
+Flake8,./utils/embedding_comparison.py,185,E501,E501,line too long (84 > 79 characters)
+Flake8,./utils/embedding_comparison.py,187,E501,E501,line too long (87 > 79 characters)
+Flake8,./utils/embedding_comparison.py,188,E501,E501,line too long (86 > 79 characters)
+Flake8,./utils/embedding_comparison.py,191,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,193,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,194,E501,E501,line too long (81 > 79 characters)
+Flake8,./utils/embedding_comparison.py,196,W293,W293,blank line contains whitespace
+Flake8,./utils/embedding_comparison.py,199,W292,W292,no newline at end of file
+Flake8,./utils/mock_segmentation.py,9,F401,F401,'utils.detailed_switch_analyzer.DetailedSwitchPortAnalyzer' imported but unused
+Flake8,./utils/mock_segmentation.py,18,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/mock_segmentation.py,22,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/mock_segmentation.py,30,E501,E501,line too long (80 > 79 characters)
+Flake8,./utils/mock_segmentation.py,31,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,38,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,41,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,46,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,49,E501,E501,line too long (83 > 79 characters)
+Flake8,./utils/mock_segmentation.py,51,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,55,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,58,E501,E501,line too long (80 > 79 characters)
+Flake8,./utils/mock_segmentation.py,59,E501,E501,line too long (84 > 79 characters)
+Flake8,./utils/mock_segmentation.py,60,E501,E501,line too long (83 > 79 characters)
+Flake8,./utils/mock_segmentation.py,61,E501,E501,line too long (81 > 79 characters)
+Flake8,./utils/mock_segmentation.py,63,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,68,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,72,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,73,E501,E501,line too long (108 > 79 characters)
+Flake8,./utils/mock_segmentation.py,75,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,83,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,91,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,96,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,104,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,105,E501,E501,line too long (100 > 79 characters)
+Flake8,./utils/mock_segmentation.py,106,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,114,E501,E501,line too long (134 > 79 characters)
+Flake8,./utils/mock_segmentation.py,115,E501,E501,line too long (100 > 79 characters)
+Flake8,./utils/mock_segmentation.py,119,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,126,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,130,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,143,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,148,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/mock_segmentation.py,151,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,154,E501,E501,line too long (84 > 79 characters)
+Flake8,./utils/mock_segmentation.py,157,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,159,E501,E501,line too long (90 > 79 characters)
+Flake8,./utils/mock_segmentation.py,162,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,171,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,175,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,182,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,188,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,192,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,198,E501,E501,line too long (88 > 79 characters)
+Flake8,./utils/mock_segmentation.py,206,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,211,E501,E501,line too long (84 > 79 characters)
+Flake8,./utils/mock_segmentation.py,219,W293,W293,blank line contains whitespace
+Flake8,./utils/mock_segmentation.py,234,W292,W292,no newline at end of file
+Flake8,./utils/segmentation.py,2,F401,F401,'sys' imported but unused
+Flake8,./utils/segmentation.py,5,F401,F401,'numpy as np' imported but unused
+Flake8,./utils/segmentation.py,12,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/segmentation.py,16,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/segmentation.py,30,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,34,W291,W291,trailing whitespace
+Flake8,./utils/segmentation.py,35,E501,E501,line too long (129 > 79 characters)
+Flake8,./utils/segmentation.py,37,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,40,W291,W291,trailing whitespace
+Flake8,./utils/segmentation.py,41,E501,E501,line too long (125 > 79 characters)
+Flake8,./utils/segmentation.py,43,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,47,E501,E501,line too long (85 > 79 characters)
+Flake8,./utils/segmentation.py,48,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,57,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,62,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,65,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,68,E501,E501,line too long (83 > 79 characters)
+Flake8,./utils/segmentation.py,70,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,75,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,78,E501,E501,line too long (83 > 79 characters)
+Flake8,./utils/segmentation.py,80,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,85,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,89,E501,E501,line too long (110 > 79 characters)
+Flake8,./utils/segmentation.py,91,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,93,E501,E501,line too long (120 > 79 characters)
+Flake8,./utils/segmentation.py,94,E501,E501,line too long (87 > 79 characters)
+Flake8,./utils/segmentation.py,98,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,99,E501,E501,line too long (87 > 79 characters)
+Flake8,./utils/segmentation.py,106,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,108,E501,E501,line too long (111 > 79 characters)
+Flake8,./utils/segmentation.py,111,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,118,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,126,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,130,E501,E501,line too long (86 > 79 characters)
+Flake8,./utils/segmentation.py,131,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,132,E501,E501,line too long (120 > 79 characters)
+Flake8,./utils/segmentation.py,139,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,140,E501,E501,line too long (127 > 79 characters)
+Flake8,./utils/segmentation.py,143,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,153,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,159,E501,E501,line too long (104 > 79 characters)
+Flake8,./utils/segmentation.py,162,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,164,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,166,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,171,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,179,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,180,E501,E501,line too long (81 > 79 characters)
+Flake8,./utils/segmentation.py,181,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,186,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,190,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,194,W293,W293,blank line contains whitespace
+Flake8,./utils/segmentation.py,204,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,5,F401,F401,'typing.List' imported but unused
+Flake8,./utils/switch_analyzer.py,5,F401,F401,'typing.Tuple' imported but unused
+Flake8,./utils/switch_analyzer.py,12,E501,E501,line too long (83 > 79 characters)
+Flake8,./utils/switch_analyzer.py,14,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/switch_analyzer.py,16,E501,E501,line too long (86 > 79 characters)
+Flake8,./utils/switch_analyzer.py,17,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,20,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,29,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,34,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,40,E501,E501,line too long (89 > 79 characters)
+Flake8,./utils/switch_analyzer.py,41,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,44,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,46,E501,E501,line too long (93 > 79 characters)
+Flake8,./utils/switch_analyzer.py,47,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,50,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,55,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,60,E501,E501,line too long (90 > 79 characters)
+Flake8,./utils/switch_analyzer.py,61,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,73,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,78,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/switch_analyzer.py,85,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,86,E501,E501,line too long (84 > 79 characters)
+Flake8,./utils/switch_analyzer.py,89,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,91,E501,E501,line too long (90 > 79 characters)
+Flake8,./utils/switch_analyzer.py,96,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,100,E501,E501,line too long (89 > 79 characters)
+Flake8,./utils/switch_analyzer.py,101,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,104,E501,E501,line too long (95 > 79 characters)
+Flake8,./utils/switch_analyzer.py,105,E501,E501,line too long (96 > 79 characters)
+Flake8,./utils/switch_analyzer.py,106,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,111,E501,E501,line too long (84 > 79 characters)
+Flake8,./utils/switch_analyzer.py,114,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,115,E501,E501,line too long (86 > 79 characters)
+Flake8,./utils/switch_analyzer.py,124,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,134,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,140,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,145,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/switch_analyzer.py,153,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,166,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,169,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,175,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,180,E501,E501,line too long (91 > 79 characters)
+Flake8,./utils/switch_analyzer.py,181,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,183,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,188,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/switch_analyzer.py,195,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,199,E261,E261,at least two spaces before inline comment
+Flake8,./utils/switch_analyzer.py,202,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,205,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,211,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,217,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,221,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,223,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,228,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/switch_analyzer.py,232,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,234,E501,E501,line too long (80 > 79 characters)
+Flake8,./utils/switch_analyzer.py,235,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,241,W291,W291,trailing whitespace
+Flake8,./utils/switch_analyzer.py,250,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,253,E501,E501,line too long (94 > 79 characters)
+Flake8,./utils/switch_analyzer.py,254,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,257,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./utils/switch_analyzer.py,261,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,265,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,272,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,275,E501,E501,line too long (94 > 79 characters)
+Flake8,./utils/switch_analyzer.py,277,E501,E501,line too long (146 > 79 characters)
+Flake8,./utils/switch_analyzer.py,278,W293,W293,blank line contains whitespace
+Flake8,./utils/switch_analyzer.py,279,W292,W292,no newline at end of file
