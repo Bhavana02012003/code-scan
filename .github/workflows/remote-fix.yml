@@ -1,15 +1,16 @@
 name: Remote Code AutoFix
 
 on:
-  repository_dispatch:
-    types: [fix-violation, fix_violation, autofix, any]
+  repository_dispatch:  # 👈 Remove the 'types' filter completely for now
+    # types: [fix-violation]  ❌ <-- Comment this out for testing
 
 permissions:
   contents: write
 
 jobs:
   fix:
-    if: github.event.action == 'fix-violation' || github.event.action == 'fix_violation'
+    # 👇 Optional guard to ensure it only runs for fix events
+    if: github.event.action == 'fix-violation' || github.event.action == 'fix_violation' || github.event.action == 'run-scan'
     runs-on: ubuntu-latest
     env:
       OWNER:  ${{ github.event.client_payload.owner }}
@@ -20,12 +21,14 @@ jobs:
       RULE:   ${{ github.event.client_payload.rule }}
 
     steps:
-      - name: Show event debug info
+      - name: 🔍 Debug Event
         run: |
-          echo "Event: ${{ github.event.action }}"
-          echo "Payload: ${{ toJSON(github.event.client_payload) }}"
+          echo "✅ Repository dispatch event received!"
+          echo "Event type: ${{ github.event.action }}"
+          echo "Payload:"
+          echo "${{ toJSON(github.event) }}"
 
-      - name: Generate GitHub App token
+      - name: 🪙 Generate GitHub App token
         id: generate_token
         uses: tibdex/github-app-token@v2
         with:
@@ -34,21 +37,21 @@ jobs:
           installation_retrieval_mode: repository
           installation_retrieval_payload: ${{ env.OWNER }}/${{ env.REPO }}
 
-      - name: Clone target repo
+      - name: 📥 Clone target repo
         run: |
           git config --global user.name "autofix-bot"
           git config --global user.email "autofix@example.com"
           git clone --branch "$BRANCH" \
             https://x-access-token:${{ steps.generate_token.outputs.token }}@github.com/${OWNER}/${REPO}.git target
 
-      - name: Autofix • React (ESLint --fix)
+      - name: 🔧 Autofix • React (ESLint --fix)
         if: env.TECH == 'React'
         working-directory: target
         run: |
           npm ci || npm install
           [ -n "$FILE" ] && [ -f "$FILE" ] && npx eslint "$FILE" --fix || npx eslint . --fix
 
-      - name: Autofix • .NET (dotnet format)
+      - name: 🔧 Autofix • .NET (dotnet format)
         if: env.TECH == 'DotNet'
         working-directory: target
         run: |
@@ -57,7 +60,7 @@ jobs:
           TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
           [ -n "$TARGET" ] && dotnet format "$TARGET" || dotnet format
 
-      - name: Autofix • Python (autopep8)
+      - name: 🔧 Autofix • Python (autopep8)
         if: env.TECH == 'Python'
         working-directory: target
         run: |
@@ -65,7 +68,7 @@ jobs:
           pip install autopep8
           [ -n "$FILE" ] && [ -f "$FILE" ] && autopep8 -i "$FILE" || autopep8 -ri .
 
-      - name: Commit & push if changed
+      - name: 📤 Commit & push if changed
         working-directory: target
         run: |
           if [ -n "$(git status --porcelain)" ]; then
@@ -73,5 +76,5 @@ jobs:
             git commit -m "🤖 Auto-fix (${RULE:-rule}) from UI"
             git push
           else
-            echo "No changes to commit."
+            echo "✅ No changes to commit."
           fi
