@@ -1,16 +1,15 @@
 name: Remote Code AutoFix
 
 on:
-  repository_dispatch:  # 👈 Remove the 'types' filter completely for now
-    # types: [fix-violation]  ❌ <-- Comment this out for testing
+  repository_dispatch:
+    types: [fix-violation]
 
 permissions:
   contents: write
 
 jobs:
   fix:
-    # 👇 Optional guard to ensure it only runs for fix events
-    if: github.event.action == 'fix-violation' || github.event.action == 'fix_violation' || github.event.action == 'run-scan'
+    if: github.event.action == 'fix-violation' || github.event.action == 'fix_violation'
     runs-on: ubuntu-latest
     env:
       OWNER:  ${{ github.event.client_payload.owner }}
@@ -21,13 +20,6 @@ jobs:
       RULE:   ${{ github.event.client_payload.rule }}
 
     steps:
-      - name: 🔍 Debug Event
-        run: |
-          echo "✅ Repository dispatch event received!"
-          echo "Event type: ${{ github.event.action }}"
-          echo "Payload:"
-          echo "${{ toJSON(github.event) }}"
-
       - name: 🪙 Generate GitHub App token
         id: generate_token
         uses: tibdex/github-app-token@v2
@@ -44,22 +36,6 @@ jobs:
           git clone --branch "$BRANCH" \
             https://x-access-token:${{ steps.generate_token.outputs.token }}@github.com/${OWNER}/${REPO}.git target
 
-      - name: 🔧 Autofix • React (ESLint --fix)
-        if: env.TECH == 'React'
-        working-directory: target
-        run: |
-          npm ci || npm install
-          [ -n "$FILE" ] && [ -f "$FILE" ] && npx eslint "$FILE" --fix || npx eslint . --fix
-
-      - name: 🔧 Autofix • .NET (dotnet format)
-        if: env.TECH == 'DotNet'
-        working-directory: target
-        run: |
-          dotnet tool install -g dotnet-format
-          export PATH="$HOME/.dotnet/tools:$PATH"
-          TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
-          [ -n "$TARGET" ] && dotnet format "$TARGET" || dotnet format
-
       - name: 🔧 Autofix • Python (autopep8)
         if: env.TECH == 'Python'
         working-directory: target
@@ -70,11 +46,13 @@ jobs:
 
       - name: 📤 Commit & push if changed
         working-directory: target
+        env:
+          TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           if [ -n "$(git status --porcelain)" ]; then
             git add -A
             git commit -m "🤖 Auto-fix (${RULE:-rule}) from UI"
-            git push
+            git push https://x-access-token:${TOKEN}@github.com/${OWNER}/${REPO}.git HEAD:$BRANCH
           else
             echo "✅ No changes to commit."
           fi
