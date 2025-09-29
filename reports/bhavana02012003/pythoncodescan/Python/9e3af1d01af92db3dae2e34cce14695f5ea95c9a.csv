@@ -1,0 +1,7 @@
+Tool,File,Line,Severity,Rule,Message
+Bandit,./app/main.py,5,HIGH,B605,"Starting a process with a shell, possible injection detected, security issue."
+Pylint,app/utils.py,1,Convention,C0321,More than one statement on a single line
+Flake8,./app/main.py,3,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./app/main.py,7,E302,E302,"expected 2 blank lines, found 1"
+Flake8,./app/main.py,10,E305,E305,"expected 2 blank lines after class or function definition, found 1"
+Flake8,./app/utils.py,3,E302,E302,"expected 2 blank lines, found 1"
