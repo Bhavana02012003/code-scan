@@ -222,22 +222,32 @@ jobs:
           name: fixes-${{ env.CORR }}
           path: out/fixes.json
 
-      # =======================================================
+     # =======================================================
       # =========== Normalize Violations to CSV ===============
       # =======================================================
       - name: Normalize to CSV
         run: |
-          # your existing python normalization script here
+          mkdir -p out
+          echo "Tool,File,Line,Severity,Rule,Message" > out/normalized.csv  # or your Python script
+
+      - name: "Debug: list files"
+        run: |
+          ls -R out || echo "No out folder"
 
       - name: Commit report into orchestrator
         run: |
-          mkdir -p "$(dirname "$REPORT_PATH")"
-          cp out/normalized.csv "$REPORT_PATH"
-          git config user.name "orchestrator-bot"
-          git config user.email "orchestrator@example.com"
-          git add "$REPORT_PATH"
-          git commit -m "Scan report: $OWNER/$REPO ($TECH) • $CORR" || echo "Nothing to commit"
-          git push
+          if [ -f out/normalized.csv ]; then
+            mkdir -p "$(dirname "$REPORT_PATH")"
+            cp out/normalized.csv "$REPORT_PATH"
+            git config user.name "orchestrator-bot"
+            git config user.email "orchestrator@example.com"
+            git add "$REPORT_PATH"
+            git commit -m "Scan report: $OWNER/$REPO ($TECH) • $CORR" || echo "Nothing to commit"
+            git push
+          else
+            echo "❌ out/normalized.csv not found — normalization failed."
+            exit 1
+          fi
 
       - uses: actions/upload-artifact@v4
         with:
