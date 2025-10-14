@@ -22,6 +22,8 @@ jobs:
 
     steps:
       # -------------------------------------------------------
+      # Checkout orchestrator repo
+      # -------------------------------------------------------
       - name: Checkout orchestrator repo
         uses: actions/checkout@v4
 
@@ -34,6 +36,8 @@ jobs:
           echo "BRANCH=$BRANCH"
           echo "REPORT_PATH=$REPORT_PATH"
 
+      # -------------------------------------------------------
+      # Authenticate target repo
       # -------------------------------------------------------
       - name: Generate GitHub App token
         id: generate_token
@@ -50,16 +54,24 @@ jobs:
           git clone https://x-access-token:${{ steps.generate_token.outputs.token }}@github.com/${OWNER}/${REPO}.git target
 
       # -------------------------------------------------------
-      - name: Overlay config pack
+      # Overlay configs for language
+      # -------------------------------------------------------
+      - name: Overlay config pack (Scan + Fixers)
         run: |
           TECH_LOWER=$(echo "$TECH" | tr '[:upper:]' '[:lower:]')
           SRC="configs/$TECH_LOWER"
           if [ -d "$SRC" ]; then
-            rsync -a "$SRC"/ target/
+            rsync -a --exclude 'tsconfig.template.json' "$SRC"/ target/
+            if [ -f "$SRC/tsconfig.template.json" ] && git -C target ls-files '*.ts' '*.tsx' | grep -q .; then
+              cp "$SRC/tsconfig.template.json" target/tsconfig.json
+            fi
+            echo "✅ Overlay complete for $TECH."
           else
-            echo "No overlay for $TECH."
+            echo "⚠️ No overlay for $TECH (optional)."
           fi
 
+      # -------------------------------------------------------
+      # Toolchains
       # -------------------------------------------------------
       - uses: actions/setup-node@v4
         with:
@@ -69,15 +81,21 @@ jobs:
         with:
           python-version: '3.x'
 
-      - uses: actions/setup-java@v4
-        if: ${{ env.TECH == 'Salesforce' || env.TECH == 'Java' }}
+      - uses: actions/setup-dotnet@v4
+        if: ${{ env.TECH == 'DotNet' }}
+        with:
+          dotnet-version: '8.0.x'
+
+      # =======================================================
+      # Salesforce PMD scan + auto-fix
+      # =======================================================
+      - name: Salesforce • Setup Java
+        if: ${{ env.TECH == 'Salesforce' }}
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # =======================================================
-      # Salesforce PMD
-      # =======================================================
       - name: Salesforce • Download PMD
         if: ${{ env.TECH == 'Salesforce' }}
         run: |
@@ -88,7 +106,7 @@ jobs:
           mv "pmd-bin-${PMD_VER}" pmd
           chmod +x pmd/bin/run.sh
 
-      - name: Salesforce • Scan with PMD
+      - name: Salesforce • PMD scan
         if: ${{ env.TECH == 'Salesforce' }}
         working-directory: target
         run: |
@@ -99,15 +117,63 @@ jobs:
             > ../out/pmd.csv || true
           [ -s ../out/pmd.csv ] || echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
 
+      - name: Salesforce • Quick Fix (Spotless + Cleanthat)
+        if: ${{ env.TECH == 'Salesforce' }}
+        working-directory: target
+        run: |
+          git checkout -b auto-fix-${{ env.CORR }}
+          mvn -f pom.xml spotless:apply || true
+          mvn -f pom.xml cleanthat:apply || true
+          git diff > ../out/fixes.patch
+
       # =======================================================
-      # React ESLint
+      # Java PMD scan + auto-fix
+      # =======================================================
+      - name: Java • Setup Java
+        if: ${{ env.TECH == 'Java' }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Java • Download PMD
+        if: ${{ env.TECH == 'Java' }}
+        run: |
+          PMD_VER=6.55.0
+          curl -L "https://github.com/pmd/pmd/releases/download/pmd_releases/${PMD_VER}/pmd-bin-${PMD_VER}.zip" -o pmd-java.zip
+          sudo apt-get update && sudo apt-get install -y unzip
+          unzip -q pmd-java.zip
+          mv "pmd-bin-${PMD_VER}" pmd_java
+          chmod +x pmd_java/bin/run.sh
+
+      - name: Java • PMD scan
+        if: ${{ env.TECH == 'Java' }}
+        working-directory: target
+        run: |
+          mkdir -p ../out
+          ../pmd_java/bin/run.sh pmd -d "." -f csv \
+            -R category/java/bestpractices.xml,category/java/design.xml,category/java/errorprone.xml,category/java/performance.xml,category/java/security.xml \
+            > ../out/pmd_java.csv || true
+          [ -s ../out/pmd_java.csv ] || echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd_java.csv
+
+      - name: Java • Quick Fix (Spotless + Cleanthat)
+        if: ${{ env.TECH == 'Java' }}
+        working-directory: target
+        run: |
+          git checkout -b auto-fix-${{ env.CORR }}
+          mvn -f pom.xml spotless:apply || true
+          mvn -f pom.xml cleanthat:apply || true
+          git diff > ../out/fixes.patch
+
+      # =======================================================
+      # React ESLint scan + suggestions
       # =======================================================
       - name: React • Install deps
         if: ${{ env.TECH == 'React' }}
         working-directory: target
         run: npm ci || npm install
 
-      - name: React • ESLint
+      - name: React • ESLint scan + fix suggestions
         if: ${{ env.TECH == 'React' }}
         working-directory: target
         run: |
@@ -116,7 +182,7 @@ jobs:
           npx eslint . --ext .js,.jsx,.ts,.tsx --fix-dry-run -f json -o ../out/eslint-fixes.json || true
 
       # =======================================================
-      # Python Bandit + Pylint
+      # Python scan + autopep8
       # =======================================================
       - name: Python • Install linters
         if: ${{ env.TECH == 'Python' }}
@@ -124,7 +190,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install bandit pylint flake8 flake8-json autopep8
 
-      - name: Python • Scan
+      - name: Python • Scan + fix suggestion
         if: ${{ env.TECH == 'Python' }}
         working-directory: target
         run: |
@@ -140,16 +206,7 @@ jobs:
           autopep8 . --diff > ../out/fixes.patch || true
 
       # =======================================================
-      # Debug out folder
-      # =======================================================
-      - name: "DEBUG: list out folder"
-        run: |
-          ls -lh out || echo "No out folder"
-          echo "-----"
-          find out -type f -exec sh -c 'echo ">>> {}"; cat "{}"' \;
-
-      # =======================================================
-      # Convert patches to fixes.json
+      # Convert patches and ESLint suggestions to fixes.json
       # =======================================================
       - name: Convert patch to fixes.json
         if: always()
@@ -162,32 +219,33 @@ jobs:
           path: out/fixes.json
 
       # =======================================================
-      # Normalize to CSV
+      # Normalize to CSV (violations)
       # =======================================================
       - name: Normalize to CSV
         run: |
           python3 scripts/normalize.py out out/normalized.csv
 
-      - name: "DEBUG: list normalized report"
+      # -------------------------------------------------------
+      # Debug: List out folder
+      # -------------------------------------------------------
+      - name: "Debug: list files"
         run: |
-          ls -lh out
+          ls -lh out || echo "No out folder"
           echo "-----"
-          cat out/normalized.csv || echo "No normalized.csv"
+          find out -type f -exec sh -c 'echo ">>> {}"; head -20 "{}"' \;
 
+      # =======================================================
+      # Commit report into orchestrator
+      # =======================================================
       - name: Commit report into orchestrator
         run: |
-          if [ -f out/normalized.csv ]; then
-            mkdir -p "$(dirname "$REPORT_PATH")"
-            cp out/normalized.csv "$REPORT_PATH"
-            git config user.name "orchestrator-bot"
-            git config user.email "orchestrator@example.com"
-            git add "$REPORT_PATH"
-            git commit -m "Scan report: $OWNER/$REPO ($TECH) • $CORR" || echo "Nothing to commit"
-            git push
-          else
-            echo "❌ out/normalized.csv not found — normalization failed."
-            exit 1
-          fi
+          mkdir -p "$(dirname "$REPORT_PATH")"
+          cp out/normalized.csv "$REPORT_PATH"
+          git config user.name "orchestrator-bot"
+          git config user.email "orchestrator@example.com"
+          git add "$REPORT_PATH"
+          git commit -m "Scan report: $OWNER/$REPO ($TECH) • $CORR" || echo "Nothing to commit"
+          git push
 
       - uses: actions/upload-artifact@v4
         with:
