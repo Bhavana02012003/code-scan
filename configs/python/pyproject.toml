@@ -1,0 +1,9 @@
+[tool.autopep8]
+max_line_length = 100
+in_place = false
+recursive = true
+aggressive = 2
+
+[tool.black]
+line-length = 100
+skip-string-normalization = false
