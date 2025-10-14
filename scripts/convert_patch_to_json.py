@@ -1,35 +1,22 @@
-import sys, json, re
+import sys, json, os
+
+if len(sys.argv) < 3:
+    print("Usage: convert_patch_to_json.py <input.patch> <output.json>")
+    sys.exit(1)
 
 patch_file = sys.argv[1]
 out_file = sys.argv[2]
 
 fixes = {}
-current_file = None
-current_line = None
-patch_block = []
+if os.path.exists(patch_file) and os.path.getsize(patch_file) > 0:
+    with open(patch_file, "r", encoding="utf-8", errors="ignore") as f:
+        lines = f.readlines()
+    fixes["raw_patch"] = "".join(lines)
+else:
+    fixes["raw_patch"] = ""
 
-with open(patch_file, encoding="utf-8") as f:
-    for line in f:
-        if line.startswith('+++ b/'):
-            if current_file and patch_block:
-                fixes[current_file] = fixes.get(current_file, []) + patch_block
-            current_file = line.strip().replace('+++ b/', '')
-            patch_block = []
-        elif line.startswith('@@'):
-            m = re.search(r'\+(\d+)', line)
-            if m:
-                current_line = int(m.group(1))
-        elif line.startswith('+') or line.startswith('-'):
-            patch_block.append({
-                "line": current_line,
-                "patch": line.strip()
-            })
-        elif current_file and patch_block and line.strip() == '':
-            fixes[current_file] = fixes.get(current_file, []) + patch_block
-            patch_block = []
+os.makedirs(os.path.dirname(out_file), exist_ok=True)
+with open(out_file, "w", encoding="utf-8") as out:
+    json.dump(fixes, out, indent=2)
 
-if current_file and patch_block:
-    fixes[current_file] = fixes.get(current_file, []) + patch_block
-
-with open(out_file, "w", encoding="utf-8") as f:
-    json.dump(fixes, f, indent=2)
+print(f"✅ Wrote fixes to {out_file}")
