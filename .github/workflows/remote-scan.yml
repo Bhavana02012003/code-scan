@@ -86,8 +86,8 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      # =======================================================
-      # Salesforce PMD scan + auto-fix
+            # =======================================================
+      # Salesforce PMD scan (Apex)
       # =======================================================
       - name: Salesforce • Setup Java
         if: ${{ env.TECH == 'Salesforce' }}
@@ -106,25 +106,89 @@ jobs:
           mv "pmd-bin-${PMD_VER}" pmd
           chmod +x pmd/bin/run.sh
 
-      - name: Salesforce • PMD scan
+      - name: Salesforce • PMD scan (Apex)
         if: ${{ env.TECH == 'Salesforce' }}
         working-directory: target
         run: |
           mkdir -p ../out
-          FA=$(find . -type d -name "force-app" | head -n 1); [ -z "$FA" ] && FA="."
+          FA=$(find . -type d -name "force-app" | head -n 1)
+          [ -z "$FA" ] && FA="."
           ../pmd/bin/run.sh pmd -d "$FA" -f csv \
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > ../out/pmd.csv || true
           [ -s ../out/pmd.csv ] || echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
 
-      - name: Salesforce • Quick Fix (Spotless + Cleanthat)
+      - name: Salesforce • Apex Quick Fix (Spotless + Cleanthat)
         if: ${{ env.TECH == 'Salesforce' }}
         working-directory: target
         run: |
-          git checkout -b auto-fix-${{ env.CORR }}
+          git checkout -b auto-fix-${{ env.CORR }}-apex
           mvn -f pom.xml spotless:apply || true
           mvn -f pom.xml cleanthat:apply || true
-          git diff > ../out/fixes.patch
+          git diff > ../out/fixes_apex.patch
+
+      # =======================================================
+      # Salesforce LWC scan (ESLint)
+      # =======================================================
+      - name: Salesforce • Install ESLint for LWC
+        if: ${{ env.TECH == 'Salesforce' }}
+        working-directory: target
+        run: |
+          # Initialize package.json if it doesn't exist
+          if [ ! -f package.json ]; then
+            npm init -y
+          fi
+          npm install --save-dev eslint @salesforce/eslint-config-lwc
+
+          # Add default .eslintrc.json if none exists
+          if [ ! -f .eslintrc.json ]; then
+            cat <<'EOF' > .eslintrc.json
+          {
+            "root": true,
+            "env": {
+              "browser": true,
+              "es2021": true
+            },
+            "extends": [
+              "eslint:recommended",
+              "@salesforce/eslint-config-lwc"
+            ],
+            "parserOptions": {
+              "ecmaVersion": 2022,
+              "sourceType": "module"
+            }
+          }
+          EOF
+          fi
+
+      - name: Salesforce • ESLint scan (LWC)
+        if: ${{ env.TECH == 'Salesforce' }}
+        working-directory: target
+        run: |
+          mkdir -p ../out
+          # Search for lwc folder
+          LWC_DIR=$(find . -type d -path "*/lwc" | head -n 1)
+          if [ -n "$LWC_DIR" ]; then
+            echo "Running ESLint on $LWC_DIR"
+            npx eslint "$LWC_DIR" --ext .js,.html -f json -o ../out/eslint_lwc.json || true
+            npx eslint "$LWC_DIR" --ext .js,.html --fix-dry-run -f json -o ../out/eslint_lwc_fixes.json || true
+          else
+            echo "No LWC folder found"
+            echo "[]" > ../out/eslint_lwc.json
+          fi
+
+      - name: Salesforce • ESLint LWC auto-fix (optional)
+        if: ${{ env.TECH == 'Salesforce' }}
+        working-directory: target
+        run: |
+          LWC_DIR=$(find . -type d -path "*/lwc" | head -n 1)
+          if [ -n "$LWC_DIR" ]; then
+            git checkout -b auto-fix-${{ env.CORR }}-lwc
+            npx eslint "$LWC_DIR" --ext .js,.html --fix || true
+            git diff > ../out/fixes_lwc.patch
+          else
+            echo "No LWC folder found, skipping auto-fix"
+          fi
 
       # =======================================================
       # Java PMD scan + auto-fix
@@ -166,7 +230,7 @@ jobs:
           git diff > ../out/fixes.patch
 
       # =======================================================
-      # React ESLint scan + suggestions
+      # React ESLint scan + fix suggestions
       # =======================================================
       - name: React • Install deps
         if: ${{ env.TECH == 'React' }}
@@ -206,7 +270,7 @@ jobs:
           autopep8 . --diff > ../out/fixes.patch || true
 
       # =======================================================
-      # Convert patches and ESLint suggestions to fixes.json
+      # Convert patches + violations → fixes.json
       # =======================================================
       - name: Convert patch to fixes.json
         if: always()
@@ -219,15 +283,12 @@ jobs:
           path: out/fixes.json
 
       # =======================================================
-      # Normalize to CSV (violations)
+      # Normalize to CSV
       # =======================================================
       - name: Normalize to CSV
         run: |
           python3 scripts/normalize.py out out/normalized.csv
 
-      # -------------------------------------------------------
-      # Debug: List out folder
-      # -------------------------------------------------------
       - name: "Debug: list files"
         run: |
           ls -lh out || echo "No out folder"

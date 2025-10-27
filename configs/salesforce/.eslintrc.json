@@ -1,0 +1,19 @@
+// configs/salesforce/.eslintrc.json
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "@salesforce/eslint-config-lwc"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "rules": {
+    // Optional: your custom rules
+  }
+}
