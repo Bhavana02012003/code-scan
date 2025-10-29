@@ -304,6 +304,26 @@ jobs:
           echo "-----"
           find out -type f -exec sh -c 'echo ">>> {}"; head -20 "{}"' \;
 
+
+      # =======================================================
+      # Detect Empty Report (No Violations)
+      # =======================================================
+      - name: Detect empty or zero-row report
+        run: |
+          ROWS=$(wc -l < out/normalized.csv || echo 0)
+          if [ "$ROWS" -le 1 ]; then
+            echo '{"status":"Completed","message":"✅ Scan completed successfully — no violations found."}' > "${REPORT_PATH}.status.json"
+            git config user.name "orchestrator-bot"
+            git config user.email "orchestrator@example.com"
+            git add "${REPORT_PATH}.status.json"
+            git commit -m "Status: no violations ($OWNER/$REPO)"
+            git push
+            echo "✅ No violations found — marked Completed."
+          else
+            echo "✅ Report has violations ($((ROWS-1)) entries)"
+          fi
+
+
       # =======================================================
       # Commit report into orchestrator
       # =======================================================
