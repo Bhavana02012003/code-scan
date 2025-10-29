@@ -330,40 +330,15 @@ jobs:
 
 
       # =======================================================
-      # Final status writer for failures (with context)
+      # FINAL FALLBACK (generic) — only if no specific status exists
       # =======================================================
-      - name: Write detailed failure status
-        if: ${{ failure() }}
+      - name: Emit generic failure status (only if none exists)
+        if: failure()
         run: |
-          echo "⛔ Scan failed – collecting context..."
-          mkdir -p $(dirname "${{ env.REPORT_PATH }}")
-
-          # Default message
-          MSG="One or more steps failed during the scan. Please Re-check and try again!."
-
-          # Check for common failure causes
-          LOGFILE=$(mktemp)
-          git config user.email "orchestrator@example.com"
-          git config user.name "orchestrator-bot"
-
-          # 🔍 Detect likely cause based on partial logs
-          if grep -i -q "authentication failed" $GITHUB_WORKFLOW_LOG; then
-            MSG="GitHub App authentication failed. Could not create installation access token. Please verify your GitHub App installation and secrets."
-          elif grep -i -q "could not create installation access token" $GITHUB_WORKFLOW_LOG; then
-            MSG="GitHub App token error – cannot authenticate to orchestrator repo."
-          elif grep -i -q "Repository not found" $GITHUB_WORKFLOW_LOG || grep -i -q "not found" $GITHUB_WORKFLOW_LOG; then
-            MSG="Repository not found or cannot be cloned. Please verify the GitHub URL."
-          elif grep -i -q "PMDException" $GITHUB_WORKFLOW_LOG || grep -i -q "Parse error" $GITHUB_WORKFLOW_LOG; then
-            MSG="PMD scan failed due to parse error or invalid Apex/Java syntax."
-          elif grep -i -q "eslint" $GITHUB_WORKFLOW_LOG && grep -i -q "Error:" $GITHUB_WORKFLOW_LOG; then
-            MSG="ESLint scan failed due to a configuration or syntax error in JavaScript/LWC files."
-          elif grep -i -q "bandit" $GITHUB_WORKFLOW_LOG && grep -i -q "Traceback" $GITHUB_WORKFLOW_LOG; then
-            MSG="Python Bandit scan crashed. Check Python syntax or dependencies."
+          if [ ! -f "${REPORT_PATH}.status.json" ]; then
+            ./.write_status.sh "${REPORT_PATH}" \
+              '"One or more steps failed during the scan. Please re-check and try again!"' \
+              GENERIC_FAILURE
+          else
+            echo "[final] Specific status already exists. Skipping generic overwrite."
           fi
-
-          echo "{\"status\":\"Failed\",\"message\":\"${MSG}\"}" > status.json
-          mv status.json "${{ env.REPORT_PATH }}".status.json
-          git add "${{ env.REPORT_PATH }}".status.json
-          git commit -m "Status update: scan failed ($OWNER/$REPO)" || echo "No changes"
-          git push
-
