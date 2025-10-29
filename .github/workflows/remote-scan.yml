@@ -41,12 +41,27 @@ jobs:
       # -------------------------------------------------------
       - name: Generate GitHub App token
         id: generate_token
+        continue-on-error: true
         uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.GH_APP_ID }}
           private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           installation_retrieval_mode: repository
           installation_retrieval_payload: ${{ env.OWNER }}/${{ env.REPO }}
+
+
+      - name: Handle auth failure → write status.json
+        if: ${{ steps.generate_token.outcome == 'failure' }}
+        run: |
+            echo '{"status":"Failed","message":"GitHub App authentication failed. Could not create installation access token. Please verify your GitHub App installation and secrets."}' > status.json
+            mkdir -p $(dirname "${{ env.REPORT_PATH }}")
+            mv status.json "${{ env.REPORT_PATH }}".status.json
+            git config user.email "orchestrator@example.com"
+            git config user.name "orchestrator-bot"
+            git add "${{ env.REPORT_PATH }}".status.json
+            git commit -m "Status update: failed auth ($OWNER/$REPO)"
+            git push
+            exit 1   # stop rest of job
 
       - name: Clone target repo
         run: |
