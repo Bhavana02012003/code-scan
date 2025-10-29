@@ -305,18 +305,19 @@ jobs:
           find out -type f -exec sh -c 'echo ">>> {}"; head -20 "{}"' \;
 
 
-      # =======================================================
-      # Detect Empty Report (No Violations)
+            # =======================================================
+      # Detect Empty or Zero-Row Report
       # =======================================================
       - name: Detect empty or zero-row report
         run: |
           ROWS=$(wc -l < out/normalized.csv || echo 0)
+          mkdir -p "$(dirname "$REPORT_PATH")"
           if [ "$ROWS" -le 1 ]; then
             echo '{"status":"Completed","message":"✅ Scan completed successfully — no violations found."}' > "${REPORT_PATH}.status.json"
             git config user.name "orchestrator-bot"
             git config user.email "orchestrator@example.com"
             git add "${REPORT_PATH}.status.json"
-            git commit -m "Status: no violations ($OWNER/$REPO)"
+            git commit -m "Status: no violations ($OWNER/$REPO)" || echo "No changes to commit"
             git push
             echo "✅ No violations found — marked Completed."
           else
