@@ -339,7 +339,7 @@ jobs:
           mkdir -p $(dirname "${{ env.REPORT_PATH }}")
 
           # Default message
-          MSG="One or more steps failed during the scan. Please check orchestrator logs."
+          MSG="One or more steps failed during the scan. Please Re-check and try again!."
 
           # Check for common failure causes
           LOGFILE=$(mktemp)
