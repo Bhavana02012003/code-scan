@@ -345,15 +345,20 @@ jobs:
 
 
       # =======================================================
-      # FINAL FALLBACK (generic) — only if no specific status exists
+      # Emit success or empty report status
       # =======================================================
-      - name: Emit generic failure status (only if none exists)
-        if: failure()
+      - name: Emit success or empty report status
+        if: success()
         run: |
-          if [ ! -f "${REPORT_PATH}.status.json" ]; then
-            ./.write_status.sh "${REPORT_PATH}" \
-              '"One or more steps failed during the scan. Please re-check and try again!"' \
-              GENERIC_FAILURE
+          mkdir -p "$(dirname "$REPORT_PATH")"
+          ROWS=$(wc -l < out/normalized.csv || echo 0)
+          if [ "$ROWS" -le 1 ]; then
+            echo '{"status":"Completed","message":"✅ Scan completed successfully — no violations found."}' > "${REPORT_PATH}.status.json"
           else
-            echo "[final] Specific status already exists. Skipping generic overwrite."
+            echo '{"status":"Completed","message":"✅ Scan completed successfully. Report generated with violations."}' > "${REPORT_PATH}.status.json"
           fi
+          git config user.name "orchestrator-bot"
+          git config user.email "orchestrator@example.com"
+          git add "${REPORT_PATH}.status.json"
+          git commit -m "Status: completed ($OWNER/$REPO)" || echo "No changes to commit"
+          git push
