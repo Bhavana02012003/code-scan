@@ -232,8 +232,8 @@ jobs:
 
           echo "✅ .NET build phase complete."
 
-      # =======================================================
-      # DotNet • Run analyzers for each project (correct syntax for .NET 8)
+     # =======================================================
+      # DotNet • Run analyzers and normalize report
       # =======================================================
       - name: DotNet • Run analyzers
         if: ${{ env.TECH == 'DotNet' }}
@@ -248,9 +248,17 @@ jobs:
               --report "../out/$(basename "$PROJ").analyze.json" || true
           done
 
-          # Merge all JSON analyzer reports
-          echo "Combining analyzer outputs..."
-          jq -s '{issues: map(.issues) | add}' ../out/*.analyze.json > ../out/dotnet.json || echo '{"issues":[]}' > ../out/dotnet.json
+          echo "Merging .NET analyzer outputs..."
+          jq -s '[.[][] | {
+              Tool: "DotNetAnalyzer",
+              File: .filePath,
+              Line: (.diagnostics[0].line // ""),
+              Severity: (.diagnostics[0].severity // ""),
+              Rule: (.diagnostics[0].id // ""),
+              Message: (.diagnostics[0].message // "")
+          }]' ../out/*.analyze.json > ../out/dotnet.json || echo "[]" > ../out/dotnet.json
+
+          echo "✅ Normalized .NET analyzer results written to ../out/dotnet.json"
 
       # =======================================================
       # Java PMD scan + auto-fix

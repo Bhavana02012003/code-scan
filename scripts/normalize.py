@@ -56,12 +56,9 @@ with open(sys.argv[2], "w", newline='', encoding='utf-8') as out:
 
 
 # =======================================================
-# 4. Parse .NET analyzer JSON (dotnet format / SARIF)
+# 4. Parse DotNet Analyzer JSON
 # =======================================================
 dotnet_file = os.path.join(sys.argv[1], "dotnet.json")
-dotnet_sarif = os.path.join(sys.argv[1], "dotnet_sarif.json")
-
-# dotnet format analyze
 if os.path.exists(dotnet_file):
     with open(dotnet_file, encoding='utf-8') as f:
         try:
@@ -69,39 +66,12 @@ if os.path.exists(dotnet_file):
         except json.JSONDecodeError:
             dotnet_data = []
 
-    for issue in dotnet_data.get("issues", []):
+    for entry in dotnet_data:
         out_rows.append({
-            "Tool": "DotNet(Analyzer)",
-            "File": issue.get("filePath", ""),
-            "Line": issue.get("lineNumber", ""),
-            "Severity": issue.get("severity", ""),
-            "Rule": issue.get("ruleId", ""),
-            "Message": issue.get("message", "")
+            "Tool": "DotNetAnalyzer",
+            "File": entry.get("File", ""),
+            "Line": entry.get("Line", ""),
+            "Severity": entry.get("Severity", ""),
+            "Rule": entry.get("Rule", ""),
+            "Message": entry.get("Message", "")
         })
-
-# SecurityCodeScan SARIF
-elif os.path.exists(dotnet_sarif):
-    with open(dotnet_sarif, encoding='utf-8') as f:
-        try:
-            sarif = json.load(f)
-        except json.JSONDecodeError:
-            sarif = {}
-
-    for run in sarif.get("runs", []):
-        for result in run.get("results", []):
-            locations = result.get("locations", [])
-            file_path = ""
-            line_num = ""
-            if locations:
-                loc = locations[0]
-                file_path = loc.get("physicalLocation", {}).get("artifactLocation", {}).get("uri", "")
-                line_info = loc.get("physicalLocation", {}).get("region", {}).get("startLine", "")
-                line_num = str(line_info)
-            out_rows.append({
-                "Tool": "DotNet(SecurityCodeScan)",
-                "File": file_path,
-                "Line": line_num,
-                "Severity": result.get("level", ""),
-                "Rule": result.get("ruleId", ""),
-                "Message": result.get("message", {}).get("text", "")
-            })
