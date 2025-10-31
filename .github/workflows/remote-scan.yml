@@ -199,6 +199,27 @@ jobs:
             echo "No LWC folder found, skipping auto-fix"
           fi
 
+
+
+      # =======================================================
+      # DotNet scan (SecurityCodeScan + dotnet format analyze)
+      # =======================================================
+      - name: DotNet • Run analyzers
+        if: ${{ env.TECH == 'DotNet' }}
+        working-directory: target
+        run: |
+          mkdir -p ../out
+          export PATH="$PATH:~/.dotnet/tools"
+          dotnet tool install --global SecurityCodeScan.VS2019 || true
+          dotnet restore
+          dotnet build --no-incremental || true
+          # Run .NET built-in analyzer and save report
+          dotnet format analyze --verbosity diagnostic --report ../out/dotnet.json --report-format json || true
+          # Run SecurityCodeScan (creates SARIF)
+          dotnet build /p:RunAnalyzers=true /warnaserror:SecurityCodeScan || true
+          find . -name "SecurityCodeScan.sarif" -exec cp {} ../out/dotnet_sarif.json \; || echo "no sarif"
+
+
       # =======================================================
       # Java PMD scan + auto-fix
       # =======================================================
