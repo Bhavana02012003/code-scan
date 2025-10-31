@@ -202,49 +202,54 @@ jobs:
 
 
       # =======================================================
-      # DotNet scan (built-in analyzers + SecurityCodeScan)
+      # DotNet • Build all projects safely
       # =======================================================
-      - name: DotNet • Restore & build
+      - name: DotNet • Restore & build each project
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
         run: |
           mkdir -p ../out
-          dotnet restore
+          echo "Restoring dependencies..."
+          dotnet restore || true
 
-          # Detect main solution or project file
-          SOLUTION=$(find . -maxdepth 2 -name "*.sln" | head -n 1)
-          if [ -z "$SOLUTION" ]; then
-            PROJECT=$(find . -maxdepth 2 -name "*.csproj" | head -n 1)
+          echo "Building all .sln and .csproj files separately..."
+          FOUND=0
+
+          # Prefer solution files if present
+          for SOLN in $(find . -maxdepth 3 -name "*.sln"); do
+            echo "🔹 Building solution: $SOLN"
+            dotnet build "$SOLN" --no-incremental || true
+            FOUND=1
+          done
+
+          # If no .sln files, build each project file
+          if [ $FOUND -eq 0 ]; then
+            for PROJ in $(find . -maxdepth 3 -name "*.csproj"); do
+              echo "🔹 Building project: $PROJ"
+              dotnet build "$PROJ" --no-incremental || true
+            done
           fi
 
-          if [ -n "$SOLUTION" ]; then
-            echo "Building solution: $SOLUTION"
-            dotnet build "$SOLUTION" --no-incremental || true
-          elif [ -n "$PROJECT" ]; then
-            echo "Building project: $PROJECT"
-            dotnet build "$PROJECT" --no-incremental || true
-          else
-            echo "⚠️ No .sln or .csproj found, skipping build"
-          fi
+          echo "✅ .NET build phase complete."
 
+      # =======================================================
+      # DotNet • Run analyzers for each project
+      # =======================================================
       - name: DotNet • Run analyzers
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
         run: |
           mkdir -p ../out
-          echo "Running built-in .NET analyzers..."
-          dotnet format analyze --verbosity diagnostic --report ../out/dotnet.json --report-format json || true
+          echo "Analyzing each .csproj..."
+          for PROJ in $(find . -maxdepth 3 -name "*.csproj"); do
+            echo "🔸 Analyzing $PROJ"
+            dotnet format analyze "$PROJ" --verbosity diagnostic \
+              --report ../out/$(basename "$PROJ").analyze.json --report-format json || true
+          done
 
-          # Use SecurityCodeScan as a NuGet package if possible
-          PROJECT=$(find . -maxdepth 2 -name "*.csproj" | head -n 1)
-          if [ -n "$PROJECT" ]; then
-            echo "Adding SecurityCodeScan to $PROJECT"
-            dotnet add "$PROJECT" package SecurityCodeScan.VS2022 || true
-            dotnet build "$PROJECT" /p:RunAnalyzers=true || true
-            find . -name "*.sarif" -exec cp {} ../out/dotnet_sarif.json \; || echo "No SARIF file"
-          else
-            echo "⚠️ No .csproj found for SecurityCodeScan"
-          fi
+          # Merge all JSON results into one combined file
+          echo "Combining analyzer outputs..."
+          jq -s '{issues: map(.issues) | add}' ../out/*.analyze.json > ../out/dotnet.json || echo '{"issues":[]}' > ../out/dotnet.json
 
       # =======================================================
       # Java PMD scan + auto-fix
