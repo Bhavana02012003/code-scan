@@ -196,3 +196,86 @@ with open(output_path, "w", newline='', encoding='utf-8') as out:
     writer.writerows(out_rows)
 
 print(f"✅ Normalized report written: {output_path} ({len(out_rows)} rows)")
+
+# =======================================================
+# 10. Parse Java PMD
+# =======================================================
+pmd_java_file = os.path.join(sys.argv[1], "pmd_java.csv")
+if os.path.exists(pmd_java_file):
+    with open(pmd_java_file, newline='', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            out_rows.append({
+                "Tool": "PMD(Java)",
+                "File": row.get("File", ""),
+                "Line": row.get("Line", ""),
+                "Severity": row.get("Priority", ""),
+                "Rule": row.get("Rule", ""),
+                "Message": row.get("Description", "")
+            })
+
+
+# =======================================================
+# 11. Parse React ESLint
+# =======================================================
+eslint_react_file = os.path.join(sys.argv[1], "eslint.json")
+if os.path.exists(eslint_react_file):
+    try:
+        data = json.load(open(eslint_react_file, encoding="utf-8"))
+        if isinstance(data, dict):
+            data = [data]
+        for f in data:
+            fn = f.get("filePath")
+            for m in f.get("messages", []):
+                sev = "Error" if m.get("severity") == 2 else "Warning"
+                out_rows.append({
+                    "Tool": "ESLint(React)",
+                    "File": fn,
+                    "Line": m.get("line", ""),
+                    "Severity": sev,
+                    "Rule": m.get("ruleId", ""),
+                    "Message": m.get("message", "")
+                })
+    except Exception as e:
+        print("eslint-react parse error:", e)
+
+# =======================================================
+# 12. Parse React TSC output
+# =======================================================
+tsc_file = os.path.join(sys.argv[1], "tsc-output.txt")
+if os.path.exists(tsc_file):
+    rx = re.compile(r"(.+\.(?:ts|tsx|js|jsx))\((\d+),\d+\): (error|warning) (TS\d+): (.+)")
+    for line in open(tsc_file, encoding="utf-8", errors="ignore"):
+        m = rx.search(line)
+        if m:
+            file, l, sev, code, msg = m.groups()
+            out_rows.append({
+                "Tool": "TSC",
+                "File": file,
+                "Line": l,
+                "Severity": sev.capitalize(),
+                "Rule": code,
+                "Message": msg
+            })
+
+# =======================================================
+# 13. Parse npm-audit vulnerabilities
+# =======================================================
+audit_file = os.path.join(sys.argv[1], "audit.json")
+if os.path.exists(audit_file):
+    try:
+        data = json.load(open(audit_file, encoding="utf-8"))
+        for pkg, v in (data.get("vulnerabilities") or {}).items():
+            for via in v.get("via", []):
+                if isinstance(via, dict):
+                    out_rows.append({
+                        "Tool": "npm-audit",
+                        "File": pkg,
+                        "Line": "",
+                        "Severity": v.get("severity", ""),
+                        "Rule": via.get("name") or via.get("title"),
+                        "Message": via.get("title") or ""
+                    })
+    except Exception as e:
+        print("npm-audit parse error:", e)
+
