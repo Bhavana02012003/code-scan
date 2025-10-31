@@ -201,64 +201,48 @@ jobs:
 
 
 
-      # =======================================================
-      # DotNet • Build all projects safely
-      # =======================================================
-      - name: DotNet • Restore & build each project
-        if: ${{ env.TECH == 'DotNet' }}
-        working-directory: target
-        run: |
-          mkdir -p ../out
-          echo "Restoring dependencies..."
-          dotnet restore || true
-
-          echo "Building all .sln and .csproj files separately..."
-          FOUND=0
-
-          # Prefer solution files if present
-          for SOLN in $(find . -maxdepth 3 -name "*.sln"); do
-            echo "🔹 Building solution: $SOLN"
-            dotnet build "$SOLN" --no-incremental || true
-            FOUND=1
-          done
-
-          # If no .sln files, build each project file
-          if [ $FOUND -eq 0 ]; then
-            for PROJ in $(find . -maxdepth 3 -name "*.csproj"); do
-              echo "🔹 Building project: $PROJ"
-              dotnet build "$PROJ" --no-incremental || true
-            done
-          fi
-
-          echo "✅ .NET build phase complete."
-
      # =======================================================
-      # DotNet • Run analyzers and normalize report
+      # DotNet • Run analyzers using Roslyn + SecurityCodeScan
       # =======================================================
-      - name: DotNet • Run analyzers
+      - name: DotNet • Run Roslyn & Security analyzers
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
         run: |
           mkdir -p ../out
-          echo "Analyzing each .csproj with dotnet format (analyzers)..."
+          echo "🔍 Running .NET analyzers and SecurityCodeScan..."
+
+          # Restore & build
+          dotnet restore || true
+          dotnet build --no-incremental || true
+
+          # ✅ Run full Roslyn analyzers and save SARIF
           for PROJ in $(find . -maxdepth 3 -name "*.csproj"); do
-            echo "🔸 Running analyzers for $PROJ"
-            dotnet format analyzers "$PROJ" --verify-no-changes \
-              --verbosity diagnostic \
-              --report "../out/$(basename "$PROJ").analyze.json" || true
+            echo "Analyzing project: $PROJ"
+            dotnet build "$PROJ" \
+              -warnaserror \
+              -p:RunAnalyzers=true \
+              -p:errorlog="../out/$(basename "$PROJ").analyze.sarif" || true
           done
 
-          echo "Merging .NET analyzer outputs..."
-          jq -s '[.[][] | {
-              Tool: "DotNetAnalyzer",
-              File: .filePath,
-              Line: (.diagnostics[0].line // ""),
-              Severity: (.diagnostics[0].severity // ""),
-              Rule: (.diagnostics[0].id // ""),
-              Message: (.diagnostics[0].message // "")
-          }]' ../out/*.analyze.json > ../out/dotnet.json || echo "[]" > ../out/dotnet.json
+          # ✅ Run SecurityCodeScan (SCS)
+          dotnet tool install --global security-scan || echo "Already installed"
+          export PATH="$PATH:/home/runner/.dotnet/tools"
+          for PROJ in $(find . -maxdepth 3 -name "*.csproj"); do
+            echo "Running SecurityCodeScan for $PROJ"
+            security-scan scan --format sarif --output "../out/$(basename "$PROJ").scs.sarif" "$PROJ" || true
+          done
 
-          echo "✅ Normalized .NET analyzer results written to ../out/dotnet.json"
+          # ✅ Merge SARIF → JSON → flat report
+          echo "Merging all SARIF outputs..."
+          jq -s '[.[][] | select(.runs != null) | .runs[].results[]? | {
+            Tool: (.ruleId // .rule.id // "DotNetRule"),
+            File: (.locations[0].physicalLocation.artifactLocation.uri // ""),
+            Line: (.locations[0].physicalLocation.region.startLine // ""),
+            Severity: (.level // ""),
+            Message: (.message.text // "")
+          }]' ../out/*.sarif > ../out/dotnet.json || echo "[]" > ../out/dotnet.json
+
+          echo "✅ DotNet analyzer results written to ../out/dotnet.json"
 
       # =======================================================
       # Java PMD scan + auto-fix
