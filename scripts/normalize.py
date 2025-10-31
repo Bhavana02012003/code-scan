@@ -126,7 +126,66 @@ if os.path.exists(dotnet_pkg):
         print("dotnet-packages parse error:", e)
 
 # =======================================================
-# 6. Write Final Combined CSV
+# 6. Parse Python Bandit
+# =======================================================
+bandit_file = os.path.join(sys.argv[1], "bandit.json")
+if os.path.exists(bandit_file):
+    try:
+        data = json.load(open(bandit_file, encoding="utf-8"))
+        for result in data.get("results", []):
+            out_rows.append({
+                "Tool": "Bandit",
+                "File": result.get("filename", ""),
+                "Line": result.get("line_number", ""),
+                "Severity": result.get("issue_severity", ""),
+                "Rule": result.get("test_id", ""),
+                "Message": result.get("issue_text", "")
+            })
+    except Exception as e:
+        print("bandit parse error:", e)
+
+# =======================================================
+# 7. Parse Python Pylint
+# =======================================================
+pylint_file = os.path.join(sys.argv[1], "pylint.json")
+if os.path.exists(pylint_file):
+    try:
+        data = json.load(open(pylint_file, encoding="utf-8"))
+        if isinstance(data, list):
+            for it in data:
+                out_rows.append({
+                    "Tool": "Pylint",
+                    "File": it.get("path", ""),
+                    "Line": it.get("line", ""),
+                    "Severity": (it.get("type") or "").capitalize(),
+                    "Rule": it.get("message-id", ""),
+                    "Message": it.get("message", "")
+                })
+    except Exception as e:
+        print("pylint parse error:", e)
+
+# =======================================================
+# 8. Parse Python Flake8
+# =======================================================
+flake8_file = os.path.join(sys.argv[1], "flake8.json")
+if os.path.exists(flake8_file):
+    try:
+        data = json.load(open(flake8_file, encoding="utf-8"))
+        for file, issues in data.items():
+            for i in issues:
+                out_rows.append({
+                    "Tool": "Flake8",
+                    "File": file,
+                    "Line": i.get("line_number", ""),
+                    "Severity": i.get("code", ""),
+                    "Rule": i.get("code", ""),
+                    "Message": i.get("text", "")
+                })
+    except Exception as e:
+        print("flake8 parse error:", e)
+
+# =======================================================
+# 9. Write Final Combined CSV
 # =======================================================
 output_path = sys.argv[2]
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
