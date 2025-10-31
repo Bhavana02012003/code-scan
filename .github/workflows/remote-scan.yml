@@ -232,22 +232,23 @@ jobs:
 
           echo "✅ .NET build phase complete."
 
-     # =======================================================
-      # DotNet • Run analyzers for each project
+      # =======================================================
+      # DotNet • Run analyzers for each project (correct syntax for .NET 8)
       # =======================================================
       - name: DotNet • Run analyzers
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
         run: |
           mkdir -p ../out
-          echo "Analyzing each .csproj..."
+          echo "Analyzing each .csproj with dotnet format (analyzers)..."
           for PROJ in $(find . -maxdepth 3 -name "*.csproj"); do
-            echo "🔸 Analyzing $PROJ"
-            dotnet format analyze "$PROJ" --verbosity diagnostic \
-              --report ../out/$(basename "$PROJ").analyze.json --report-format json || true
+            echo "🔸 Running analyzers for $PROJ"
+            dotnet format analyzers "$PROJ" --verify-no-changes \
+              --verbosity diagnostic \
+              --report "../out/$(basename "$PROJ").analyze.json" || true
           done
 
-          # Merge all JSON results into one combined file
+          # Merge all JSON analyzer reports
           echo "Combining analyzer outputs..."
           jq -s '{issues: map(.issues) | add}' ../out/*.analyze.json > ../out/dotnet.json || echo '{"issues":[]}' > ../out/dotnet.json
 
