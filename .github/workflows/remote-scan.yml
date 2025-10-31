@@ -199,46 +199,45 @@ jobs:
             echo "No LWC folder found, skipping auto-fix"
           fi
 
-        # =========================================================
-        # ========================= .NET ==========================
-        # =========================================================
-        - name: .NET • Restore and scan (format + analyzers + vulns)
-          if: ${{ env.TECH == 'DotNet' }}
-          working-directory: target
-          run: |
-            set -e
-            mkdir -p ../out
-            echo "🔍 Running .NET formatting + analyzer + vulnerability checks..."
-            dotnet tool install -g dotnet-format
-            export PATH="$HOME/.dotnet/tools:$PATH"
+      # =========================================================
+      # ========================= .NET ==========================
+      # =========================================================
+      - name: .NET • Restore and scan (format + analyzers + vulns)
+        if: ${{ env.TECH == 'DotNet' }}
+        working-directory: target
+        run: |
+          set -e
+          mkdir -p ../out
+          echo "🔍 Running .NET formatting + analyzer + vulnerability checks..."
+          dotnet tool install -g dotnet-format
+          export PATH="$HOME/.dotnet/tools:$PATH"
 
-            # Pick first solution or project
-            TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
-            if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.sln" "*.csproj" | head -n 1); fi
-            if [ -z "$TARGET" ]; then
-              echo "No .sln or .csproj found"
-              echo "[]" > ../out/dotnet-format.json
-              : > ../out/build_output.txt
-              echo "{}" > ../out/dotnet-packages.json
-              exit 0
-            fi
+          # Pick first solution or project
+          TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
+          if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.sln" "*.csproj" | head -n 1); fi
+          if [ -z "$TARGET" ]; then
+            echo "No .sln or .csproj found"
+            echo "[]" > ../out/dotnet-format.json
+            : > ../out/build_output.txt
+            echo "{}" > ../out/dotnet-packages.json
+            exit 0
+          fi
 
-            echo "Using target: $TARGET"
+          echo "Using target: $TARGET"
 
-            # Restore & scan
-            dotnet restore "$TARGET" || true
+          # Restore & scan
+          dotnet restore "$TARGET" || true
 
-            # 🔹 Code formatting violations
-            dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json --report-format json || true
+          # 🔹 Code formatting violations
+          dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json --report-format json || true
 
-            # 🔹 Compiler/analyzer warnings → build_output.txt
-            dotnet build "$TARGET" -p:EnableNETAnalyzers=true -p:AnalysisLevel=latest --no-incremental -v:normal > ../out/build_output.txt || true
+          # 🔹 Compiler/analyzer warnings → build_output.txt
+          dotnet build "$TARGET" -p:EnableNETAnalyzers=true -p:AnalysisLevel=latest --no-incremental -v:normal > ../out/build_output.txt || true
 
-            # 🔹 NuGet security vulnerabilities
-            dotnet list "$TARGET" package --vulnerable --include-transitive --format json > ../out/dotnet-packages.json || echo "{}" > ../out/dotnet-packages.json
+          # 🔹 NuGet security vulnerabilities
+          dotnet list "$TARGET" package --vulnerable --include-transitive --format json > ../out/dotnet-packages.json || echo "{}" > ../out/dotnet-packages.json
 
-            echo "✅ DotNet scan outputs generated: dotnet-format.json, build_output.txt, dotnet-packages.json"
-
+          echo "✅ DotNet scan outputs generated: dotnet-format.json, build_output.txt, dotnet-packages.json"
 
       # =======================================================
       # Java PMD scan + auto-fix
