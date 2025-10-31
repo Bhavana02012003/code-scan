@@ -199,50 +199,46 @@ jobs:
             echo "No LWC folder found, skipping auto-fix"
           fi
 
+        # =========================================================
+        # ========================= .NET ==========================
+        # =========================================================
+        - name: .NET • Restore and scan (format + analyzers + vulns)
+          if: ${{ env.TECH == 'DotNet' }}
+          working-directory: target
+          run: |
+            set -e
+            mkdir -p ../out
+            echo "🔍 Running .NET formatting + analyzer + vulnerability checks..."
+            dotnet tool install -g dotnet-format
+            export PATH="$HOME/.dotnet/tools:$PATH"
 
+            # Pick first solution or project
+            TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
+            if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.sln" "*.csproj" | head -n 1); fi
+            if [ -z "$TARGET" ]; then
+              echo "No .sln or .csproj found"
+              echo "[]" > ../out/dotnet-format.json
+              : > ../out/build_output.txt
+              echo "{}" > ../out/dotnet-packages.json
+              exit 0
+            fi
 
-     # =======================================================
-      # DotNet • Run analyzers using Roslyn + SecurityCodeScan
-      # =======================================================
-      - name: DotNet • Run Roslyn & Security analyzers
-        if: ${{ env.TECH == 'DotNet' }}
-        working-directory: target
-        run: |
-          mkdir -p ../out
-          echo "🔍 Running .NET analyzers and SecurityCodeScan..."
+            echo "Using target: $TARGET"
 
-          # Restore & build
-          dotnet restore || true
-          dotnet build --no-incremental || true
+            # Restore & scan
+            dotnet restore "$TARGET" || true
 
-          # ✅ Run full Roslyn analyzers and save SARIF
-          for PROJ in $(find . -maxdepth 3 -name "*.csproj"); do
-            echo "Analyzing project: $PROJ"
-            dotnet build "$PROJ" \
-              -warnaserror \
-              -p:RunAnalyzers=true \
-              -p:errorlog="../out/$(basename "$PROJ").analyze.sarif" || true
-          done
+            # 🔹 Code formatting violations
+            dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json --report-format json || true
 
-          # ✅ Run SecurityCodeScan (SCS)
-          dotnet tool install --global security-scan || echo "Already installed"
-          export PATH="$PATH:/home/runner/.dotnet/tools"
-          for PROJ in $(find . -maxdepth 3 -name "*.csproj"); do
-            echo "Running SecurityCodeScan for $PROJ"
-            security-scan scan --format sarif --output "../out/$(basename "$PROJ").scs.sarif" "$PROJ" || true
-          done
+            # 🔹 Compiler/analyzer warnings → build_output.txt
+            dotnet build "$TARGET" -p:EnableNETAnalyzers=true -p:AnalysisLevel=latest --no-incremental -v:normal > ../out/build_output.txt || true
 
-          # ✅ Merge SARIF → JSON → flat report
-          echo "Merging all SARIF outputs..."
-          jq -s '[.[][] | select(.runs != null) | .runs[].results[]? | {
-            Tool: (.ruleId // .rule.id // "DotNetRule"),
-            File: (.locations[0].physicalLocation.artifactLocation.uri // ""),
-            Line: (.locations[0].physicalLocation.region.startLine // ""),
-            Severity: (.level // ""),
-            Message: (.message.text // "")
-          }]' ../out/*.sarif > ../out/dotnet.json || echo "[]" > ../out/dotnet.json
+            # 🔹 NuGet security vulnerabilities
+            dotnet list "$TARGET" package --vulnerable --include-transitive --format json > ../out/dotnet-packages.json || echo "{}" > ../out/dotnet-packages.json
 
-          echo "✅ DotNet analyzer results written to ../out/dotnet.json"
+            echo "✅ DotNet scan outputs generated: dotnet-format.json, build_output.txt, dotnet-packages.json"
+
 
       # =======================================================
       # Java PMD scan + auto-fix
