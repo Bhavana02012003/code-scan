@@ -202,23 +202,49 @@ jobs:
 
 
       # =======================================================
-      # DotNet scan (SecurityCodeScan + dotnet format analyze)
+      # DotNet scan (built-in analyzers + SecurityCodeScan)
       # =======================================================
+      - name: DotNet • Restore & build
+        if: ${{ env.TECH == 'DotNet' }}
+        working-directory: target
+        run: |
+          mkdir -p ../out
+          dotnet restore
+
+          # Detect main solution or project file
+          SOLUTION=$(find . -maxdepth 2 -name "*.sln" | head -n 1)
+          if [ -z "$SOLUTION" ]; then
+            PROJECT=$(find . -maxdepth 2 -name "*.csproj" | head -n 1)
+          fi
+
+          if [ -n "$SOLUTION" ]; then
+            echo "Building solution: $SOLUTION"
+            dotnet build "$SOLUTION" --no-incremental || true
+          elif [ -n "$PROJECT" ]; then
+            echo "Building project: $PROJECT"
+            dotnet build "$PROJECT" --no-incremental || true
+          else
+            echo "⚠️ No .sln or .csproj found, skipping build"
+          fi
+
       - name: DotNet • Run analyzers
         if: ${{ env.TECH == 'DotNet' }}
         working-directory: target
         run: |
           mkdir -p ../out
-          export PATH="$PATH:~/.dotnet/tools"
-          dotnet tool install --global SecurityCodeScan.VS2019 || true
-          dotnet restore
-          dotnet build --no-incremental || true
-          # Run .NET built-in analyzer and save report
+          echo "Running built-in .NET analyzers..."
           dotnet format analyze --verbosity diagnostic --report ../out/dotnet.json --report-format json || true
-          # Run SecurityCodeScan (creates SARIF)
-          dotnet build /p:RunAnalyzers=true /warnaserror:SecurityCodeScan || true
-          find . -name "SecurityCodeScan.sarif" -exec cp {} ../out/dotnet_sarif.json \; || echo "no sarif"
 
+          # Use SecurityCodeScan as a NuGet package if possible
+          PROJECT=$(find . -maxdepth 2 -name "*.csproj" | head -n 1)
+          if [ -n "$PROJECT" ]; then
+            echo "Adding SecurityCodeScan to $PROJECT"
+            dotnet add "$PROJECT" package SecurityCodeScan.VS2022 || true
+            dotnet build "$PROJECT" /p:RunAnalyzers=true || true
+            find . -name "*.sarif" -exec cp {} ../out/dotnet_sarif.json \; || echo "No SARIF file"
+          else
+            echo "⚠️ No .csproj found for SecurityCodeScan"
+          fi
 
       # =======================================================
       # Java PMD scan + auto-fix
