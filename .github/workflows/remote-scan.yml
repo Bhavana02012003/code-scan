@@ -1,6 +1,9 @@
 name: Remote Code Scan
 
 on:
+  push:
+    branches:
+      - "**"   # 🔥 Scan ANY branch, including auto-created feature branches
   repository_dispatch:
     types: [run-scan]
 
