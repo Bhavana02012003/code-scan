@@ -1,4 +1,4 @@
-name: Create Temporary Branch
+name: Create Temporary Branch and Apply Fix
 
 on:
   repository_dispatch:
@@ -8,58 +8,53 @@ permissions:
   contents: write
 
 jobs:
-  create-branch:
+  apply-fix:
     runs-on: ubuntu-latest
 
     steps:
-    # ----------------------------------------------------
-    # 1. Checkout orchestrator repo (your current repo)
-    # ----------------------------------------------------
-    - name: Checkout orchestrator repo
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    # ----------------------------------------------------
-    # 2. Generate GitHub App Token (repo-scoped)
-    # ----------------------------------------------------
-    - name: Generate GitHub App Token
-      id: token
-      uses: tibdex/github-app-token@v2
-      with:
-        app_id: ${{ secrets.GH_APP_ID }}
-        private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
-        installation_retrieval_mode: repository
-        installation_retrieval_payload: ${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}
+      - name: Generate GitHub App Token
+        id: token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.GH_APP_ID }}
+          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          installation_retrieval_mode: repository
+          installation_retrieval_payload: ${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}
 
-    # ----------------------------------------------------
-    # 3. Clone the actual target repo using app token
-    # ----------------------------------------------------
-    - name: Clone target repo
-      run: |
-        echo "Cloning target repo..."
-        git clone https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git target
+      - name: Clone target repo
+        run: |
+          git clone https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git target
 
-    # ----------------------------------------------------
-    # 4. Create new branch, add a file, commit, push
-    # ----------------------------------------------------
-    - name: Create & Push Feature Branch
-      working-directory: target
-      run: |
-        echo "Switching to base branch: ${{ github.event.client_payload.target_branch }}"
-        git checkout ${{ github.event.client_payload.target_branch }}
+      - name: Create branch and apply fix
+        working-directory: target
+        run: |
+          echo "👉 Checking out main branch..."
+          git checkout ${{ github.event.client_payload.target_branch }}
 
-        echo "Creating new feature branch: ${{ github.event.client_payload.feature_branch }}"
-        git checkout -b ${{ github.event.client_payload.feature_branch }}
+          echo "👉 Creating feature branch..."
+          git checkout -b ${{ github.event.client_payload.feature_branch }}
 
-        echo "Configuring git identity..."
-        git config user.email "remote-code-scan-bot@github.com"
-        git config user.name  "Remote Code Scan Bot"
+          FILE="${{ github.event.client_payload.file_path }}"
+          echo "📄 File to patch: $FILE"
 
-        echo "Writing branch-info.txt file..."
-        echo "Temporary branch created at $(date)" > branch-info.txt
-        git add branch-info.txt
-        git commit -m "Create temporary branch via GitHub App"
+          echo "🔍 Writing ORIGINAL code to tmp_original.txt"
+          printf "%s" "${{ github.event.client_payload.original_code }}" > tmp_original.txt
 
-        echo "Pushing branch to origin..."
-        git push https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git ${{ github.event.client_payload.feature_branch }}
+          echo "🛠 Writing FIXED code to tmp_fixed.txt"
+          printf "%s" "${{ github.event.client_payload.fixed_code }}" > tmp_fixed.txt
 
-        echo "Branch pushed successfully!"
+          echo "🔄 Applying replacement..."
+          ORIGINAL=$(sed -e 's/[\/&]/\\&/g' tmp_original.txt)
+          FIXED=$(sed -e 's/[\/&]/\\&/g' tmp_fixed.txt)
+
+          sed -i "s/$ORIGINAL/$FIXED/" "$FILE"
+
+          echo "🎯 Git commit & push"
+          git config user.email "branch-bot@example.com"
+          git config user.name "Branch Bot"
+
+          git add "$FILE"
+          git commit -m "Apply AI Auto Fix"
+          git push --set-upstream origin ${{ github.event.client_payload.feature_branch }}
