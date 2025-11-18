@@ -27,11 +27,11 @@ jobs:
         run: |
           git clone https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git target
 
-      - name: Write code snippets to files (SAFE)
+      - name: Decode code snippets (SAFE)
         working-directory: target
         run: |
-          echo "${{ github.event.client_payload.original_code }}" > ../original.txt
-          echo "${{ github.event.client_payload.fixed_code }}" > ../fixed.txt
+          echo "${{ github.event.client_payload.original_code_b64 }}" | base64 --decode > ../original.txt
+          echo "${{ github.event.client_payload.fixed_code_b64 }}" | base64 --decode > ../fixed.txt
 
       - name: Create branch and apply fix
         working-directory: target
@@ -45,14 +45,12 @@ jobs:
           FILE="${{ github.event.client_payload.file_path }}"
           echo "📄 File to patch: $FILE"
 
-          echo "🔄 Reading files"
           ORIGINAL=$(sed -e 's/[\/&]/\\&/g' ../original.txt)
           FIXED=$(sed -e 's/[\/&]/\\&/g' ../fixed.txt)
 
-          echo "🔧 Applying fix using safe replacement"
+          echo "🔧 Applying fix..."
           sed -i "s/$ORIGINAL/$FIXED/" "$FILE"
 
-          echo "🎯 Committing changes"
           git config user.email "branch-bot@example.com"
           git config user.name "Branch Bot"
 
