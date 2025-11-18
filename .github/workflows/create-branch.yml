@@ -1,0 +1,40 @@
+name: Create Temporary Branch
+
+on:
+  repository_dispatch:
+    types: [create-branch]
+
+permissions:
+  contents: write
+
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Generate GitHub App Token
+      id: token
+      uses: tibdex/github-app-token@v2
+      with:
+        app_id: ${{ secrets.GH_APP_ID }}
+        private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+        installation_retrieval_mode: repository
+        installation_retrieval_payload: ${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}
+
+    - name: Clone target repo
+      run: |
+        git clone https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git target
+
+    - name: Create feature branch
+      working-directory: target
+      run: |
+        git checkout ${{ github.event.client_payload.target_branch }}
+        git checkout -b ${{ github.event.client_payload.feature_branch }}
+        git config user.email "branch-bot@example.com"
+        git config user.name "Branch Bot"
+        echo "Branch created on $(date)" > branch-info.txt
+        git add branch-info.txt
+        git commit -m "Create temporary branch"
+        git push --set-upstream origin ${{ github.event.client_payload.feature_branch }}
