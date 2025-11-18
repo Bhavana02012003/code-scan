@@ -36,24 +36,27 @@ jobs:
       - name: Create branch and apply fix
         working-directory: target
         run: |
-          echo "👉 Checking out main branch..."
-          git checkout ${{ github.event.client_payload.target_branch }}
+            echo "👉 Checking out main branch..."
+            git checkout ${{ github.event.client_payload.target_branch }}
 
-          echo "👉 Creating feature branch..."
-          git checkout -b ${{ github.event.client_payload.feature_branch }}
+            echo "👉 Creating feature branch..."
+            git checkout -b ${{ github.event.client_payload.feature_branch }}
 
-          FILE="${{ github.event.client_payload.file_path }}"
-          echo "📄 File to patch: $FILE"
+            FILE="${{ github.event.client_payload.file_path }}"
+            echo "📄 File to patch: $FILE"
 
-          ORIGINAL=$(sed -e 's/[\/&]/\\&/g' ../original.txt)
-          FIXED=$(sed -e 's/[\/&]/\\&/g' ../fixed.txt)
+            echo "🔧 Applying fix (PERL multi-line safe)..."
 
-          echo "🔧 Applying fix..."
-          sed -i "s/$ORIGINAL/$FIXED/" "$FILE"
+            perl -0777 -pi -e \
+            'my $orig = do { local $/; <> }; 
+            my $fix = do { local $/; open my $fh, "../fixed.txt"; <$fh> }; 
+            s/\Q$orig\E/$fix/gs' \
+            "$FILE" ../original.txt
 
-          git config user.email "branch-bot@example.com"
-          git config user.name "Branch Bot"
+            echo "🎯 Committing changes"
+            git config user.email "branch-bot@example.com"
+            git config user.name "Branch Bot"
 
-          git add "$FILE"
-          git commit -m "Apply AI Auto Fix"
-          git push --set-upstream origin ${{ github.event.client_payload.feature_branch }}
+            git add "$FILE"
+            git commit -m "Apply AI Auto Fix"
+            git push --set-upstream origin ${{ github.event.client_payload.feature_branch }}
