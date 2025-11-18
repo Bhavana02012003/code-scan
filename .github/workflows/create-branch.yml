@@ -36,27 +36,45 @@ jobs:
       - name: Create branch and apply fix
         working-directory: target
         run: |
-            echo "👉 Checking out main branch..."
-            git checkout ${{ github.event.client_payload.target_branch }}
+          echo "👉 Checking out target branch..."
+          git checkout ${{ github.event.client_payload.target_branch }}
 
-            echo "👉 Creating feature branch..."
-            git checkout -b ${{ github.event.client_payload.feature_branch }}
+          echo "👉 Creating feature branch..."
+          git checkout -b ${{ github.event.client_payload.feature_branch }}
 
-            FILE="${{ github.event.client_payload.file_path }}"
-            echo "📄 File to patch: $FILE"
+          FILE="${{ github.event.client_payload.file_path }}"
+          echo "📄 File to patch: $FILE"
 
-            echo "🔧 Applying fix (PERL multi-line safe)..."
+          echo "🔧 Reading original.txt and fixed.txt"
+          ORIG=$(cat ../original.txt | sed 's/\r$//')
+          FIX=$(cat ../fixed.txt   | sed 's/\r$//')
 
-            perl -0777 -pi -e \
-            'my $orig = do { local $/; <> }; 
-            my $fix = do { local $/; open my $fh, "../fixed.txt"; <$fh> }; 
-            s/\Q$orig\E/$fix/gs' \
-            "$FILE" ../original.txt
+          echo "🔍 Checking if ORIGINAL block exists inside file..."
+          if grep -F "$ORIG" "$FILE"; then
+            echo "✅ Block found — replacing..."
+            perl -0777 -pi -e '
+              use strict; use warnings;
+              my $orig = do { local $/; open my $fh, "../original.txt" or die $!; <$fh> };
+              my $fix  = do { local $/; open my $fh, "../fixed.txt" or die $!; <$fh> };
 
-            echo "🎯 Committing changes"
-            git config user.email "branch-bot@example.com"
-            git config user.name "Branch Bot"
+              $orig =~ s/\r//g;
+              $fix  =~ s/\r//g;
+              $_    =~ s/\r//g;
 
-            git add "$FILE"
-            git commit -m "Apply AI Auto Fix"
-            git push --set-upstream origin ${{ github.event.client_payload.feature_branch }}
+              if (index($_, $orig) >= 0) {
+                s/\Q$orig\E/$fix/s;
+              } else {
+                print "⚠️ ORIGINAL block not found — no replacement done\n";
+              }
+            ' "$FILE"
+          else
+            echo "❌ ORIGINAL not found — skipping replacement"
+          fi
+
+          echo "🎯 Committing changes"
+          git config user.email "branch-bot@example.com"
+          git config user.name "Branch Bot"
+
+          git add "$FILE"
+          git commit -m "Apply AI Auto Fix"
+          git push --set-upstream origin ${{ github.event.client_payload.feature_branch }}
