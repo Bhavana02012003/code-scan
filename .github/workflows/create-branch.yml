@@ -27,35 +27,37 @@ jobs:
         run: |
           git clone https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git target
 
-      - name: Write code snippets to files (SAFE)
+      - name: Save ORIGINAL and FIXED code safely
         working-directory: target
         run: |
-          echo "${{ github.event.client_payload.original_code }}" > ../original.txt
-          echo "${{ github.event.client_payload.fixed_code }}" > ../fixed.txt
+          cat << 'EOF' > ../original.txt
+${{ github.event.client_payload.original_code }}
+EOF
+
+          cat << 'EOF' > ../fixed.txt
+${{ github.event.client_payload.fixed_code }}
+EOF
 
       - name: Create branch and apply fix
         working-directory: target
         run: |
-          echo "👉 Checking out main branch..."
+          echo "👉 Checking out base branch..."
           git checkout ${{ github.event.client_payload.target_branch }}
 
           echo "👉 Creating feature branch..."
           git checkout -b ${{ github.event.client_payload.feature_branch }}
 
           FILE="${{ github.event.client_payload.file_path }}"
-          echo "📄 File to patch: $FILE"
+          echo "📄 Patching file: $FILE"
 
-          echo "🔄 Reading files"
           ORIGINAL=$(sed -e 's/[\/&]/\\&/g' ../original.txt)
           FIXED=$(sed -e 's/[\/&]/\\&/g' ../fixed.txt)
 
-          echo "🔧 Applying fix using safe replacement"
+          echo "🔧 Applying safe replacement"
           sed -i "s/$ORIGINAL/$FIXED/" "$FILE"
 
-          echo "🎯 Committing changes"
           git config user.email "branch-bot@example.com"
           git config user.name "Branch Bot"
-
           git add "$FILE"
           git commit -m "Apply AI Auto Fix"
           git push --set-upstream origin ${{ github.event.client_payload.feature_branch }}
