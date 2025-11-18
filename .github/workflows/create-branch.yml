@@ -27,6 +27,12 @@ jobs:
         run: |
           git clone https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git target
 
+      - name: Write code snippets to files (SAFE)
+        working-directory: target
+        run: |
+          echo "${{ github.event.client_payload.original_code }}" > ../original.txt
+          echo "${{ github.event.client_payload.fixed_code }}" > ../fixed.txt
+
       - name: Create branch and apply fix
         working-directory: target
         run: |
@@ -39,19 +45,14 @@ jobs:
           FILE="${{ github.event.client_payload.file_path }}"
           echo "📄 File to patch: $FILE"
 
-          echo "🔍 Writing ORIGINAL code to tmp_original.txt"
-          printf "%s" "${{ github.event.client_payload.original_code }}" > tmp_original.txt
+          echo "🔄 Reading files"
+          ORIGINAL=$(sed -e 's/[\/&]/\\&/g' ../original.txt)
+          FIXED=$(sed -e 's/[\/&]/\\&/g' ../fixed.txt)
 
-          echo "🛠 Writing FIXED code to tmp_fixed.txt"
-          printf "%s" "${{ github.event.client_payload.fixed_code }}" > tmp_fixed.txt
-
-          echo "🔄 Applying replacement..."
-          ORIGINAL=$(sed -e 's/[\/&]/\\&/g' tmp_original.txt)
-          FIXED=$(sed -e 's/[\/&]/\\&/g' tmp_fixed.txt)
-
+          echo "🔧 Applying fix using safe replacement"
           sed -i "s/$ORIGINAL/$FIXED/" "$FILE"
 
-          echo "🎯 Git commit & push"
+          echo "🎯 Committing changes"
           git config user.email "branch-bot@example.com"
           git config user.name "Branch Bot"
 
