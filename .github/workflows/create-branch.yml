@@ -25,18 +25,16 @@ jobs:
 
       - name: Clone target repo
         run: |
-          git clone "https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git" target
+          git clone https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git target
 
-      # We only really need the FIXED code now
-      - name: Decode fixed code snippet
+      - name: Decode code snippets
         run: |
-          echo "${{ github.event.client_payload.fixed_code_b64 }}" | base64 --decode > fixed.txt
+          echo "${{ github.event.client_payload.original_code_b64 }}" | base64 --decode > original.txt
+          echo "${{ github.event.client_payload.fixed_code_b64 }}"    | base64 --decode > fixed.txt
 
-      - name: Create branch & apply fix (method-level)
+      - name: Create branch & apply fix
         working-directory: target
         run: |
-          set -e
-
           echo "👉 Checking out target branch..."
           git checkout "${{ github.event.client_payload.target_branch }}"
 
@@ -46,146 +44,36 @@ jobs:
           FILE="${{ github.event.client_payload.file_path }}"
           echo "📄 Target file: $FILE"
 
-          # Normalize line endings
-          sed -i 's/\r$//' "$FILE"
+          echo "🔧 Normalizing CRLF/LF"
+          sed -i 's/\r$//' ../original.txt
           sed -i 's/\r$//' ../fixed.txt
+          sed -i 's/\r$//' "$FILE"
 
-          echo "🧠 Building method-level replacer script..."
-          cat <<'PERL' > ../apply_fix.pl
-          use strict;
-          use warnings;
+          echo "🔍 Checking for ORIGINAL block inside target file..."
+          if grep -F "$(cat ../original.txt)" "$FILE"; then
+            echo "✅ ORIGINAL found → Replacing block"
+            perl -0777 -pi -e '
+              use strict; use warnings;
+              my $orig = do { local $/; open my $fh, "../original.txt"; <$fh> };
+              my $fix  = do { local $/; open my $fh, "../fixed.txt"; <$fh> };
 
-          my $file = shift @ARGV or die "Missing file path\n";
-          my $fixed_path = "../fixed.txt";
+              $orig =~ s/\r//g;
+              $fix  =~ s/\r//g;
+              $_    =~ s/\r//g;
 
-          # -----------------------------
-          # Read fixed snippet
-          # -----------------------------
-          open my $fh, '<', $fixed_path or die "Cannot open $fixed_path: $!";
-          local $/;
-          my $fixed = <$fh>;
-          close $fh;
-
-          $fixed =~ s/\r//g;
-
-          # -----------------------------
-          # Extract methods from FIXED
-          # -----------------------------
-          my @methods;
-
-          while ($fixed =~ m{
-              ^(\s*
-                (public|private|global|protected)\s+
-                (?:virtual\s+|override\s+|static\s+|abstract\s+|transient\s+|final\s+)*
-                [\\w<>\\[\\]]+\\s+
-                (\\w+)\\s*              # method name in $3
-                \\([^)]*\\)\\s*
-                \\{
-              )
-          }gmsx) {
-              my $sig_start = $-[1];
-              my $name      = $3;
-
-              # find matching closing brace
-              my $brace_pos = index($fixed, '{', $sig_start);
-              my $depth = 0;
-              my $i = $brace_pos;
-              my $end = -1;
-
-              for (; $i < length($fixed); $i++) {
-                  my $ch = substr($fixed, $i, 1);
-                  $depth++ if $ch eq '{';
-                  $depth-- if $ch eq '}';
-                  if ($depth == 0 && $i > $brace_pos) {
-                      $end = $i + 1; # position AFTER closing brace
-                      last;
-                  }
-              }
-
-              if ($end == -1) {
-                  print "⚠️  Skipping method $name: unbalanced braces in fixed snippet\n";
-                  next;
-              }
-
-              my $text = substr($fixed, $sig_start, $end - $sig_start);
-              push @methods, { name => $name, text => $text };
-          }
-
-          print "Found " . scalar(@methods) . " method(s) in fixed snippet\n";
-
-          # -----------------------------
-          # Read original source file
-          # -----------------------------
-          open my $sfh, '<', $file or die "Cannot open $file: $!";
-          local $/;
-          my $src = <$sfh>;
-          close $sfh;
-
-          $src =~ s/\r//g;
-
-          # -----------------------------
-          # Replace each method in source
-          # -----------------------------
-          METHOD:
-          foreach my $m (@methods) {
-              my $name     = $m->{name};
-              my $new_text = $m->{text};
-
-              if ($src =~ m{
-                  ^(\s*
-                    (public|private|global|protected)\s+
-                    (?:virtual\s+|override\s+|static\s+|abstract\s+|transient\s+|final\s+)*
-                    [\\w<>\\[\\]]+\\s+
-                    $name\\s*
-                    \\([^)]*\\)\\s*
-                    \\{
-                  )
-              }gmsx) {
-                  my $sig_start = $-[1];
-                  my $brace_pos = index($src, '{', $sig_start);
-                  my $depth = 0;
-                  my $i = $brace_pos;
-                  my $end = -1;
-
-                  for (; $i < length($src); $i++) {
-                      my $ch = substr($src, $i, 1);
-                      $depth++ if $ch eq '{';
-                      $depth-- if $ch eq '}';
-                      if ($depth == 0 && $i > $brace_pos) {
-                          $end = $i + 1;
-                          last;
-                      }
-                  }
-
-                  if ($end == -1) {
-                      print "⚠️  Could not find balanced end for method $name in source. Skipping.\n";
-                      next METHOD;
-                  }
-
-                  substr($src, $sig_start, $end - $sig_start, $new_text);
-                  print "✅ Replaced method $name\n";
-              } else {
-                  print "ℹ️  Method $name not found in target file. Skipping.\n";
-              }
-          }
-
-          # -----------------------------
-          # Write updated source file
-          # -----------------------------
-          open my $out, '>', $file or die "Cannot write $file: $!";
-          print $out $src;
-          close $out;
-
-          PERL
-
-          echo "🔧 Running method-level replacement..."
-          perl ../apply_fix.pl "$FILE"
+              s/\Q$orig\E/$fix/s;
+            ' "$FILE"
+          else
+            echo "❌ ORIGINAL block not found — overwriting file with FIXED code"
+            cp ../fixed.txt "$FILE"
+          fi
 
           echo "// AUTO-FIX APPLIED" >> "$FILE"
 
           echo "🎯 Committing & pushing changes"
           git config user.email "branch-bot@example.com"
           git config user.name  "Branch Bot"
+
           git add "$FILE"
-          git commit -m "Apply AI Auto Fix" || echo "Nothing to commit"
+          git commit -m "Apply AI Auto Fix"
           git push --set-upstream origin "${{ github.event.client_payload.feature_branch }}"
