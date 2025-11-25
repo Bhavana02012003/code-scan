@@ -23,7 +23,7 @@ jobs:
           installation_retrieval_mode: repository
           installation_retrieval_payload: ${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}
 
-      - name: Clone target repo
+      - name: Clone Target Repo
         run: |
           git clone https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git target
 
@@ -33,75 +33,82 @@ jobs:
           echo "${{ github.event.client_payload.fixed_code_b64 }}"    | base64 --decode > fixed.txt
 
       # ===========================================================
-      # CREATE apply_fix.pl IN ROOT DIRECTORY
+      # CREATE apply_fix.pl (extract signature from FIXED CODE)
       # ===========================================================
-      - name: Create Perl method-level patch script
+      - name: Create Method Patch Script
         run: |
           cat << 'EOF' > apply_fix.pl
           use strict;
           use warnings;
-          local $/;
 
+          # Load args
           my $file = $ARGV[0];
-          
-          # Load from parent folder because workflow runs inside "target/"
-          my $orig = do { open my $fh, "../original.txt" or die "Missing original.txt: $!"; local $/; <$fh> };
-          my $fix  = do { open my $fh, "../fixed.txt"    or die "Missing fixed.txt: $!";    local $/; <$fh> };
+
+          # Load code blocks
+          my $orig = do { local $/; open my $fh, "../original.txt" or die $!; <$fh> };
+          my $fix  = do { local $/; open my $fh, "../fixed.txt"    or die $!; <$fh> };
 
           $orig =~ s/\r//g;
           $fix  =~ s/\r//g;
 
+          # LOAD TARGET FILE
           open my $fh_in, "<", $file or die $!;
           my $content = do { local $/; <$fh_in> };
           close $fh_in;
 
-          # Extract method signature
-          my ($methodSignature) = ($orig =~ /(public|private|protected)\s+[^{]+/);
+          # ==========================================
+          # EXTRACT METHOD SIGNATURE FROM FIXED CODE
+          # ==========================================
+          my ($methodSig) = ($fix =~ /(public|private|protected)\s+[^{]+/);
 
-          if (!$methodSignature) {
-              print "❌ No method signature detected in original code\n";
+          if (!$methodSig) {
+              print "❌ Could not extract method signature from FIXED code\n";
               exit 1;
           }
 
-          my $safe = quotemeta($methodSignature);
+          my $safeSig = quotemeta($methodSig);
 
-          # Locate method start
-          if ($content =~ /($safe\s*\{)/s) {
+          # ==========================================
+          # FIND METHOD IN TARGET FILE
+          # ==========================================
+          if ($content =~ /($safeSig\s*\{)/s) {
               my $start = $-[0];
-              my $braceCount = 0;
+              my $brace = 0;
               my $i;
 
               for ($i = $start; $i < length($content); $i++) {
                   my $c = substr($content, $i, 1);
-                  $braceCount++ if $c eq '{';
-                  $braceCount-- if $c eq '}';
-                  last if $braceCount == 0;
+                  $brace++ if $c eq '{';
+                  $brace-- if $c eq '}';
+                  last if $brace == 0;
               }
 
               my $end = $i + 1;
               my $methodBlock = substr($content, $start, $end - $start);
 
-              my $newContent = $content;
-              $newContent =~ s/\Q$methodBlock\E/$fix/s;
+              # Replace method block
+              my $new = $content;
+              $new =~ s/\Q$methodBlock\E/$fix/s;
 
               open my $fh_out, ">", $file or die $!;
-              print $fh_out $newContent;
+              print $fh_out $new;
               close $fh_out;
 
               print "✅ Method replaced successfully\n";
           } else {
-              print "❌ Method signature not found in target file.\n";
+              print "❌ Method signature NOT FOUND in Apex file.\n";
               exit 1;
           }
           EOF
 
       # ===========================================================
-      # CREATE BRANCH + APPLY FIX
+      # APPLY FIX
       # ===========================================================
-      - name: Create branch & apply fix
+      - name: Create branch and apply fix
         working-directory: target
         run: |
           set -e
+
           git checkout "${{ github.event.client_payload.target_branch }}"
           git checkout -b "${{ github.event.client_payload.feature_branch }}"
 
@@ -109,7 +116,7 @@ jobs:
 
           sed -i 's/\r$//' "$FILE"
 
-          echo "🧠 Running apply_fix.pl"
+          echo "🧠 Running apply_fix.pl..."
           perl ../apply_fix.pl "$FILE"
 
           echo "// AUTO-FIX APPLIED" >> "$FILE"
