@@ -23,101 +23,94 @@ jobs:
           installation_retrieval_mode: repository
           installation_retrieval_payload: ${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}
 
-      - name: Clone Target Repo
+      - name: Clone target repo
         run: |
           git clone https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git target
 
-      - name: Decode code snippets
+      - name: Decode method snippets
         run: |
           echo "${{ github.event.client_payload.original_code_b64 }}" | base64 --decode > original.txt
           echo "${{ github.event.client_payload.fixed_code_b64 }}"    | base64 --decode > fixed.txt
 
-      # ===========================================================
-      # CREATE apply_fix.pl (extract signature from FIXED CODE)
-      # ===========================================================
-      - name: Create Method Patch Script
+      # ======================================================
+      # Create method-only replacer
+      # ======================================================
+      - name: Create method replacer script
         run: |
-          cat << 'EOF' > apply_fix.pl
+          cat << 'EOF' > method_replace.pl
           use strict;
           use warnings;
+          local $/;
 
-          # Load args
           my $file = $ARGV[0];
 
-          # Load code blocks
-          my $orig = do { local $/; open my $fh, "../original.txt" or die $!; <$fh> };
-          my $fix  = do { local $/; open my $fh, "../fixed.txt"    or die $!; <$fh> };
+          my $orig = do { open my $fh, "original.txt" or die $!; <$fh> };
+          my $fix  = do { open my $fh, "fixed.txt"    or die $!; <$fh> };
 
           $orig =~ s/\r//g;
           $fix  =~ s/\r//g;
 
-          # LOAD TARGET FILE
-          open my $fh_in, "<", $file or die $!;
-          my $content = do { local $/; <$fh_in> };
-          close $fh_in;
+          # Extract the method signature (first line only)
+          my ($signature) = ($orig =~ /^([^{]+)\{/m);
 
-          # ==========================================
-          # EXTRACT METHOD SIGNATURE FROM FIXED CODE
-          # ==========================================
-          my ($methodSig) = ($fix =~ /(public|private|protected)\s+[^{]+/);
-
-          if (!$methodSig) {
-              print "❌ Could not extract method signature from FIXED code\n";
+          if (!$signature) {
+              print "❌ Could not detect method signature.\n";
               exit 1;
           }
 
-          my $safeSig = quotemeta($methodSig);
+          $signature =~ s/\s+$//;
 
-          # ==========================================
-          # FIND METHOD IN TARGET FILE
-          # ==========================================
-          if ($content =~ /($safeSig\s*\{)/s) {
+          open my $fh2, "<", $file or die $!;
+          my $content = do { <$fh2> };
+
+          # Find exact method start
+          if ($content =~ /(\Q$signature\E\s*\{)/m) {
               my $start = $-[0];
-              my $brace = 0;
-              my $i;
+              my $braceCount = 0;
+              my $i = $start;
 
-              for ($i = $start; $i < length($content); $i++) {
-                  my $c = substr($content, $i, 1);
-                  $brace++ if $c eq '{';
-                  $brace-- if $c eq '}';
-                  last if $brace == 0;
+              # Locate matching closing brace
+              for (; $i < length($content); $i++) {
+                  my $ch = substr($content, $i, 1);
+                  $braceCount++ if $ch eq '{';
+                  $braceCount-- if $ch eq '}';
+                  last if $braceCount == 0;
               }
 
               my $end = $i + 1;
-              my $methodBlock = substr($content, $start, $end - $start);
+              my $oldBlock = substr($content, $start, $end - $start);
 
-              # Replace method block
-              my $new = $content;
-              $new =~ s/\Q$methodBlock\E/$fix/s;
+              # Replace only this method
+              $content =~ s/\Q$oldBlock\E/$fix/s;
 
-              open my $fh_out, ">", $file or die $!;
-              print $fh_out $new;
-              close $fh_out;
+              open my $out, ">", $file or die $!;
+              print $out $content;
 
               print "✅ Method replaced successfully\n";
           } else {
-              print "❌ Method signature NOT FOUND in Apex file.\n";
+              print "❌ Method signature not found.\n";
               exit 1;
           }
           EOF
 
-      # ===========================================================
-      # APPLY FIX
-      # ===========================================================
-      - name: Create branch and apply fix
+      # ======================================================
+      # Apply Fix
+      # ======================================================
+      - name: Create branch & apply fix
         working-directory: target
         run: |
           set -e
-
           git checkout "${{ github.event.client_payload.target_branch }}"
           git checkout -b "${{ github.event.client_payload.feature_branch }}"
 
           FILE="${{ github.event.client_payload.file_path }}"
 
+          sed -i 's/\r$//' ../original.txt
+          sed -i 's/\r$//' ../fixed.txt
           sed -i 's/\r$//' "$FILE"
 
-          echo "🧠 Running apply_fix.pl..."
-          perl ../apply_fix.pl "$FILE"
+          echo "🧠 Running method_replace.pl..."
+          perl ../method_replace.pl "$FILE"
 
           echo "// AUTO-FIX APPLIED" >> "$FILE"
 
