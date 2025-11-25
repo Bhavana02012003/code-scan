@@ -33,7 +33,7 @@ jobs:
           echo "${{ github.event.client_payload.fixed_code_b64 }}"    | base64 --decode > fixed.txt
 
       # ===========================================================
-      # CREATE apply_fix.pl (THIS WAS MISSING EARLIER)
+      # CREATE apply_fix.pl IN ROOT DIRECTORY
       # ===========================================================
       - name: Create Perl method-level patch script
         run: |
@@ -43,8 +43,10 @@ jobs:
           local $/;
 
           my $file = $ARGV[0];
-          my $orig = do { local $/; open my $fh, "original.txt" or die $!; <$fh> };
-          my $fix  = do { local $/; open my $fh, "fixed.txt"    or die $!; <$fh> };
+          
+          # Load from parent folder because workflow runs inside "target/"
+          my $orig = do { open my $fh, "../original.txt" or die "Missing original.txt: $!"; local $/; <$fh> };
+          my $fix  = do { open my $fh, "../fixed.txt"    or die "Missing fixed.txt: $!";    local $/; <$fh> };
 
           $orig =~ s/\r//g;
           $fix  =~ s/\r//g;
@@ -53,7 +55,7 @@ jobs:
           my $content = do { local $/; <$fh_in> };
           close $fh_in;
 
-          # Extract method signature from the original code
+          # Extract method signature
           my ($methodSignature) = ($orig =~ /(public|private|protected)\s+[^{]+/);
 
           if (!$methodSignature) {
@@ -61,28 +63,24 @@ jobs:
               exit 1;
           }
 
-          # Build regex to match the full method body
-          my $safePattern = quotemeta($methodSignature);
+          my $safe = quotemeta($methodSignature);
 
-          # Match the opening brace of the method
-          if ($content =~ /($safePattern\s*\{)/s) {
-
-              my $startPos = $-[0];
+          # Locate method start
+          if ($content =~ /($safe\s*\{)/s) {
+              my $start = $-[0];
               my $braceCount = 0;
-              my $i = $startPos;
+              my $i;
 
-              # Find matching closing brace
-              for (; $i < length($content); $i++) {
-                  my $ch = substr($content, $i, 1);
-                  $braceCount++ if $ch eq '{';
-                  $braceCount-- if $ch eq '}';
+              for ($i = $start; $i < length($content); $i++) {
+                  my $c = substr($content, $i, 1);
+                  $braceCount++ if $c eq '{';
+                  $braceCount-- if $c eq '}';
                   last if $braceCount == 0;
               }
 
-              my $endPos = $i + 1;
-              my $methodBlock = substr($content, $startPos, $endPos - $startPos);
+              my $end = $i + 1;
+              my $methodBlock = substr($content, $start, $end - $start);
 
-              # Replace block
               my $newContent = $content;
               $newContent =~ s/\Q$methodBlock\E/$fix/s;
 
@@ -109,9 +107,6 @@ jobs:
 
           FILE="${{ github.event.client_payload.file_path }}"
 
-          # Normalize line endings
-          sed -i 's/\r$//' ../original.txt
-          sed -i 's/\r$//' ../fixed.txt
           sed -i 's/\r$//' "$FILE"
 
           echo "🧠 Running apply_fix.pl"
@@ -120,7 +115,7 @@ jobs:
           echo "// AUTO-FIX APPLIED" >> "$FILE"
 
           git config user.email "branch-bot@example.com"
-          git config user.name "Branch Bot"
+          git config user.name  "Branch Bot"
           git add "$FILE"
           git commit -m "Apply AI Auto Fix"
           git push --set-upstream origin "${{ github.event.client_payload.feature_branch }}"
