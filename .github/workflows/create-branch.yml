@@ -27,15 +27,15 @@ jobs:
         run: |
           git clone https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git target
 
-      - name: Decode method snippets
+      - name: Decode code snippets
         run: |
           echo "${{ github.event.client_payload.original_code_b64 }}" | base64 --decode > original.txt
           echo "${{ github.event.client_payload.fixed_code_b64 }}"    | base64 --decode > fixed.txt
 
-      # ======================================================
-      # Create method-only replacer
-      # ======================================================
-      - name: Create method replacer script
+      # ===========================================================
+      # CREATE method_replace.pl  (Correct name & path)
+      # ===========================================================
+      - name: Create method-level replace script
         run: |
           cat << 'EOF' > method_replace.pl
           use strict;
@@ -44,58 +44,57 @@ jobs:
 
           my $file = $ARGV[0];
 
-          my $orig = do { open my $fh, "original.txt" or die $!; <$fh> };
-          my $fix  = do { open my $fh, "fixed.txt"    or die $!; <$fh> };
+          my $orig = do { local $/; open my $fh, "original.txt" or die $!; <$fh> };
+          my $fix  = do { local $/; open my $fh, "fixed.txt"    or die $!; <$fh> };
 
           $orig =~ s/\r//g;
           $fix  =~ s/\r//g;
 
-          # Extract the method signature (first line only)
-          my ($signature) = ($orig =~ /^([^{]+)\{/m);
+          open my $fh_in, "<", $file or die $!;
+          my $content = do { local $/; <$fh_in> };
+          close $fh_in;
 
-          if (!$signature) {
-              print "❌ Could not detect method signature.\n";
+          my ($methodSignature) = ($orig =~ /(public|private|protected)\s+[\w<>\[\]]+\s+\w+\s*\([^)]*\)/);
+
+          if (!$methodSignature) {
+              print "❌ No method signature found.\n";
               exit 1;
           }
 
-          $signature =~ s/\s+$//;
+          my $safe = quotemeta($methodSignature);
 
-          open my $fh2, "<", $file or die $!;
-          my $content = do { <$fh2> };
-
-          # Find exact method start
-          if ($content =~ /(\Q$signature\E\s*\{)/m) {
+          if ($content =~ /($safe\s*\{)/s) {
               my $start = $-[0];
-              my $braceCount = 0;
+              my $brace = 0;
               my $i = $start;
 
-              # Locate matching closing brace
               for (; $i < length($content); $i++) {
                   my $ch = substr($content, $i, 1);
-                  $braceCount++ if $ch eq '{';
-                  $braceCount-- if $ch eq '}';
-                  last if $braceCount == 0;
+                  $brace++ if $ch eq '{';
+                  $brace-- if $ch eq '}';
+                  last if $brace == 0;
               }
 
               my $end = $i + 1;
               my $oldBlock = substr($content, $start, $end - $start);
 
-              # Replace only this method
-              $content =~ s/\Q$oldBlock\E/$fix/s;
+              my $newContent = $content;
+              $newContent =~ s/\Q$oldBlock\E/$fix/s;
 
-              open my $out, ">", $file or die $!;
-              print $out $content;
+              open my $fh_out, ">", $file or die $!;
+              print $fh_out $newContent;
+              close $fh_out;
 
-              print "✅ Method replaced successfully\n";
+              print "✅ Method replaced successfully.\n";
           } else {
-              print "❌ Method signature not found.\n";
+              print "❌ Method signature not found in file.\n";
               exit 1;
           }
           EOF
 
-      # ======================================================
-      # Apply Fix
-      # ======================================================
+      # ===========================================================
+      # EXECUTE THE FIX
+      # ===========================================================
       - name: Create branch & apply fix
         working-directory: target
         run: |
@@ -115,7 +114,7 @@ jobs:
           echo "// AUTO-FIX APPLIED" >> "$FILE"
 
           git config user.email "branch-bot@example.com"
-          git config user.name  "Branch Bot"
+          git config user.name "Branch Bot"
           git add "$FILE"
           git commit -m "Apply AI Auto Fix"
           git push --set-upstream origin "${{ github.event.client_payload.feature_branch }}"
