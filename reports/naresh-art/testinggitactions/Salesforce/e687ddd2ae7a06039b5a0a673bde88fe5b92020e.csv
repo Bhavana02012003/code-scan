@@ -1,0 +1,3 @@
+Tool,File,Line,Severity,Rule,Message
+PMD(Apex),./force-app/main/default/classes/AccountInsertClass.cls,23,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/AccountInsertClass.cls,23,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
