@@ -27,53 +27,41 @@ jobs:
         run: |
           git clone https://x-access-token:${{ steps.token.outputs.token }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}.git target
 
-      - name: Decode code snippets
+      - name: Decode base64 code blocks
         run: |
           echo "${{ github.event.client_payload.original_code_b64 }}" | base64 --decode > original.txt
           echo "${{ github.event.client_payload.fixed_code_b64 }}"    | base64 --decode > fixed.txt
 
-      - name: Create branch & apply fix
+      - name: Create branch and apply fix
         working-directory: target
         run: |
-          echo "👉 Checking out target branch..."
           git checkout "${{ github.event.client_payload.target_branch }}"
-
-          echo "👉 Creating feature branch..."
           git checkout -b "${{ github.event.client_payload.feature_branch }}"
 
           FILE="${{ github.event.client_payload.file_path }}"
-          echo "📄 Target file: $FILE"
 
-          echo "🔧 Normalizing CRLF/LF"
+          sed -i 's/\r$//' "$FILE"
           sed -i 's/\r$//' ../original.txt
           sed -i 's/\r$//' ../fixed.txt
-          sed -i 's/\r$//' "$FILE"
 
-          echo "🔍 Checking for ORIGINAL block inside target file..."
-          if grep -F "$(cat ../original.txt)" "$FILE"; then
-            echo "✅ ORIGINAL found → Replacing block"
+          ORIGINAL=$(cat ../original.txt)
+          FIXED=$(cat ../fixed.txt)
+
+          if grep -F "$ORIGINAL" "$FILE"; then
+            echo "Replacing block..."
             perl -0777 -pi -e '
-              use strict; use warnings;
               my $orig = do { local $/; open my $fh, "../original.txt"; <$fh> };
               my $fix  = do { local $/; open my $fh, "../fixed.txt"; <$fh> };
-
-              $orig =~ s/\r//g;
-              $fix  =~ s/\r//g;
-              $_    =~ s/\r//g;
-
               s/\Q$orig\E/$fix/s;
             ' "$FILE"
           else
-            echo "❌ ORIGINAL block not found — overwriting file with FIXED code"
+            echo "Block not found → Using full fixed code"
             cp ../fixed.txt "$FILE"
           fi
 
-          echo "// AUTO-FIX APPLIED" >> "$FILE"
-
-          echo "🎯 Committing & pushing changes"
           git config user.email "branch-bot@example.com"
           git config user.name  "Branch Bot"
 
           git add "$FILE"
-          git commit -m "Apply AI Auto Fix"
+          git commit -m "AI Auto-Fix Applied"
           git push --set-upstream origin "${{ github.event.client_payload.feature_branch }}"
