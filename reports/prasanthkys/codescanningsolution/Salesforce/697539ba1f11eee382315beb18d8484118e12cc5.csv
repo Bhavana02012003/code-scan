@@ -1,0 +1,210 @@
+Tool,File,Line,Severity,Rule,Message
+PMD(Apex),./force-app/main/default/classes/AccountController.cls,4,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/AccountController.cls,4,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/AccountController.cls,5,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/AccountController.cls,5,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/AccountController.cls,20,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/BenchConsultant.cls,4,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/BenchConsultant.cls,9,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/BenchConsultant.cls,9,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/BenchConsultant.cls,15,3,ApexSOQLInjection,Avoid untrusted/unescaped variables in DML query
+PMD(Apex),./force-app/main/default/classes/BenchConsultant.cls,33,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/BenchConsultant.cls,73,3,CyclomaticComplexity,"The method 'daysInMonth(Integer, Integer)' has a cyclomatic complexity of 15."
+PMD(Apex),./force-app/main/default/classes/ClientRevenue.cls,3,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/ClientRevenue.cls,37,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ClientRevenue.cls,37,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ClientRevenue.cls,40,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ClientRevenue.cls,47,3,CyclomaticComplexity,"The method 'daysInMonth(Integer, Integer)' has a cyclomatic complexity of 15."
+PMD(Apex),./force-app/main/default/classes/ClientRevenue.cls,75,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ClientRevenue.cls,78,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ClientRevenue.cls,78,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ClientRevenue.cls,85,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ClientRevenue.cls,88,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ClientRevenue.cls,88,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/Client_Score_Report.cls,10,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/Client_Score_Report.cls,43,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/Client_Score_Report.cls,52,3,CyclomaticComplexity,"The method 'daysInMonth(Integer, Integer)' has a cyclomatic complexity of 15."
+PMD(Apex),./force-app/main/default/classes/Dashboard.cls,3,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/Dashboard.cls,35,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/Dashboard.cls,35,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/Dashboard.cls,38,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/Dashboard.cls,47,3,CyclomaticComplexity,"The method 'daysInMonth(Integer, Integer)' has a cyclomatic complexity of 15."
+PMD(Apex),./force-app/main/default/classes/Dashboard.cls,63,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/Dashboard.cls,66,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/Dashboard.cls,66,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/File.cls,1,3,StdCyclomaticComplexity,The class 'File' has a Standard Cyclomatic Complexity of 8 (Highest = 14).
+PMD(Apex),./force-app/main/default/classes/File.cls,1,3,CognitiveComplexity,"The class 'File' has a total cognitive complexity of 79 (highest 30), current threshold is 50"
+PMD(Apex),./force-app/main/default/classes/File.cls,1,3,CyclomaticComplexity,The class 'File' has a total cyclomatic complexity of 50 (highest 18).
+PMD(Apex),./force-app/main/default/classes/File.cls,5,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/File.cls,12,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/File.cls,12,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/File.cls,24,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/File.cls,24,3,StdCyclomaticComplexity,The method 'getCSVFileContent' has a Standard Cyclomatic Complexity of 14.
+PMD(Apex),./force-app/main/default/classes/File.cls,24,3,NcssMethodCount,The method 'getCSVFileContent()' has an NCSS line count of 69
+PMD(Apex),./force-app/main/default/classes/File.cls,24,3,CognitiveComplexity,"The method 'getCSVFileContent(Id, String, String, String)' has a cognitive complexity of 30, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/File.cls,24,3,CyclomaticComplexity,"The method 'getCSVFileContent(Id, String, String, String)' has a cyclomatic complexity of 18."
+PMD(Apex),./force-app/main/default/classes/File.cls,25,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/File.cls,27,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/File.cls,27,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/File.cls,52,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/File.cls,52,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/File.cls,53,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/File.cls,53,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/File.cls,65,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/File.cls,65,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/File.cls,66,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/File.cls,66,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/File.cls,67,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/File.cls,67,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/File.cls,105,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/File.cls,105,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/File.cls,119,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/File.cls,120,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/File.cls,123,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/File.cls,137,5,UnusedLocalVariable,Variable 'headers' defined but not used
+PMD(Apex),./force-app/main/default/classes/File.cls,161,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/File.cls,167,3,NcssMethodCount,The method 'getCategoryCounts()' has an NCSS line count of 42
+PMD(Apex),./force-app/main/default/classes/File.cls,167,3,CognitiveComplexity,"The method 'getCategoryCounts(Id)' has a cognitive complexity of 16, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/File.cls,168,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/File.cls,207,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD(Apex),./force-app/main/default/classes/File.cls,223,3,NcssMethodCount,The method 'getEngineCounts()' has an NCSS line count of 42
+PMD(Apex),./force-app/main/default/classes/File.cls,223,3,CognitiveComplexity,"The method 'getEngineCounts(Id)' has a cognitive complexity of 16, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/File.cls,224,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/File.cls,265,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD(Apex),./force-app/main/default/classes/File.cls,279,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,95,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,101,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,101,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,103,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,103,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,110,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,118,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,118,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,121,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,121,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,127,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,128,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,166,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,168,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,168,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,170,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,170,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,202,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/FileComparison.cls,202,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/GitHubController.cls,11,3,ApexSuggestUsingNamedCred,Suggest named credentials for authentication
+PMD(Apex),./force-app/main/default/classes/GitHubController.cls,34,3,ApexSuggestUsingNamedCred,Suggest named credentials for authentication
+PMD(Apex),./force-app/main/default/classes/HireCount.cls,1,3,StdCyclomaticComplexity,The class 'HireCount' has a Standard Cyclomatic Complexity of 6 (Highest = 15).
+PMD(Apex),./force-app/main/default/classes/HireCount.cls,4,3,StdCyclomaticComplexity,The method 'getPlacements' has a Standard Cyclomatic Complexity of 15.
+PMD(Apex),./force-app/main/default/classes/HireCount.cls,4,3,NcssMethodCount,The method 'getPlacements()' has an NCSS line count of 45
+PMD(Apex),./force-app/main/default/classes/HireCount.cls,4,3,CognitiveComplexity,"The method 'getPlacements(String, String)' has a cognitive complexity of 22, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/HireCount.cls,4,3,CyclomaticComplexity,"The method 'getPlacements(String, String)' has a cyclomatic complexity of 15."
+PMD(Apex),./force-app/main/default/classes/HireCount.cls,12,5,UnusedLocalVariable,Variable 'today' defined but not used
+PMD(Apex),./force-app/main/default/classes/HireCount.cls,19,5,UnusedLocalVariable,Variable 'endOfMonth' defined but not used
+PMD(Apex),./force-app/main/default/classes/HireCount.cls,25,5,UnusedLocalVariable,Variable 'endOfYear' defined but not used
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,4,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,9,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,9,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,21,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,21,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,27,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,27,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,38,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,70,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,117,3,CyclomaticComplexity,"The method 'daysInMonth(Integer, Integer)' has a cyclomatic complexity of 15."
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,130,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,135,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,141,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/JobMetrics.cls,141,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/Placement_Report.cls,3,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/Placement_Report.cls,72,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/Placement_Report.cls,80,3,CyclomaticComplexity,"The method 'daysInMonth(Integer, Integer)' has a cyclomatic complexity of 14."
+PMD(Apex),./force-app/main/default/classes/SalesManagerRevenue.cls,3,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/SalesManagerRevenue.cls,37,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/SalesManagerRevenue.cls,37,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/SalesManagerRevenue.cls,40,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/SalesManagerRevenue.cls,47,3,CyclomaticComplexity,"The method 'daysInMonth(Integer, Integer)' has a cyclomatic complexity of 15."
+PMD(Apex),./force-app/main/default/classes/SalesManagerRevenue.cls,71,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/SalesManagerRevenue.cls,74,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/SalesManagerRevenue.cls,74,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/Summary_Report.cls,1,3,StdCyclomaticComplexity,The class 'Summary_Report' has a Standard Cyclomatic Complexity of 8 (Highest = 10).
+PMD(Apex),./force-app/main/default/classes/Summary_Report.cls,3,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/Summary_Report.cls,35,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/Summary_Report.cls,35,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/Summary_Report.cls,38,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/Summary_Report.cls,46,3,CyclomaticComplexity,"The method 'daysInMonth(Integer, Integer)' has a cyclomatic complexity of 15."
+PMD(Apex),./force-app/main/default/classes/Summary_Report.cls,59,3,StdCyclomaticComplexity,The method 'getHighestStageRecord' has a Standard Cyclomatic Complexity of 10.
+PMD(Apex),./force-app/main/default/classes/Summary_Report.cls,59,3,CognitiveComplexity,"The method 'getHighestStageRecord(String)' has a cognitive complexity of 16, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/Summary_Report.cls,59,3,CyclomaticComplexity,The method 'getHighestStageRecord(String)' has a cyclomatic complexity of 11.
+PMD(Apex),./force-app/main/default/classes/Summary_Report.cls,65,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,6,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,7,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,7,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,13,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,16,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,16,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,18,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,18,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,23,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,23,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,24,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/Talent_Bench_Data.cls,24,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/VendorSubmissions.cls,3,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/VendorSubmissions.cls,34,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorSubmissions.cls,34,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/VendorSubmissions.cls,38,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorSubmissions.cls,38,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/VendorSubmissions.cls,39,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorSubmissions.cls,39,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/VendorSubmissions.cls,43,3,CyclomaticComplexity,"The method 'daysInMonth(Integer, Integer)' has a cyclomatic complexity of 15."
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,1,3,AvoidLogicInTrigger,Avoid logic in triggers
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,2,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,2,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,15,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,15,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,20,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,20,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,25,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,25,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,29,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,29,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,32,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/FileComparisionTrigger.trigger,32,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/benchConsultantDashboard/benchConsultantDashboard.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/benchConsultantDashboard/benchConsultantDashboard.js,6,2,no-unused-vars,'exportCSVFile' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/benchConsultantDashboard/benchConsultantDashboard.js,233,2,no-unused-vars,'fileTitle' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/clientRevenue_Dashboard/clientRevenue_Dashboard.html,1,2,,Parsing error: Unexpected token (1:0)
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/client_Score_Report_dashboard/client_Score_Report_dashboard.html,1,2,,Parsing error: Unexpected token (1:0)
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/confirmations_dashboard/confirmations_dashboard.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/files/files.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/files/files.js,53,2,no-dupe-class-members,Duplicate name 'categoryOptions'.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/files/files.js,62,2,no-dupe-class-members,Duplicate name 'engineOptions'.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/files/files.js,67,2,no-dupe-class-members,Duplicate name 'ruleOptions'.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/files/files.js,158,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/files/files.js,169,2,no-undef,'Chart' is not defined.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/files/files.js,242,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/files/files.js,253,2,no-undef,'Chart' is not defined.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/githubRepositories/githubRepositories.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hireCount/hireCount.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/jSIP_Report_dashboard/jSIP_Report_dashboard.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/jSIP_Report_dashboard/jSIP_Report_dashboard.js,3,2,no-unused-vars,'exportCSVFile' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/jSIP_Report_dashboard/jSIP_Report_dashboard.js,125,2,no-unused-vars,'fileTitle' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/jobMetrics/jobMetrics.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/jobMetrics/jobMetrics.js,9,2,no-unused-vars,'exportCSVFile' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/jobMetrics/jobMetrics.js,104,2,eqeqeq,Expected '!==' and instead saw '!='.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/jobMetrics/jobMetrics.js,314,2,no-unused-vars,'fileTitle' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/placement_Report_dashboard/placement_Report_dashboard.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/salesManagerRevenueDashboard/salesManagerRevenueDashboard.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/salesManagerRevenueDashboard/salesManagerRevenueDashboard.js,114,2,no-else-return,Unnecessary 'else' after 'return'.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/salesManagerRevenueDashboard/salesManagerRevenueDashboard.js,117,2,no-unreachable,Unreachable code.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/summary_Report/summary_Report.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/summary_Report/summary_Report.js,4,2,no-unused-vars,'exportCSVFile' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/summary_Report/summary_Report.js,203,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/summary_Report/summary_Report.js,236,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/summary_Report/summary_Report.js,263,2,no-unused-vars,'fileTitle' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/talentBenchDashboard/talentBenchDashboard.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/talent_Bench_Data/talent_Bench_Data.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/utils/utils.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/utils/utils.js,10,2,no-unused-vars,'fileTitle' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/vendorSubmissionsDashboard/vendorSubmissionsDashboard.html,1,2,,"Parsing error: This experimental syntax requires enabling one of the following parser plugin(s): ""jsx"", ""flow"", ""typescript"". (1:0)"
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/vendorSubmissionsDashboard/vendorSubmissionsDashboard.js,3,2,no-unused-vars,'exportCSVFile' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/vendorSubmissionsDashboard/vendorSubmissionsDashboard.js,146,2,no-unused-vars,'fileTitle' is defined but never used.
