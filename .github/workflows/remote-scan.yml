@@ -1,412 +1,62 @@
 name: Remote Code Scan
 
 on:
-  push:
-    branches:
-      - "**"   # 🔥 Scan ANY branch, including auto-created feature branches
   repository_dispatch:
-    types: [run-scan]
-
-permissions:
-  contents: write
-  actions: read
+    types: [run-zip-scan]
 
 jobs:
   scan:
     runs-on: ubuntu-latest
-    env:
-      REPO_URL:  ${{ github.event.client_payload.repo_url }}
-      OWNER:     ${{ github.event.client_payload.owner }}
-      REPO:      ${{ github.event.client_payload.repo }}
-      BRANCH:    ${{ github.event.client_payload.branch || 'main' }}
-      TECH:      ${{ github.event.client_payload.technology }}
-      CORR:      ${{ github.event.client_payload.correlation_id }}
-      REPORT_PATH: ${{ github.event.client_payload.report_path }}
 
     steps:
-      # -------------------------------------------------------
-      # Checkout orchestrator repo
-      # -------------------------------------------------------
-      - name: Checkout orchestrator repo
+      - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Show inputs
-        run: |
-          echo "TECH=$TECH"
-          echo "REPO_URL=$REPO_URL"
-          echo "OWNER=$OWNER"
-          echo "REPO=$REPO"
-          echo "BRANCH=$BRANCH"
-          echo "REPORT_PATH=$REPORT_PATH"
+      - name: Install unzip
+        run: sudo apt-get update && sudo apt-get install -y unzip
 
-      # -------------------------------------------------------
-      # Authenticate target repo
-      # -------------------------------------------------------
-      - name: Generate GitHub App token
-        id: generate_token
-        continue-on-error: true
-        uses: tibdex/github-app-token@v2
-        with:
-          app_id: ${{ secrets.GH_APP_ID }}
-          private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
-          installation_retrieval_mode: repository
-          installation_retrieval_payload: ${{ env.OWNER }}/${{ env.REPO }}
-
-
-      - name: Handle auth failure → write status.json
-        if: ${{ steps.generate_token.outcome == 'failure' }}
-        run: |
-            echo '{"status":"Failed","message":"GitHub App authentication failed. Could not create installation access token. Please verify your GitHub App installation and secrets."}' > status.json
-            mkdir -p $(dirname "${{ env.REPORT_PATH }}")
-            mv status.json "${{ env.REPORT_PATH }}".status.json
-            git config user.email "orchestrator@example.com"
-            git config user.name "orchestrator-bot"
-            git add "${{ env.REPORT_PATH }}".status.json
-            git commit -m "Status update: failed auth ($OWNER/$REPO)"
-            git push
-            exit 1   # stop rest of job
-
-      - name: Clone target repo
-        run: |
-          echo "Cloning repo: $OWNER/$REPO"
-          git clone https://x-access-token:${{ steps.generate_token.outputs.token }}@github.com/${OWNER}/${REPO}.git target
-
-      # -------------------------------------------------------
-      # Overlay configs for language
-      # -------------------------------------------------------
-      - name: Overlay config pack (Scan + Fixers)
-        run: |
-          TECH_LOWER=$(echo "$TECH" | tr '[:upper:]' '[:lower:]')
-          SRC="configs/$TECH_LOWER"
-          if [ -d "$SRC" ]; then
-            rsync -a --exclude 'tsconfig.template.json' "$SRC"/ target/
-            if [ -f "$SRC/tsconfig.template.json" ] && git -C target ls-files '*.ts' '*.tsx' | grep -q .; then
-              cp "$SRC/tsconfig.template.json" target/tsconfig.json
-            fi
-            echo "✅ Overlay complete for $TECH."
-          else
-            echo "⚠️ No overlay for $TECH (optional)."
-          fi
-
-      # -------------------------------------------------------
-      # Toolchains
-      # -------------------------------------------------------
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
-      - uses: actions/setup-dotnet@v4
-        if: ${{ env.TECH == 'DotNet' }}
-        with:
-          dotnet-version: '8.0.x'
-
-      # =======================================================
-      # Salesforce PMD scan (Apex)
-      # =======================================================
-      - name: Salesforce • Setup Java
-        if: ${{ env.TECH == 'Salesforce' }}
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Salesforce • Download PMD
-        if: ${{ env.TECH == 'Salesforce' }}
+      - name: Decode ZIP
         run: |
-          PMD_VER=6.55.0
-          curl -L "https://github.com/pmd/pmd/releases/download/pmd_releases/${PMD_VER}/pmd-bin-${PMD_VER}.zip" -o pmd.zip
-          sudo apt-get update && sudo apt-get install -y unzip
+          mkdir target
+          echo "${{ github.event.client_payload.zip_base64 }}" | base64 -d > project.zip
+          unzip project.zip -d target
+
+      - name: Download PMD
+        run: |
+          curl -L https://github.com/pmd/pmd/releases/download/pmd_releases/6.55.0/pmd-bin-6.55.0.zip -o pmd.zip
           unzip -q pmd.zip
-          mv "pmd-bin-${PMD_VER}" pmd
+          mv pmd-bin-6.55.0 pmd
           chmod +x pmd/bin/run.sh
 
-      - name: Salesforce • PMD scan (Apex)
-        if: ${{ env.TECH == 'Salesforce' }}
-        working-directory: target
+      - name: Run PMD
         run: |
-          mkdir -p ../out
-          FA=$(find . -type d -name "force-app" | head -n 1)
-          [ -z "$FA" ] && FA="."
-          ../pmd/bin/run.sh pmd -d "$FA" -f csv \
+          mkdir -p out
+          FA=$(find target -type d -name "force-app" | head -n 1)
+          if [ -z "$FA" ]; then FA="target"; fi
+
+          ./pmd/bin/run.sh pmd -d "$FA" -f csv \
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
-            > ../out/pmd.csv || true
-          [ -s ../out/pmd.csv ] || echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd.csv
+            > out/report.csv || true
 
-      - name: Salesforce • Apex Quick Fix (Spotless + Cleanthat)
-        if: ${{ env.TECH == 'Salesforce' }}
-        working-directory: target
+      - name: Commit Report
         run: |
-          git checkout -b auto-fix-${{ env.CORR }}-apex
-          mvn -f pom.xml spotless:apply || true
-          mvn -f pom.xml cleanthat:apply || true
-          git diff > ../out/fixes_apex.patch
-
-      # =======================================================
-      # Salesforce LWC scan (ESLint)
-      # =======================================================
-      - name: Salesforce • Install ESLint for LWC
-        if: ${{ env.TECH == 'Salesforce' }}
-        working-directory: target
-        run: |
-          # Initialize package.json if it doesn't exist
-          if [ ! -f package.json ]; then
-            npm init -y
-          fi
-
-          # Force-resolve peer dependencies to avoid ERESOLVE conflicts
-          npm install --save-dev eslint @salesforce/eslint-config-lwc --legacy-peer-deps || \
-          npm install --save-dev eslint @salesforce/eslint-config-lwc --force
-
-          # Add default .eslintrc.json if none exists
-          if [ ! -f .eslintrc.json ]; then
-            cat <<'EOF' > .eslintrc.json
-          {
-            "root": true,
-            "env": { "browser": true, "es2021": true },
-            "extends": ["eslint:recommended","@salesforce/eslint-config-lwc"],
-            "parserOptions": { "ecmaVersion": 2022, "sourceType": "module" }
-          }
-          EOF
-          fi
-
-      - name: Salesforce • ESLint scan (LWC)
-        if: ${{ env.TECH == 'Salesforce' }}
-        working-directory: target
-        run: |
-          mkdir -p ../out
-          # Search for lwc folder
-          LWC_DIR=$(find . -type d -path "*/lwc" | head -n 1)
-          if [ -n "$LWC_DIR" ]; then
-            echo "Running ESLint on $LWC_DIR"
-            npx eslint "$LWC_DIR" --ext .js,.html -f json -o ../out/eslint_lwc.json || true
-            npx eslint "$LWC_DIR" --ext .js,.html --fix-dry-run -f json -o ../out/eslint_lwc_fixes.json || true
-          else
-            echo "No LWC folder found"
-            echo "[]" > ../out/eslint_lwc.json
-          fi
-
-      - name: Salesforce • ESLint LWC auto-fix (optional)
-        if: ${{ env.TECH == 'Salesforce' }}
-        working-directory: target
-        run: |
-          LWC_DIR=$(find . -type d -path "*/lwc" | head -n 1)
-          if [ -n "$LWC_DIR" ]; then
-            git checkout -b auto-fix-${{ env.CORR }}-lwc
-            npx eslint "$LWC_DIR" --ext .js,.html --fix || true
-            git diff > ../out/fixes_lwc.patch
-          else
-            echo "No LWC folder found, skipping auto-fix"
-          fi
-
-      # =========================================================
-      # ========================= .NET ==========================
-      # =========================================================
-      - name: .NET • Restore and scan (format + analyzers + vulns)
-        if: ${{ env.TECH == 'DotNet' }}
-        working-directory: target
-        run: |
-          set -e
-          mkdir -p ../out
-          echo "🔍 Running .NET formatting + analyzer + vulnerability checks..."
-          dotnet tool install -g dotnet-format
-          export PATH="$HOME/.dotnet/tools:$PATH"
-
-          # Pick first solution or project
-          TARGET=$( (ls *.sln 2>/dev/null || true; ls *.csproj 2>/dev/null || true) | head -n 1 )
-          if [ -z "$TARGET" ]; then TARGET=$(git ls-files "*.sln" "*.csproj" | head -n 1); fi
-          if [ -z "$TARGET" ]; then
-            echo "No .sln or .csproj found"
-            echo "[]" > ../out/dotnet-format.json
-            : > ../out/build_output.txt
-            echo "{}" > ../out/dotnet-packages.json
-            exit 0
-          fi
-
-          echo "Using target: $TARGET"
-
-          # Restore & scan
-          dotnet restore "$TARGET" || true
-
-          # 🔹 Code formatting violations
-          dotnet format "$TARGET" --verify-no-changes --report ../out/dotnet-format.json --report-format json || true
-
-          # 🔹 Compiler/analyzer warnings → build_output.txt
-          dotnet build "$TARGET" -p:EnableNETAnalyzers=true -p:AnalysisLevel=latest --no-incremental -v:normal > ../out/build_output.txt || true
-
-          # 🔹 NuGet security vulnerabilities
-          dotnet list "$TARGET" package --vulnerable --include-transitive --format json > ../out/dotnet-packages.json || echo "{}" > ../out/dotnet-packages.json
-
-          echo "✅ DotNet scan outputs generated: dotnet-format.json, build_output.txt, dotnet-packages.json"
-
-      # =======================================================
-      # Java PMD scan + auto-fix
-      # =======================================================
-      - name: Java • Setup Java
-        if: ${{ env.TECH == 'Java' }}
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Java • Download PMD
-        if: ${{ env.TECH == 'Java' }}
-        run: |
-          PMD_VER=6.55.0
-          curl -L "https://github.com/pmd/pmd/releases/download/pmd_releases/${PMD_VER}/pmd-bin-${PMD_VER}.zip" -o pmd-java.zip
-          sudo apt-get update && sudo apt-get install -y unzip
-          unzip -q pmd-java.zip
-          mv "pmd-bin-${PMD_VER}" pmd_java
-          chmod +x pmd_java/bin/run.sh
-
-      - name: Java • PMD scan
-        if: ${{ env.TECH == 'Java' }}
-        working-directory: target
-        run: |
-          mkdir -p ../out
-          ../pmd_java/bin/run.sh pmd -d "." -f csv \
-            -R category/java/bestpractices.xml,category/java/design.xml,category/java/errorprone.xml,category/java/performance.xml,category/java/security.xml \
-            > ../out/pmd_java.csv || true
-          [ -s ../out/pmd_java.csv ] || echo "Problem,Package,File,Priority,Line,Description,Rule set,Rule" > ../out/pmd_java.csv
-
-      - name: Java • Quick Fix (Spotless + Cleanthat)
-        if: ${{ env.TECH == 'Java' }}
-        working-directory: target
-        run: |
-          git checkout -b auto-fix-${{ env.CORR }}
-          mvn -f pom.xml spotless:apply || true
-          mvn -f pom.xml cleanthat:apply || true
-          git diff > ../out/fixes.patch
-
-      # =======================================================
-      # React ESLint scan + fix suggestions
-      # =======================================================
-      - name: React • Install deps
-        if: ${{ env.TECH == 'React' }}
-        working-directory: target
-        run: npm ci || npm install
-
-      - name: React • ESLint scan + fix suggestions
-        if: ${{ env.TECH == 'React' }}
-        working-directory: target
-        run: |
-          mkdir -p ../out
-          npx eslint . --ext .js,.jsx,.ts,.tsx -f json -o ../out/eslint.json || true
-          npx eslint . --ext .js,.jsx,.ts,.tsx --fix-dry-run -f json -o ../out/eslint-fixes.json || true
-
-      # =======================================================
-      # Python scan + autopep8
-      # =======================================================
-      - name: Python • Install linters
-        if: ${{ env.TECH == 'Python' }}
-        run: |
-          python -m pip install --upgrade pip
-          pip install bandit pylint flake8 flake8-json autopep8
-
-      - name: Python • Scan + fix suggestion
-        if: ${{ env.TECH == 'Python' }}
-        working-directory: target
-        run: |
-          mkdir -p ../out
-          bandit -r . -f json -o ../out/bandit.json || true
-          find . -name "*.py" > ../out/files.txt
-          if [ -s ../out/files.txt ]; then
-            pylint $(cat ../out/files.txt) --output-format=json > ../out/pylint.json || true
-          else
-            echo "[]" > ../out/pylint.json
-          fi
-          flake8 . --format=json --output-file=../out/flake8.json || true
-          autopep8 . --diff > ../out/fixes.patch || true
-
-      # =======================================================
-      # Convert patches + violations → fixes.json
-      # =======================================================
-      - name: Convert patch to fixes.json
-        if: always()
-        run: |
-          python3 scripts/convert_patch_to_json.py out/fixes.patch out/fixes.json || echo "{}" > out/fixes.json
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: fixes-${{ env.CORR }}
-          path: out/fixes.json
-
-      # =======================================================
-      # Normalize to CSV
-      # =======================================================
-      - name: Normalize to CSV
-        run: |
-          python3 scripts/normalize.py out out/normalized.csv
-
-      - name: "Debug: list files"
-        run: |
-          ls -lh out || echo "No out folder"
-          echo "-----"
-          find out -type f -exec sh -c 'echo ">>> {}"; head -20 "{}"' \;
-
-
-      # =======================================================
-      # Detect Empty or Zero-Row Report
-      # =======================================================
-      - name: Detect empty or zero-row report
-        run: |
-          ROWS=$(wc -l < out/normalized.csv || echo 0)
-          mkdir -p "$(dirname "$REPORT_PATH")"
-          if [ "$ROWS" -le 1 ]; then
-            echo '{"status":"Completed","message":"✅ Scan completed successfully — no violations found."}' > "${REPORT_PATH}.status.json"
-            git config user.name "orchestrator-bot"
-            git config user.email "orchestrator@example.com"
-            git add "${REPORT_PATH}.status.json"
-            git commit -m "Status: no violations ($OWNER/$REPO)" || echo "No changes to commit"
-            git push
-            echo "✅ No violations found — marked Completed."
-          else
-            echo "✅ Report has violations ($((ROWS-1)) entries)"
-          fi
-
-
-      # =======================================================
-      # Commit report into orchestrator
-      # =======================================================
-      - name: Commit report into orchestrator
-        run: |
-          mkdir -p "$(dirname "$REPORT_PATH")"
-          cp out/normalized.csv "$REPORT_PATH"
+          mkdir -p $(dirname "${{ github.event.client_payload.report_path }}")
+          cp out/report.csv "${{ github.event.client_payload.report_path }}"
           git config user.name "orchestrator-bot"
           git config user.email "orchestrator@example.com"
-          git add "$REPORT_PATH"
-          git commit -m "Scan report: $OWNER/$REPO ($TECH) • $CORR" || echo "Nothing to commit"
+          git add "${{ github.event.client_payload.report_path }}"
+          git commit -m "ZIP Scan Report"
           git push
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: report-${{ env.CORR }}
-          path: out/normalized.csv
-
-
-      # =======================================================
-      # Emit success or empty report status
-      # =======================================================
-      - name: Emit success or empty report status
-        if: success()
+      - name: Emit Status
         run: |
-          mkdir -p "$(dirname "$REPORT_PATH")"
-          ROWS=$(wc -l < out/normalized.csv || echo 0)
-          if [ "$ROWS" -le 1 ]; then
-            echo '{"status":"Completed","message":"✅ Scan completed successfully — no violations found."}' > "${REPORT_PATH}.status.json"
-          else
-            COUNT=$((ROWS - 1))
-            echo "{\"status\":\"Completed\",\"message\":\"✅ Scan completed successfully with $COUNT violations detected.\"}" > "${REPORT_PATH}.status.json"
-          fi
-
-          echo "📄 Generated status file:"
-          cat "${REPORT_PATH}.status.json"
-
-          git config user.name "orchestrator-bot"
-          git config user.email "orchestrator@example.com"
-          git add "${REPORT_PATH}.status.json"
-          git commit -m "Status: completed ($OWNER/$REPO)" || echo "No changes to commit"
+          echo '{"status":"Completed","message":"ZIP scan completed successfully."}' > "${{ github.event.client_payload.report_path }}.status.json"
+          git add "${{ github.event.client_payload.report_path }}.status.json"
+          git commit -m "ZIP Scan Status"
           git push
