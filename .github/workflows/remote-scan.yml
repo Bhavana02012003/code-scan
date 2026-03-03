@@ -13,49 +13,45 @@ jobs:
 
     steps:
 
-      # 1️⃣ Checkout repository
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2️⃣ Install unzip
+      # 🔥 Wait to ensure ZIP commit is available
+      - name: Wait for ZIP commit
+        run: |
+          echo "Waiting for ZIP commit to be available..."
+          sleep 10
+          git pull origin main
+
       - name: Install unzip
         run: sudo apt-get update && sudo apt-get install -y unzip
 
-      # 3️⃣ Setup Java 17
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 4️⃣ Download ZIP directly via GitHub API (FIXED)
-      - name: Download ZIP from GitHub API
+      - name: Copy ZIP file
         run: |
           ZIP_PATH="${{ github.event.client_payload.zip_path }}"
-          echo "Downloading ZIP from: $ZIP_PATH"
+          echo "ZIP Path: $ZIP_PATH"
 
-          curl -L \
-            -H "Authorization: token ${{ secrets.GH_PAT }}" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${{ github.repository }}/contents/$ZIP_PATH?ref=main" \
-            -o zip.json
-
-          cat zip.json | jq -r .content | tr -d '\n' | base64 -d > project.zip
-
-          if [ ! -f project.zip ]; then
-            echo "ZIP download failed!"
+          if [ ! -f "$ZIP_PATH" ]; then
+            echo "ZIP not found!"
+            ls -R
             exit 1
           fi
 
-      # 5️⃣ Extract ZIP
+          cp "$ZIP_PATH" project.zip
+
       - name: Extract ZIP
         run: |
           mkdir target
           unzip project.zip -d target
 
-      # 6️⃣ Download PMD
       - name: Download PMD
         run: |
           curl -L https://github.com/pmd/pmd/releases/download/pmd_releases/6.55.0/pmd-bin-6.55.0.zip -o pmd.zip
@@ -63,8 +59,7 @@ jobs:
           mv pmd-bin-6.55.0 pmd
           chmod +x pmd/bin/run.sh
 
-      # 7️⃣ Run PMD
-      - name: Run PMD Scan
+      - name: Run PMD
         run: |
           mkdir -p out
 
@@ -73,15 +68,12 @@ jobs:
             FA="target"
           fi
 
-          echo "Scanning directory: $FA"
-
           ./pmd/bin/run.sh pmd \
             -d "$FA" \
             -f csv \
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > out/report.csv || true
 
-      # 8️⃣ Commit Report
       - name: Commit Report
         run: |
           REPORT_PATH="${{ github.event.client_payload.report_path }}"
@@ -95,11 +87,8 @@ jobs:
           git add "$REPORT_PATH"
 
           if git diff --cached --quiet; then
-            echo "No changes to commit."
+            echo "No changes."
           else
             git commit -m "ZIP Scan Report - ${{ github.event.client_payload.correlation_id }}"
             git push
           fi
-
-      - name: Done
-        run: echo "ZIP Scan Completed"
