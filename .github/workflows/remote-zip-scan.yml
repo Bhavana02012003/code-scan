@@ -1,46 +1,41 @@
-name: Remote ZIP Code Scan
+name: Remote ZIP Scan (PMD Full)
 
 on:
-  repository_dispatch:   # ✅ no types filter (we’ll gate inside)
+  workflow_dispatch:
+    inputs:
+      zip_base64:
+        description: "Base64 ZIP content"
+        required: true
+      report_path:
+        description: "Repo path to write report (e.g. reports/scan_123.csv)"
+        required: true
 
 permissions:
   contents: write
 
 jobs:
   scan:
-    if: github.event.action == 'run-zip-scan'   # ✅ gate here instead of types
     runs-on: ubuntu-latest
 
     steps:
-      - name: Show payload
+      - name: Print inputs
         run: |
-          echo "ACTION: ${{ github.event.action }}"
-          echo "ZIP_PATH: ${{ github.event.client_payload.zip_path }}"
-          echo "REPORT_PATH: ${{ github.event.client_payload.report_path }}"
+          echo "report_path = ${{ inputs.report_path }}"
+          echo "zip_base64 length = $(echo "${{ inputs.zip_base64 }}" | wc -c)"
 
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - name: Ensure zip exists
+      - name: Decode ZIP
         run: |
-          ZIP_PATH="${{ github.event.client_payload.zip_path }}"
-          if [ ! -f "$ZIP_PATH" ]; then
-            echo "❌ ZIP not found at $ZIP_PATH"
-            ls -R
-            exit 1
-          fi
-          echo "✅ ZIP exists"
+          echo "${{ inputs.zip_base64 }}" | base64 -d > project.zip
+          ls -lh project.zip
 
       - name: Unzip Project
         run: |
-          rm -rf project
           mkdir -p project
-          unzip -q "${{ github.event.client_payload.zip_path }}" -d project
-          echo "✅ Unzipped"
+          unzip -q project.zip -d project
+          echo "Unzipped:"
+          ls -la project | head
 
-      - name: Setup Java 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -51,16 +46,19 @@ jobs:
           curl -L https://github.com/pmd/pmd/releases/download/pmd_releases/6.55.0/pmd-bin-6.55.0.zip -o pmd.zip
           unzip -q pmd.zip
           mv pmd-bin-6.55.0 pmd
+          chmod +x pmd/bin/run.sh
 
-      - name: Run PMD (scan full project)
+      - name: Run PMD (full project)
         run: |
           mkdir -p out
 
-          # If zip contains force-app, scan that; else scan full extracted folder
+          # If a Salesforce project exists, scan force-app. Else scan whole project.
           FA=$(find project -type d -name "force-app" | head -n 1)
           if [ -z "$FA" ]; then
             FA="project"
           fi
+
+          echo "Scanning directory: $FA"
 
           ./pmd/bin/run.sh pmd \
             -d "$FA" \
@@ -68,22 +66,31 @@ jobs:
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > out/report.csv || true
 
-          echo "✅ PMD done"
+          echo "Report preview:"
+          head -n 20 out/report.csv || true
 
-      - name: Upload artifact
+      - name: Write report back into repo (reports/*.csv)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          REPORT_PATH: ${{ inputs.report_path }}
+        run: |
+          REPORT_B64=$(base64 -w 0 out/report.csv)
+
+          API="https://api.github.com/repos/$OWNER/$REPO/contents/$REPORT_PATH"
+
+          echo "Uploading report to: $API"
+
+          curl -sS -X PUT \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Content-Type: application/json" \
+            -d "{\"message\":\"PMD report: $REPORT_PATH\",\"content\":\"$REPORT_B64\",\"branch\":\"main\"}" \
+            "$API"
+
+      - name: Upload Artifact (optional)
         uses: actions/upload-artifact@v4
         with:
           name: pmd-report
           path: out/report.csv
-
-      - name: Commit report to repo (so Salesforce can fetch it)
-        run: |
-          REPORT_PATH="${{ github.event.client_payload.report_path }}"
-          mkdir -p "$(dirname "$REPORT_PATH")"
-          cp out/report.csv "$REPORT_PATH"
-
-          git config user.name "zip-scan-bot"
-          git config user.email "zip-scan-bot@users.noreply.github.com"
-          git add "$REPORT_PATH"
-          git commit -m "ZIP scan report" || echo "No changes to commit"
-          git push
