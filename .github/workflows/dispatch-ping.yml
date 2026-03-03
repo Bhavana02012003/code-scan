@@ -1,0 +1,16 @@
+name: Dispatch Ping
+
+on:
+  repository_dispatch:
+    types: [ping-dispatch]
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print payload
+        run: |
+          echo "✅ repository_dispatch received!"
+          echo "event_type: ${{ github.event.action }}"
+          echo "client_payload:"
+          echo '${{ toJson(github.event.client_payload) }}'
