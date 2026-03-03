@@ -1,0 +1,89 @@
+name: Remote ZIP Code Scan
+
+on:
+  repository_dispatch:   # ✅ no types filter (we’ll gate inside)
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    if: github.event.action == 'run-zip-scan'   # ✅ gate here instead of types
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show payload
+        run: |
+          echo "ACTION: ${{ github.event.action }}"
+          echo "ZIP_PATH: ${{ github.event.client_payload.zip_path }}"
+          echo "REPORT_PATH: ${{ github.event.client_payload.report_path }}"
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Ensure zip exists
+        run: |
+          ZIP_PATH="${{ github.event.client_payload.zip_path }}"
+          if [ ! -f "$ZIP_PATH" ]; then
+            echo "❌ ZIP not found at $ZIP_PATH"
+            ls -R
+            exit 1
+          fi
+          echo "✅ ZIP exists"
+
+      - name: Unzip Project
+        run: |
+          rm -rf project
+          mkdir -p project
+          unzip -q "${{ github.event.client_payload.zip_path }}" -d project
+          echo "✅ Unzipped"
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Download PMD 6.55.0
+        run: |
+          curl -L https://github.com/pmd/pmd/releases/download/pmd_releases/6.55.0/pmd-bin-6.55.0.zip -o pmd.zip
+          unzip -q pmd.zip
+          mv pmd-bin-6.55.0 pmd
+
+      - name: Run PMD (scan full project)
+        run: |
+          mkdir -p out
+
+          # If zip contains force-app, scan that; else scan full extracted folder
+          FA=$(find project -type d -name "force-app" | head -n 1)
+          if [ -z "$FA" ]; then
+            FA="project"
+          fi
+
+          ./pmd/bin/run.sh pmd \
+            -d "$FA" \
+            -f csv \
+            -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
+            > out/report.csv || true
+
+          echo "✅ PMD done"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pmd-report
+          path: out/report.csv
+
+      - name: Commit report to repo (so Salesforce can fetch it)
+        run: |
+          REPORT_PATH="${{ github.event.client_payload.report_path }}"
+          mkdir -p "$(dirname "$REPORT_PATH")"
+          cp out/report.csv "$REPORT_PATH"
+
+          git config user.name "zip-scan-bot"
+          git config user.email "zip-scan-bot@users.noreply.github.com"
+          git add "$REPORT_PATH"
+          git commit -m "ZIP scan report" || echo "No changes to commit"
+          git push
