@@ -2,63 +2,14 @@ name: Remote Code Scan
 
 on:
   repository_dispatch:
-    types: [run-zip-scan]
-
-permissions:
-  contents: write
 
 jobs:
   scan:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Wait for commit
-        run: sleep 5
-
-      - name: Copy ZIP
+      - name: Print event info
         run: |
-          ZIP_PATH="${{ github.event.client_payload.zip_path }}"
-          if [ ! -f "$ZIP_PATH" ]; then
-            echo "ZIP not found"
-            ls -R
-            exit 1
-          fi
-          cp "$ZIP_PATH" project.zip
-
-      - name: Install unzip
-        run: sudo apt-get update && sudo apt-get install -y unzip
-
-      - name: Extract ZIP
-        run: |
-          mkdir target
-          unzip project.zip -d target
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Download PMD
-        run: |
-          curl -L https://github.com/pmd/pmd/releases/download/pmd_releases/6.55.0/pmd-bin-6.55.0.zip -o pmd.zip
-          unzip -q pmd.zip
-          mv pmd-bin-6.55.0 pmd
-          chmod +x pmd/bin/run.sh
-
-      - name: Run PMD
-        run: |
-          mkdir -p out
-          FA=$(find target -type d -name "force-app" | head -n 1)
-          if [ -z "$FA" ]; then FA="target"; fi
-          ./pmd/bin/run.sh pmd -d "$FA" -f csv \
-          -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
-          > out/report.csv || true
-
-      - name: Upload Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: scan-report
-          path: out/report.csv
+          echo "Event Type: ${{ github.event.action }}"
+          echo "Payload:"
+          echo '${{ toJson(github.event.client_payload) }}'
