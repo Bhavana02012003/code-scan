@@ -2,14 +2,38 @@ name: Remote Code Scan
 
 on:
   repository_dispatch:
+    types: [run-zip-scan]
 
 jobs:
   scan:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print event info
+      - name: Decode ZIP
         run: |
-          echo "Event Type: ${{ github.event.action }}"
-          echo "Payload:"
-          echo '${{ toJson(github.event.client_payload) }}'
+          echo "${{ github.event.client_payload.zip_base64 }}" | base64 -d > project.zip
+
+      - name: Unzip Project
+        run: |
+          mkdir project
+          unzip project.zip -d project
+
+      - name: Install PMD
+        run: |
+          curl -L https://github.com/pmd/pmd/releases/latest/download/pmd-bin.zip -o pmd.zip
+          unzip pmd.zip
+          mv pmd-bin-* pmd
+
+      - name: Run PMD Scan
+        run: |
+          ./pmd/bin/pmd check \
+          -d project \
+          -R category/apex/design.xml \
+          -f json \
+          -r report.json
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: pmd-report
+          path: report.json
