@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print Event Type
-        run: echo "Event type is ${{ github.event.action }}"
+      - name: Print Dispatch Info
+        run: echo "Triggered by repository_dispatch"
 
       - name: Decode ZIP
         run: |
@@ -21,6 +21,12 @@ jobs:
         run: |
           mkdir project
           unzip project.zip -d project
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Install PMD
         run: |
