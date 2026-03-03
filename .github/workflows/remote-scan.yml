@@ -30,18 +30,24 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # 4️⃣ Verify ZIP Exists
-      - name: Verify ZIP File
+      # 4️⃣ Download ZIP directly via GitHub API (FIXED)
+      - name: Download ZIP from GitHub API
         run: |
           ZIP_PATH="${{ github.event.client_payload.zip_path }}"
-          echo "Looking for ZIP at: $ZIP_PATH"
+          echo "Downloading ZIP from: $ZIP_PATH"
 
-          if [ ! -f "$ZIP_PATH" ]; then
-            echo "❌ ZIP file not found!"
+          curl -L \
+            -H "Authorization: token ${{ secrets.GH_PAT }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/contents/$ZIP_PATH?ref=main" \
+            -o zip.json
+
+          cat zip.json | jq -r .content | tr -d '\n' | base64 -d > project.zip
+
+          if [ ! -f project.zip ]; then
+            echo "ZIP download failed!"
             exit 1
           fi
-
-          cp "$ZIP_PATH" project.zip
 
       # 5️⃣ Extract ZIP
       - name: Extract ZIP
@@ -57,7 +63,7 @@ jobs:
           mv pmd-bin-6.55.0 pmd
           chmod +x pmd/bin/run.sh
 
-      # 7️⃣ Run PMD Scan
+      # 7️⃣ Run PMD
       - name: Run PMD Scan
         run: |
           mkdir -p out
@@ -75,7 +81,7 @@ jobs:
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > out/report.csv || true
 
-      # 8️⃣ Commit Report Back to Repo
+      # 8️⃣ Commit Report
       - name: Commit Report
         run: |
           REPORT_PATH="${{ github.event.client_payload.report_path }}"
@@ -95,6 +101,5 @@ jobs:
             git push
           fi
 
-      # 9️⃣ Print Completion Message
       - name: Done
-        run: echo "✅ ZIP Scan Completed Successfully"
+        run: echo "ZIP Scan Completed"
