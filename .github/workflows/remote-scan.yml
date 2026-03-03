@@ -13,18 +13,6 @@ jobs:
 
     steps:
 
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      # 🔥 Wait to ensure ZIP commit is available
-      - name: Wait for ZIP commit
-        run: |
-          echo "Waiting for ZIP commit to be available..."
-          sleep 10
-          git pull origin main
-
       - name: Install unzip
         run: sudo apt-get update && sudo apt-get install -y unzip
 
@@ -34,18 +22,15 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Copy ZIP file
+      # 🔥 Decode ZIP directly from payload
+      - name: Decode ZIP
         run: |
-          ZIP_PATH="${{ github.event.client_payload.zip_path }}"
-          echo "ZIP Path: $ZIP_PATH"
+          echo "${{ github.event.client_payload.zip_base64 }}" | base64 -d > project.zip
 
-          if [ ! -f "$ZIP_PATH" ]; then
-            echo "ZIP not found!"
-            ls -R
+          if [ ! -f project.zip ]; then
+            echo "ZIP decode failed"
             exit 1
           fi
-
-          cp "$ZIP_PATH" project.zip
 
       - name: Extract ZIP
         run: |
@@ -74,21 +59,8 @@ jobs:
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > out/report.csv || true
 
-      - name: Commit Report
-        run: |
-          REPORT_PATH="${{ github.event.client_payload.report_path }}"
-
-          mkdir -p $(dirname "$REPORT_PATH")
-          cp out/report.csv "$REPORT_PATH"
-
-          git config user.name "scan-bot"
-          git config user.email "scan-bot@github.com"
-
-          git add "$REPORT_PATH"
-
-          if git diff --cached --quiet; then
-            echo "No changes."
-          else
-            git commit -m "ZIP Scan Report - ${{ github.event.client_payload.correlation_id }}"
-            git push
-          fi
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: scan-report
+          path: out/report.csv
