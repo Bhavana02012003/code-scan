@@ -4,32 +4,52 @@ on:
   repository_dispatch:
     types: [run-zip-scan]
 
+permissions:
+  contents: write
+
 jobs:
   scan:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
 
+      # 1️⃣ Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2️⃣ Install unzip
       - name: Install unzip
         run: sudo apt-get update && sudo apt-get install -y unzip
 
+      # 3️⃣ Setup Java 17
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Download ZIP from repo
+      # 4️⃣ Verify ZIP Exists
+      - name: Verify ZIP File
         run: |
           ZIP_PATH="${{ github.event.client_payload.zip_path }}"
+          echo "Looking for ZIP at: $ZIP_PATH"
+
+          if [ ! -f "$ZIP_PATH" ]; then
+            echo "❌ ZIP file not found!"
+            exit 1
+          fi
+
           cp "$ZIP_PATH" project.zip
 
+      # 5️⃣ Extract ZIP
       - name: Extract ZIP
         run: |
           mkdir target
           unzip project.zip -d target
 
+      # 6️⃣ Download PMD
       - name: Download PMD
         run: |
           curl -L https://github.com/pmd/pmd/releases/download/pmd_releases/6.55.0/pmd-bin-6.55.0.zip -o pmd.zip
@@ -37,31 +57,44 @@ jobs:
           mv pmd-bin-6.55.0 pmd
           chmod +x pmd/bin/run.sh
 
-      - name: Run PMD
+      # 7️⃣ Run PMD Scan
+      - name: Run PMD Scan
         run: |
           mkdir -p out
-          FA=$(find target -type d -name "force-app" | head -n 1)
-          if [ -z "$FA" ]; then FA="target"; fi
 
-          ./pmd/bin/run.sh pmd -d "$FA" -f csv \
+          FA=$(find target -type d -name "force-app" | head -n 1)
+          if [ -z "$FA" ]; then
+            FA="target"
+          fi
+
+          echo "Scanning directory: $FA"
+
+          ./pmd/bin/run.sh pmd \
+            -d "$FA" \
+            -f csv \
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > out/report.csv || true
 
+      # 8️⃣ Commit Report Back to Repo
       - name: Commit Report
         run: |
           REPORT_PATH="${{ github.event.client_payload.report_path }}"
+
           mkdir -p $(dirname "$REPORT_PATH")
           cp out/report.csv "$REPORT_PATH"
-          git config user.name "orchestrator-bot"
-          git config user.email "orchestrator@example.com"
-          git add "$REPORT_PATH"
-          git commit -m "ZIP Scan Report"
-          git push
 
-      - name: Emit Status
-        run: |
-          REPORT_PATH="${{ github.event.client_payload.report_path }}"
-          echo '{"status":"Completed","message":"Scan completed."}' > "$REPORT_PATH.status.json"
-          git add "$REPORT_PATH.status.json"
-          git commit -m "ZIP Scan Status"
-          git push
+          git config user.name "scan-bot"
+          git config user.email "scan-bot@github.com"
+
+          git add "$REPORT_PATH"
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "ZIP Scan Report - ${{ github.event.client_payload.correlation_id }}"
+            git push
+          fi
+
+      # 9️⃣ Print Completion Message
+      - name: Done
+        run: echo "✅ ZIP Scan Completed Successfully"
