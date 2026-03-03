@@ -2,13 +2,17 @@ name: Remote Code Scan
 
 on:
   repository_dispatch:
-    types: [run-zip-scan]
+    types:
+      - run-zip-scan
 
 jobs:
   scan:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Print Event Type
+        run: echo "Event type is ${{ github.event.action }}"
+
       - name: Decode ZIP
         run: |
           echo "${{ github.event.client_payload.zip_base64 }}" | base64 -d > project.zip
@@ -27,10 +31,10 @@ jobs:
       - name: Run PMD Scan
         run: |
           ./pmd/bin/pmd check \
-          -d project \
-          -R category/apex/design.xml \
-          -f json \
-          -r report.json
+            -d project \
+            -R category/apex/design.xml \
+            -f json \
+            -r report.json
 
       - name: Upload Report Artifact
         uses: actions/upload-artifact@v4
