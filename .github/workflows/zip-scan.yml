@@ -1,14 +1,8 @@
-name: Salesforce ZIP PMD Scan
+name: Salesforce ZIP Scan (PMD)
 
 on:
-  workflow_dispatch:
-    inputs:
-      zip_url:
-        description: "Public URL to download ZIP"
-        required: true
-      report_path:
-        description: "Repo path to write report (e.g. reports/scan_123.csv)"
-        required: true
+  repository_dispatch:
+    types: [zip_scan]
 
 permissions:
   contents: write
@@ -17,19 +11,26 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
+      - name: Read payload
+        run: |
+          echo "ZIP_URL=${{ github.event.client_payload.zip_url }}"
+          echo "REPORT_PATH=${{ github.event.client_payload.report_path }}"
+          echo "REPORT_BRANCH=${{ github.event.client_payload.report_branch }}"
+
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.client_payload.report_branch }}
 
       - name: Install unzip
         run: sudo apt-get update && sudo apt-get install -y unzip
 
       - name: Download ZIP
         run: |
-          echo "Downloading ZIP..."
-          curl -L "${{ inputs.zip_url }}" -o project.zip
+          curl -L "${{ github.event.client_payload.zip_url }}" -o project.zip
           ls -lh project.zip
 
-      - name: Unzip Project
+      - name: Unzip
         run: |
           mkdir -p project
           unzip -q project.zip -d project
@@ -49,15 +50,12 @@ jobs:
           mv pmd-bin-6.55.0 pmd
           chmod +x pmd/bin/run.sh
 
-      - name: Run PMD (full project)
+      - name: Run PMD Scan
         run: |
           mkdir -p out
 
           FA=$(find project -type d -name "force-app" | head -n 1)
-          if [ -z "$FA" ]; then
-            FA="project"
-          fi
-
+          if [ -z "$FA" ]; then FA="project"; fi
           echo "Scanning directory: $FA"
 
           ./pmd/bin/run.sh pmd \
@@ -66,23 +64,17 @@ jobs:
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > out/report.csv || true
 
-          echo "Report preview:"
           head -n 20 out/report.csv || true
 
-      - name: Commit Report into repo
+      - name: Save report to repo branch
         run: |
-          mkdir -p "$(dirname "${{ inputs.report_path }}")"
-          cp out/report.csv "${{ inputs.report_path }}"
+          REPORT_PATH="${{ github.event.client_payload.report_path }}"
+          mkdir -p "$(dirname "$REPORT_PATH")"
+          cp out/report.csv "$REPORT_PATH"
 
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
 
-          git add "${{ inputs.report_path }}"
-          git commit -m "PMD report: ${{ inputs.report_path }}" || echo "No changes to commit"
+          git add "$REPORT_PATH"
+          git commit -m "PMD report: $REPORT_PATH" || echo "No changes"
           git push
-
-      - name: Upload Artifact (optional)
-        uses: actions/upload-artifact@v4
-        with:
-          name: pmd-report
-          path: out/report.csv
