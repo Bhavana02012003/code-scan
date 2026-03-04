@@ -36,13 +36,32 @@ jobs:
 
       - name: Download ZIP
         run: |
-          curl -L "${{ github.event.client_payload.zip_url }}" -o project.zip
+          echo "Downloading ZIP from Salesforce..."
+
+          curl -L \
+            -H "User-Agent: github-actions" \
+            "${{ github.event.client_payload.zip_url }}" \
+            --output project.zip
+
+          echo "Downloaded file:"
           ls -lh project.zip
+
+          echo "File type:"
+          file project.zip
 
       - name: Unzip project
         run: |
           mkdir -p project
-          unzip -q project.zip -d project
+
+          if file project.zip | grep -q "Zip archive"; then
+            echo "Valid ZIP file"
+            unzip -q project.zip -d project
+          else
+            echo "ERROR: Not a zip file"
+            head project.zip
+            exit 1
+          fi
+
           echo "Project structure:"
           ls -la project | head
 
