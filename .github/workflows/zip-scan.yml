@@ -36,14 +36,14 @@ jobs:
 
       - name: Download ZIP
         run: |
-          echo "Downloading ZIP from Salesforce..."
+          echo "Downloading ZIP..."
 
           curl -L \
             -H "User-Agent: github-actions" \
             "${{ github.event.client_payload.zip_url }}" \
-            --output project.zip
+            -o project.zip
 
-          echo "Downloaded file:"
+          echo "Downloaded file info:"
           ls -lh project.zip
 
           echo "File type:"
