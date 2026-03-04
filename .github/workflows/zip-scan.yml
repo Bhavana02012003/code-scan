@@ -10,8 +10,10 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Read payload
+
+      - name: Debug Payload
         run: |
           echo "ZIP_URL=${{ github.event.client_payload.zip_url }}"
           echo "REPORT_PATH=${{ github.event.client_payload.report_path }}"
@@ -22,6 +24,13 @@ jobs:
         with:
           ref: ${{ github.event.client_payload.report_branch }}
 
+      - name: Debug Repo State
+        run: |
+          echo "Current branch:"
+          git branch
+          echo "Repo contents:"
+          ls -la
+
       - name: Install unzip
         run: sudo apt-get update && sudo apt-get install -y unzip
 
@@ -30,11 +39,11 @@ jobs:
           curl -L "${{ github.event.client_payload.zip_url }}" -o project.zip
           ls -lh project.zip
 
-      - name: Unzip
+      - name: Unzip project
         run: |
           mkdir -p project
           unzip -q project.zip -d project
-          echo "Unzipped:"
+          echo "Project structure:"
           ls -la project | head
 
       - name: Setup Java
@@ -43,19 +52,20 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Download PMD 6.55.0
+      - name: Download PMD
         run: |
           curl -L https://github.com/pmd/pmd/releases/download/pmd_releases/6.55.0/pmd-bin-6.55.0.zip -o pmd.zip
           unzip -q pmd.zip
           mv pmd-bin-6.55.0 pmd
           chmod +x pmd/bin/run.sh
 
-      - name: Run PMD Scan
+      - name: Run PMD scan
         run: |
           mkdir -p out
 
           FA=$(find project -type d -name "force-app" | head -n 1)
           if [ -z "$FA" ]; then FA="project"; fi
+
           echo "Scanning directory: $FA"
 
           ./pmd/bin/run.sh pmd \
@@ -64,17 +74,22 @@ jobs:
             -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
             > out/report.csv || true
 
-          head -n 20 out/report.csv || true
+          echo "Report preview:"
+          head -n 20 out/report.csv
 
-      - name: Save report to repo branch
+      - name: Save report
         run: |
           REPORT_PATH="${{ github.event.client_payload.report_path }}"
+
           mkdir -p "$(dirname "$REPORT_PATH")"
+
           cp out/report.csv "$REPORT_PATH"
 
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
           git add "$REPORT_PATH"
+
           git commit -m "PMD report: $REPORT_PATH" || echo "No changes"
+
           git push
