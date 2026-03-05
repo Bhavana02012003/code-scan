@@ -32,7 +32,7 @@ jobs:
           ls -la
 
       - name: Install unzip
-        run: sudo apt-get update && sudo apt-get install -y unzip
+        run: sudo apt-get update && sudo apt-get install -y unzip jq
 
       - name: Download ZIP
         run: |
@@ -95,6 +95,59 @@ jobs:
 
           echo "Report preview:"
           head -n 20 out/report.csv
+
+      # -----------------------------------------------------
+      # NEW STEP 1 : Authenticate to Salesforce
+      # -----------------------------------------------------
+
+      - name: Authenticate with Salesforce
+        run: |
+          response=$(curl -X POST "https://login.salesforce.com/services/oauth2/token" \
+            -d "grant_type=password" \
+            -d "client_id=${{ secrets.SF_CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.SF_CLIENT_SECRET }}" \
+            -d "username=${{ secrets.SF_USERNAME }}" \
+            -d "password=${{ secrets.SF_PASSWORD }}${{ secrets.SF_SECURITY_TOKEN }}" )
+
+          echo "Auth Response:"
+          echo $response
+
+          SF_ACCESS_TOKEN=$(echo "$response" | jq -r '.access_token')
+
+          if [ -z "$SF_ACCESS_TOKEN" ] || [ "$SF_ACCESS_TOKEN" = "null" ]; then
+            echo "❌ Salesforce authentication failed"
+            exit 1
+          fi
+
+          echo "SF_ACCESS_TOKEN=$SF_ACCESS_TOKEN" >> $GITHUB_ENV
+          echo "✅ Salesforce authentication successful"
+
+      # -----------------------------------------------------
+      # NEW STEP 2 : Upload Report to Salesforce Files
+      # -----------------------------------------------------
+
+      - name: Upload Report to Salesforce Files
+        run: |
+
+          if [ ! -f out/report.csv ]; then
+            echo "❌ report.csv not found"
+            exit 1
+          fi
+
+          echo "Uploading report to Salesforce Files..."
+
+          response=$(curl -X POST "${{ vars.SF_DOMAIN_URL }}/services/data/v61.0/sobjects/ContentVersion" \
+            -H "Authorization: Bearer $SF_ACCESS_TOKEN" \
+            -H "Content-Type: multipart/form-data" \
+            -F "entity_content={\"Title\":\"ZIP_Scan_Report_${{ github.run_id }}\",\"PathOnClient\":\"report.csv\"};type=application/json" \
+            -F "VersionData=@out/report.csv;type=text/csv")
+
+          echo "Salesforce Response:"
+          echo $response
+
+      # -----------------------------------------------------
+      # EXISTING LOGIC (UNCHANGED)
+      # -----------------------------------------------------
 
       - name: Save report
         run: |
