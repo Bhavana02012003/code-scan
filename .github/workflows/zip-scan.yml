@@ -22,7 +22,18 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.client_payload.report_branch }}
+          ref: main
+
+      - name: Debug Repo Files
+        run: |
+          echo "Current directory:"
+          pwd
+
+          echo "Repo files:"
+          ls -la
+
+          echo "Checking analyzer config:"
+          ls -la code-analyzer.yml
 
       - name: Install unzip
         run: sudo apt-get update && sudo apt-get install -y unzip jq
@@ -39,19 +50,11 @@ jobs:
           mkdir -p project
           unzip -q project.zip -d project
 
-      # ---------------------------------------------------
-      # JAVA
-      # ---------------------------------------------------
-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
-
-      # ---------------------------------------------------
-      # INSTALL SALESFORCE CLI
-      # ---------------------------------------------------
 
       - name: Install Salesforce CLI
         run: npm install @salesforce/cli --global
@@ -61,19 +64,15 @@ jobs:
           mkdir -p ~/.sf
           echo '{"plugins":{"autoInstall":false}}' > ~/.sf/sf-config.json
 
-      - name: Install Code Analyzer Plugin v5
+      - name: Install Code Analyzer Plugin
         run: |
           sf plugins uninstall @salesforce/plugin-code-analyzer || true
-          sf plugins install @salesforce/plugin-code-analyzer@5.1.0
+          sf plugins install @salesforce/plugin-code-analyzer@5.10.0
 
       - name: Confirm Code Analyzer
         run: sf plugins | grep code-analyzer
 
-      # ---------------------------------------------------
-      # RUN CUSTOM RULESET SCAN
-      # ---------------------------------------------------
-
-      - name: Run Code Analyzer using code-analyzer.yml
+      - name: Run Code Analyzer
         run: |
           mkdir -p out
 
@@ -94,10 +93,6 @@ jobs:
           echo "Report preview:"
           head -n 20 out/report.csv
 
-      # ---------------------------------------------------
-      # AUTHENTICATE SALESFORCE
-      # ---------------------------------------------------
-
       - name: Authenticate with Salesforce
         run: |
           response=$(curl -X POST "https://login.salesforce.com/services/oauth2/token" \
@@ -116,11 +111,7 @@ jobs:
 
           echo "SF_ACCESS_TOKEN=$SF_ACCESS_TOKEN" >> $GITHUB_ENV
 
-      # ---------------------------------------------------
-      # UPLOAD REPORT TO SALESFORCE
-      # ---------------------------------------------------
-
-      - name: Upload Report to Salesforce Files
+      - name: Upload Report to Salesforce
         run: |
 
           if [ ! -f out/report.csv ]; then
@@ -128,17 +119,11 @@ jobs:
             exit 1
           fi
 
-          response=$(curl -X POST "${{ vars.SF_DOMAIN_URL }}/services/data/v61.0/sobjects/ContentVersion" \
+          curl -X POST "${{ vars.SF_DOMAIN_URL }}/services/data/v61.0/sobjects/ContentVersion" \
             -H "Authorization: Bearer $SF_ACCESS_TOKEN" \
             -H "Content-Type: multipart/form-data" \
             -F "entity_content={\"Title\":\"ZIP_Scan_Report_${{ github.run_id }}\",\"PathOnClient\":\"report.csv\"};type=application/json" \
-            -F "VersionData=@out/report.csv;type=text/csv")
-
-          echo "$response"
-
-      # ---------------------------------------------------
-      # SAVE REPORT INTO REPO
-      # ---------------------------------------------------
+            -F "VersionData=@out/report.csv;type=text/csv"
 
       - name: Save report
         run: |
