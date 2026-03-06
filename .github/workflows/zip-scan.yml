@@ -28,10 +28,8 @@ jobs:
         run: |
           echo "Current directory:"
           pwd
-
           echo "Repo files:"
           ls -la
-
           echo "Checking analyzer config:"
           ls -la code-analyzer.yml
 
@@ -75,13 +73,11 @@ jobs:
       - name: Debug Workspace
         run: |
           echo "Workspace path:"
-          echo $GITHUB_WORKSPACE
-
+          echo "$GITHUB_WORKSPACE"
           echo "Listing repo files:"
-          ls -la $GITHUB_WORKSPACE
-
+          ls -la "$GITHUB_WORKSPACE"
           echo "Check config file:"
-          ls -la $GITHUB_WORKSPACE/code-analyzer.yml
+          ls -la "$GITHUB_WORKSPACE/code-analyzer.yml"
 
       - name: Run Code Analyzer
         run: |
@@ -97,12 +93,19 @@ jobs:
 
           sf code-analyzer run \
             --workspace "$FA" \
-            --config-file "${{ github.workspace }}/code-analyzer.yml" \
-            --output-file out/report.csv \
-            --format csv || true
+            --config-file "$GITHUB_WORKSPACE/code-analyzer.yml" \
+            --output-file out/report.csv || true
+
+          echo "Contents of out folder:"
+          ls -la out || true
 
           echo "Report preview:"
-          head -n 20 out/report.csv
+          if [ -f out/report.csv ]; then
+            head -n 20 out/report.csv
+          else
+            echo "out/report.csv was not created"
+            exit 1
+          fi
 
       - name: Authenticate with Salesforce
         run: |
@@ -117,6 +120,7 @@ jobs:
 
           if [ -z "$SF_ACCESS_TOKEN" ] || [ "$SF_ACCESS_TOKEN" = "null" ]; then
             echo "Salesforce authentication failed"
+            echo "$response"
             exit 1
           fi
 
@@ -124,7 +128,6 @@ jobs:
 
       - name: Upload Report to Salesforce
         run: |
-
           if [ ! -f out/report.csv ]; then
             echo "report.csv not found"
             exit 1
@@ -148,7 +151,5 @@ jobs:
           git config user.email "actions@github.com"
 
           git add "$REPORT_PATH"
-
           git commit -m "PMD report: $REPORT_PATH" || echo "No changes"
-
           git push
