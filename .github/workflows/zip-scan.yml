@@ -1,4 +1,4 @@
-name: Salesforce ZIP Scan (PMD)
+name: Salesforce ZIP Scan (Custom Ruleset)
 
 on:
   repository_dispatch:
@@ -24,46 +24,24 @@ jobs:
         with:
           ref: ${{ github.event.client_payload.report_branch }}
 
-      - name: Debug Repo State
-        run: |
-          echo "Current branch:"
-          git branch
-          echo "Repo contents:"
-          ls -la
-
       - name: Install unzip
         run: sudo apt-get update && sudo apt-get install -y unzip jq
 
       - name: Download ZIP
         run: |
-          echo "Downloading ZIP..."
-
           curl -L \
             -H "User-Agent: github-actions" \
             "${{ github.event.client_payload.zip_url }}" \
             -o project.zip
 
-          echo "Downloaded file info:"
-          ls -lh project.zip
-
-          echo "File type:"
-          file project.zip
-
       - name: Unzip project
         run: |
           mkdir -p project
+          unzip -q project.zip -d project
 
-          if file project.zip | grep -q "Zip archive"; then
-            echo "Valid ZIP file"
-            unzip -q project.zip -d project
-          else
-            echo "ERROR: Not a zip file"
-            head project.zip
-            exit 1
-          fi
-
-          echo "Project structure:"
-          ls -la project | head
+      # ---------------------------------------------------
+      # JAVA
+      # ---------------------------------------------------
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -71,34 +49,54 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Download PMD
-        run: |
-          curl -L https://github.com/pmd/pmd/releases/download/pmd_releases/6.55.0/pmd-bin-6.55.0.zip -o pmd.zip
-          unzip -q pmd.zip
-          mv pmd-bin-6.55.0 pmd
-          chmod +x pmd/bin/run.sh
+      # ---------------------------------------------------
+      # INSTALL SALESFORCE CLI
+      # ---------------------------------------------------
 
-      - name: Run PMD scan
+      - name: Install Salesforce CLI
+        run: npm install @salesforce/cli --global
+
+      - name: Disable Auto Plugin Install
+        run: |
+          mkdir -p ~/.sf
+          echo '{"plugins":{"autoInstall":false}}' > ~/.sf/sf-config.json
+
+      - name: Install Code Analyzer Plugin v5
+        run: |
+          sf plugins uninstall @salesforce/plugin-code-analyzer || true
+          sf plugins install @salesforce/plugin-code-analyzer@5.1.0
+
+      - name: Confirm Code Analyzer
+        run: sf plugins | grep code-analyzer
+
+      # ---------------------------------------------------
+      # RUN CUSTOM RULESET SCAN
+      # ---------------------------------------------------
+
+      - name: Run Code Analyzer using code-analyzer.yml
         run: |
           mkdir -p out
 
           FA=$(find project -type d -name "force-app" | head -n 1)
-          if [ -z "$FA" ]; then FA="project"; fi
+
+          if [ -z "$FA" ]; then
+            FA="project"
+          fi
 
           echo "Scanning directory: $FA"
 
-          ./pmd/bin/run.sh pmd \
-            -d "$FA" \
-            -f csv \
-            -R category/apex/bestpractices.xml,category/apex/design.xml,category/apex/errorprone.xml,category/apex/performance.xml,category/apex/security.xml \
-            > out/report.csv || true
+          sf code-analyzer run \
+            --workspace "$FA" \
+            --config-file code-analyzer.yml \
+            --output-file out/report.csv \
+            --format csv || true
 
           echo "Report preview:"
           head -n 20 out/report.csv
 
-      # -----------------------------------------------------
-      # NEW STEP 1 : Authenticate to Salesforce
-      # -----------------------------------------------------
+      # ---------------------------------------------------
+      # AUTHENTICATE SALESFORCE
+      # ---------------------------------------------------
 
       - name: Authenticate with Salesforce
         run: |
@@ -109,32 +107,26 @@ jobs:
             -d "username=${{ secrets.SF_USERNAME }}" \
             -d "password=${{ secrets.SF_PASSWORD }}${{ secrets.SF_SECURITY_TOKEN }}" )
 
-          echo "Auth Response:"
-          echo $response
-
           SF_ACCESS_TOKEN=$(echo "$response" | jq -r '.access_token')
 
           if [ -z "$SF_ACCESS_TOKEN" ] || [ "$SF_ACCESS_TOKEN" = "null" ]; then
-            echo "❌ Salesforce authentication failed"
+            echo "Salesforce authentication failed"
             exit 1
           fi
 
           echo "SF_ACCESS_TOKEN=$SF_ACCESS_TOKEN" >> $GITHUB_ENV
-          echo "✅ Salesforce authentication successful"
 
-      # -----------------------------------------------------
-      # NEW STEP 2 : Upload Report to Salesforce Files
-      # -----------------------------------------------------
+      # ---------------------------------------------------
+      # UPLOAD REPORT TO SALESFORCE
+      # ---------------------------------------------------
 
       - name: Upload Report to Salesforce Files
         run: |
 
           if [ ! -f out/report.csv ]; then
-            echo "❌ report.csv not found"
+            echo "report.csv not found"
             exit 1
           fi
-
-          echo "Uploading report to Salesforce Files..."
 
           response=$(curl -X POST "${{ vars.SF_DOMAIN_URL }}/services/data/v61.0/sobjects/ContentVersion" \
             -H "Authorization: Bearer $SF_ACCESS_TOKEN" \
@@ -142,12 +134,11 @@ jobs:
             -F "entity_content={\"Title\":\"ZIP_Scan_Report_${{ github.run_id }}\",\"PathOnClient\":\"report.csv\"};type=application/json" \
             -F "VersionData=@out/report.csv;type=text/csv")
 
-          echo "Salesforce Response:"
-          echo $response
+          echo "$response"
 
-      # -----------------------------------------------------
-      # EXISTING LOGIC (UNCHANGED)
-      # -----------------------------------------------------
+      # ---------------------------------------------------
+      # SAVE REPORT INTO REPO
+      # ---------------------------------------------------
 
       - name: Save report
         run: |
