@@ -72,6 +72,17 @@ jobs:
       - name: Confirm Code Analyzer
         run: sf plugins | grep code-analyzer
 
+      - name: Debug Workspace
+        run: |
+          echo "Workspace path:"
+          echo $GITHUB_WORKSPACE
+
+          echo "Listing repo files:"
+          ls -la $GITHUB_WORKSPACE
+
+          echo "Check config file:"
+          ls -la $GITHUB_WORKSPACE/code-analyzer.yml
+
       - name: Run Code Analyzer
         run: |
           mkdir -p out
@@ -86,7 +97,7 @@ jobs:
 
           sf code-analyzer run \
             --workspace "$FA" \
-            --config-file code-analyzer.yml \
+            --config-file "${{ github.workspace }}/code-analyzer.yml" \
             --output-file out/report.csv \
             --format csv || true
 
