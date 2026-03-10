@@ -1,0 +1,706 @@
+Tool,File,Line,Severity,Rule,Message
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,17,3,CyclomaticComplexity,The class 'AppointmentController' has a total cyclomatic complexity of 50 (highest 12).
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,44,3,EmptyStatementBlock,Avoid empty block statements.
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,57,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,57,3,CyclomaticComplexity,"The method 'updateAppointmentStatus(Id, String, String, Date, String)' has a cyclomatic complexity of 12."
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,67,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,114,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,135,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,150,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,163,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,176,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,222,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,232,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,242,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,252,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,279,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentController.cls,302,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerTest.cls,7,5,UnusedLocalVariable,Variable 'u' defined but not used
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerTest.cls,37,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerTest.cls,59,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerTest.cls,87,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerTest.cls,120,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerTest.cls,132,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerTest.cls,159,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerTest.cls,189,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerTest.cls,227,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerTest.cls,255,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerTest.cls,283,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,26,3,StdCyclomaticComplexity,The class 'AppointmentControllerToOpp' has a Standard Cyclomatic Complexity of 4 (Highest = 12).
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,26,3,CyclomaticComplexity,The class 'AppointmentControllerToOpp' has a total cyclomatic complexity of 63 (highest 17).
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,38,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,38,3,CyclomaticComplexity,"The method 'updateAppointmentStatus(Id, String, String, Date, String)' has a cyclomatic complexity of 17."
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,52,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,92,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,98,3,CyclomaticComplexity,"The method 'getAvailableTimeSlots(Date, Id)' has a cyclomatic complexity of 10."
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,106,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,136,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,152,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,166,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,195,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,221,3,StdCyclomaticComplexity,The method 'sendConfirmationEmail' has a Standard Cyclomatic Complexity of 12.
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,221,3,CyclomaticComplexity,"The method 'sendConfirmationEmail(Opportunity, String)' has a cyclomatic complexity of 16."
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,228,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AppointmentControllerToOpp.cls,265,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/AreliaManualProjectRequestControllerTest.cls,33,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AreliaManualProjectRequestControllerTest.cls,45,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AreliaManualProjectRequestControllerTest.cls,57,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AreliaManualProjectRequestControllerTest.cls,66,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AreliaManualProjectRequestControllerTest.cls,78,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AreliaManualProjectRequestControllerTest.cls,93,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AreliaManualProjectRequestControllerTest.cls,130,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/AreliaManualProjectRequestControllerTest.cls,130,3,NcssMethodCount,The method 'testUpdateLeadSuccess()' has an NCSS line count of 44
+PMD(Apex),./force-app/main/default/classes/AreliaManualProjectRequestControllerTest.cls,218,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/Arelia_ManualProjectRequestController.cls,87,3,NcssMethodCount,The method 'updateLead()' has an NCSS line count of 40
+PMD(Apex),./force-app/main/default/classes/Arelia_ManualProjectRequestController.cls,87,3,CyclomaticComplexity,"The method 'updateLead(Map<String,Object>)' has a cyclomatic complexity of 11."
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,16,3,StdCyclomaticComplexity,The class 'CreateProjectFromOpportunityHandler' has a Standard Cyclomatic Complexity of 5 (Highest = 16).
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,16,3,CyclomaticComplexity,The class 'CreateProjectFromOpportunityHandler' has a total cyclomatic complexity of 79 (highest 18).
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,19,3,StdCyclomaticComplexity,The method 'handleAfterInsert' has a Standard Cyclomatic Complexity of 16.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,19,3,NcssMethodCount,The method 'handleAfterInsert()' has an NCSS line count of 69
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,19,3,CyclomaticComplexity,The method 'handleAfterInsert(List<Opportunity>)' has a cyclomatic complexity of 18.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,20,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,20,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,24,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,24,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,44,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,44,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,46,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,46,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,54,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,54,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,63,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,63,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,70,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,70,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,77,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,77,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,83,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,83,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,104,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,104,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,111,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,111,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,118,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,118,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,122,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,122,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,126,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,126,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,139,3,StdCyclomaticComplexity,The method 'handleAfterUpdate' has a Standard Cyclomatic Complexity of 15.
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,139,3,NcssMethodCount,The method 'handleAfterUpdate()' has an NCSS line count of 61
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,139,3,CyclomaticComplexity,"The method 'handleAfterUpdate(List<Opportunity>, Map<Id,Opportunity>)' has a cyclomatic complexity of 18."
+PMD(Apex),./force-app/main/default/classes/CreateProjectFromOpportunityHandler.cls,318,5,UnusedLocalVariable,Variable 'endDateVal' defined but not used
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondController.cls,7,3,StdCyclomaticComplexity,The class 'HandleVendorAbscondController' has a Standard Cyclomatic Complexity of 7 (Highest = 13).
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondController.cls,69,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondController.cls,86,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondController.cls,117,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondController.cls,117,3,StdCyclomaticComplexity,The method 'sendEmail' has a Standard Cyclomatic Complexity of 13.
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondController.cls,117,3,NcssMethodCount,The method 'sendEmail()' has an NCSS line count of 56
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondController.cls,117,3,CognitiveComplexity,"The method 'sendEmail(Id, List<String>, Id, String, List<Id>)' has a cognitive complexity of 27, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondController.cls,117,3,CyclomaticComplexity,"The method 'sendEmail(Id, List<String>, Id, String, List<Id>)' has a cyclomatic complexity of 20."
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondController.cls,129,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondController.cls,177,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,31,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,31,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,70,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,80,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,104,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,119,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,135,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,141,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,141,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,165,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,165,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,183,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,206,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,228,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,257,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/HandleVendorAbscondControllerTest.cls,277,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/InteriorAutoProjectRequestService.cls,21,3,CyclomaticComplexity,The class 'InteriorAutoProjectRequestService' has a total cyclomatic complexity of 84 (highest 12).
+PMD(Apex),./force-app/main/default/classes/InteriorAutoProjectRequestService.cls,70,3,NcssMethodCount,The method 'saveRequest()' has an NCSS line count of 49
+PMD(Apex),./force-app/main/default/classes/InteriorAutoProjectRequestService.cls,70,3,CyclomaticComplexity,"The method 'saveRequest(Map<String,Object>)' has a cyclomatic complexity of 12."
+PMD(Apex),./force-app/main/default/classes/InteriorMasterService.cls,19,3,StdCyclomaticComplexity,The class 'InteriorMasterService' has a Standard Cyclomatic Complexity of 8 (Highest = 14).
+PMD(Apex),./force-app/main/default/classes/InteriorMasterService.cls,19,3,ExcessivePublicCount,This class has a bunch of public methods and attributes
+PMD(Apex),./force-app/main/default/classes/InteriorMasterService.cls,65,3,StdCyclomaticComplexity,The method 'getMasterData' has a Standard Cyclomatic Complexity of 14.
+PMD(Apex),./force-app/main/default/classes/InteriorMasterService.cls,65,3,CognitiveComplexity,"The method 'getMasterData()' has a cognitive complexity of 19, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/InteriorMasterService.cls,65,3,CyclomaticComplexity,The method 'getMasterData()' has a cyclomatic complexity of 14.
+PMD(Apex),./force-app/main/default/classes/InteriorMasterService.cls,65,3,NcssMethodCount,The method 'getMasterData()' has an NCSS line count of 42
+PMD(Apex),./force-app/main/default/classes/InteriorMasterService.cls,70,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/InteriorMasterService.cls,84,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/InteriorMasterService.cls,99,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/InteriorMasterService.cls,113,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/InteriorMasterService.cls,128,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/InteriorMasterServiceTest.cls,111,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/LeadAssignmentEmailHandler.cls,79,5,UnusedLocalVariable,Variable 'supervisorId' defined but not used
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandler.cls,22,3,StdCyclomaticComplexity,The class 'LeadEmailHandler' has a Standard Cyclomatic Complexity of 5 (Highest = 11).
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandler.cls,22,3,CyclomaticComplexity,The class 'LeadEmailHandler' has a total cyclomatic complexity of 67 (highest 14).
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandler.cls,69,3,StdCyclomaticComplexity,The method 'sendEnrollmentEmailOnSubmission' has a Standard Cyclomatic Complexity of 11.
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandler.cls,69,3,CyclomaticComplexity,The method 'sendEnrollmentEmailOnSubmission(List<Lead>)' has a cyclomatic complexity of 13.
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandler.cls,142,3,StdCyclomaticComplexity,The method 'sendLeadEmailOnApproval' has a Standard Cyclomatic Complexity of 11.
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandler.cls,142,3,CyclomaticComplexity,The method 'sendLeadEmailOnApproval(List<Lead>)' has a cyclomatic complexity of 14.
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandler.cls,232,3,CyclomaticComplexity,"The method 'prepareManagementEmails(Lead, Id, Boolean)' has a cyclomatic complexity of 10."
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandlerTest.cls,25,5,UnusedLocalVariable,Variable 'mgrUser' defined but not used
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandlerTest.cls,26,5,UnusedLocalVariable,Variable 'enrollUser' defined but not used
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandlerTest.cls,41,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandlerTest.cls,62,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandlerTest.cls,94,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandlerTest.cls,118,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandlerTest.cls,145,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandlerTest.cls,177,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandlerTest.cls,208,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/LeadEmailHandlerTest.cls,233,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetController.cls,2,3,StdCyclomaticComplexity,The class 'ProjectAdditionalBudgetController' has a Standard Cyclomatic Complexity of 4 (Highest = 10).
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetController.cls,2,3,CyclomaticComplexity,The class 'ProjectAdditionalBudgetController' has a total cyclomatic complexity of 137 (highest 13).
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetController.cls,129,3,CyclomaticComplexity,"The method 'submitRequest(Id, Decimal, String, List<Id>)' has a cyclomatic complexity of 13."
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetController.cls,363,3,CyclomaticComplexity,"The method 'sendEmailStrict(List<String>, String, String, List<Messaging.EmailFileAttachment>)' has a cyclomatic complexity of 13."
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetController.cls,394,3,StdCyclomaticComplexity,The method 'buildEmailAttachments' has a Standard Cyclomatic Complexity of 10.
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetController.cls,394,3,CyclomaticComplexity,The method 'buildEmailAttachments(List<Id>)' has a cyclomatic complexity of 11.
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetControllerTest.cls,63,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetControllerTest.cls,63,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetControllerTest.cls,72,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetControllerTest.cls,86,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetControllerTest.cls,114,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetControllerTest.cls,136,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetControllerTest.cls,152,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetControllerTest.cls,186,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetControllerTest.cls,238,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/ProjectAdditionalBudgetControllerTest.cls,248,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectCompletionEmailHandler.cls,9,3,CognitiveComplexity,"The class 'ProjectCompletionEmailHandler' has a total cognitive complexity of 87 (highest 10), current threshold is 50"
+PMD(Apex),./force-app/main/default/classes/ProjectCompletionEmailHandler.cls,9,3,CyclomaticComplexity,The class 'ProjectCompletionEmailHandler' has a total cyclomatic complexity of 97 (highest 11).
+PMD(Apex),./force-app/main/default/classes/ProjectCompletionEmailHandler.cls,65,3,CyclomaticComplexity,The method 'sendProjectApprovedEmail(List<Project__c>)' has a cyclomatic complexity of 11.
+PMD(Apex),./force-app/main/default/classes/ProjectCompletionEmailHandler.cls,101,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/ProjectCompletionEmailHandler.cls,243,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ProjectCompletionEmailHandler.cls,307,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ProjectCompletionEmailHandler.cls,316,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,12,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,17,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,17,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,20,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,33,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,33,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,34,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,34,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,39,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,39,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,42,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,48,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,48,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,54,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,54,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,57,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,61,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,67,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,93,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,119,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,119,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandler.cls,122,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandlerTest.cls,41,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandlerTest.cls,61,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandlerTest.cls,79,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectEmailHandlerTest.cls,95,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,28,3,StdCyclomaticComplexity,The class 'ProjectReminderBatch' has a Standard Cyclomatic Complexity of 4 (Highest = 17).
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,28,3,CyclomaticComplexity,The class 'ProjectReminderBatch' has a total cyclomatic complexity of 44 (highest 21).
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,138,3,StdCyclomaticComplexity,The method 'execute' has a Standard Cyclomatic Complexity of 17.
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,138,3,NcssMethodCount,The method 'execute()' has an NCSS line count of 56
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,138,3,CyclomaticComplexity,"The method 'execute(Database.BatchableContext, List<Project__c>)' has a cyclomatic complexity of 21."
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,147,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,147,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,153,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,153,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,166,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,166,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,236,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,236,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,238,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,238,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,241,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,241,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,258,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,258,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,259,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,259,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,260,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectReminderBatch.cls,260,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectRequestControllerTest.cls,5,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectRequestControllerTest.cls,20,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectRequestControllerTest.cls,20,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHandler.cls,133,3,CognitiveComplexity,"The method 'buildGroupEmails(EmailTemplate, String, ProjectTriggerHandler.MergeContext)' has a cognitive complexity of 15, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHandler.cls,160,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHandlerTest.cls,118,3,ApexUnitTestClassShouldHaveAsserts,Apex unit tests should System.assert() or assertEquals() or assertNotEquals()
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHelper.cls,5,3,ApexSharingViolations,Apex classes should declare a sharing model if DML or SOQL/SOSL is used
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHelper.cls,5,3,StdCyclomaticComplexity,The class 'ProjectTriggerHelper' has a Standard Cyclomatic Complexity of 12 (Highest = 11).
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHelper.cls,12,3,StdCyclomaticComplexity,The method 'validateProjectCompletion' has a Standard Cyclomatic Complexity of 11.
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHelper.cls,12,3,CognitiveComplexity,"The method 'validateProjectCompletion(List<Project__c>, Map<Id,Project__c>)' has a cognitive complexity of 18, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHelper.cls,12,3,CyclomaticComplexity,"The method 'validateProjectCompletion(List<Project__c>, Map<Id,Project__c>)' has a cyclomatic complexity of 13."
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHelper.cls,49,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHelperTest.cls,51,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHelperTest.cls,68,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHelperTest.cls,87,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectTriggerHelperTest.cls,106,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,14,3,StdCyclomaticComplexity,The class 'ProjectUpdateHandler' has a Standard Cyclomatic Complexity of 5 (Highest = 12).
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,14,3,CognitiveComplexity,"The class 'ProjectUpdateHandler' has a total cognitive complexity of 53 (highest 18), current threshold is 50"
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,14,3,CyclomaticComplexity,The class 'ProjectUpdateHandler' has a total cyclomatic complexity of 44 (highest 12).
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,69,3,StdCyclomaticComplexity,The method 'sendProjectStatusUpdateEmails' has a Standard Cyclomatic Complexity of 12.
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,69,3,NcssMethodCount,The method 'sendProjectStatusUpdateEmails()' has an NCSS line count of 57
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,69,3,CognitiveComplexity,"The method 'sendProjectStatusUpdateEmails(List<Project__c>)' has a cognitive complexity of 18, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,69,3,CyclomaticComplexity,The method 'sendProjectStatusUpdateEmails(List<Project__c>)' has a cyclomatic complexity of 12.
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,81,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,85,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,91,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,156,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,182,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,186,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,198,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,203,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,211,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,214,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,226,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,240,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ProjectUpdateHandler.cls,254,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/RegistrationFormController.cls,7,3,CyclomaticComplexity,The class 'RegistrationFormController' has a total cyclomatic complexity of 81 (highest 8).
+PMD(Apex),./force-app/main/default/classes/RegistrationFormController.cls,203,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/RegistrationFormController.cls,203,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/RegistrationFormControllerTest.cls,62,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/RegistrationFormControllerTest.cls,92,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/RegistrationFormControllerTest.cls,103,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/RegistrationFormControllerTest.cls,121,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/RegistrationFormControllerTest.cls,140,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/RegistrationFormControllerTest.cls,161,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/RegistrationFormControllerTest.cls,181,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/RegistrationFormControllerTest.cls,192,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/RegistrationFormControllerTest.cls,204,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,10,3,StdCyclomaticComplexity,The class 'ScheduleAppointmentController' has a Standard Cyclomatic Complexity of 3 (Highest = 12).
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,10,3,CyclomaticComplexity,The class 'ScheduleAppointmentController' has a total cyclomatic complexity of 54 (highest 20).
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,21,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,21,3,CyclomaticComplexity,"The method 'scheduleAppointmentAndSendEmails(Id, Id, String, String, String)' has a cyclomatic complexity of 11."
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,36,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,40,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,60,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,60,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,68,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,82,3,StdCyclomaticComplexity,The method 'validateAppointmentInput' has a Standard Cyclomatic Complexity of 12.
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,82,3,NcssMethodCount,The method 'validateAppointmentInput()' has an NCSS line count of 55
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,82,3,CognitiveComplexity,"The method 'validateAppointmentInput(String, String, String)' has a cognitive complexity of 29, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,82,3,CyclomaticComplexity,"The method 'validateAppointmentInput(String, String, String)' has a cyclomatic complexity of 20."
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,108,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,133,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,160,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,167,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,200,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentController.cls,246,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,10,3,StdCyclomaticComplexity,The class 'ScheduleAppointmentonOppController' has a Standard Cyclomatic Complexity of 3 (Highest = 12).
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,10,3,CognitiveComplexity,"The class 'ScheduleAppointmentonOppController' has a total cognitive complexity of 60 (highest 29), current threshold is 50"
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,10,3,CyclomaticComplexity,The class 'ScheduleAppointmentonOppController' has a total cyclomatic complexity of 69 (highest 20).
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,14,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,28,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,34,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,65,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,79,3,CyclomaticComplexity,"The method 'getAvailableTimeSlotsOpp(Date, Id)' has a cyclomatic complexity of 10."
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,82,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,93,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,137,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,141,3,CyclomaticComplexity,The method 'validateOppFields(Opportunity)' has a cyclomatic complexity of 12.
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,167,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,171,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,201,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,241,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,247,3,StdCyclomaticComplexity,The method 'validateAppointmentInput' has a Standard Cyclomatic Complexity of 12.
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,247,3,NcssMethodCount,The method 'validateAppointmentInput()' has an NCSS line count of 55
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,247,3,CognitiveComplexity,"The method 'validateAppointmentInput(String, String, String)' has a cognitive complexity of 29, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,247,3,CyclomaticComplexity,"The method 'validateAppointmentInput(String, String, String)' has a cyclomatic complexity of 20."
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppController.cls,271,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD(Apex),./force-app/main/default/classes/ScheduleAppointmentonOppControllerTest.cls,183,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileService.cls,1,3,StdCyclomaticComplexity,The class 'SiteVisitReportFileService' has a Standard Cyclomatic Complexity of 17 (Highest = 16).
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileService.cls,3,3,StdCyclomaticComplexity,The method 'attachFilesToLead' has a Standard Cyclomatic Complexity of 16.
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileService.cls,3,3,NcssMethodCount,The method 'attachFilesToLead()' has an NCSS line count of 50
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileService.cls,3,3,CognitiveComplexity,"The method 'attachFilesToLead(Id)' has a cognitive complexity of 27, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileService.cls,3,3,CyclomaticComplexity,The method 'attachFilesToLead(Id)' has a cyclomatic complexity of 19.
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileService.cls,6,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileService.cls,21,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileService.cls,46,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileService.cls,69,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileService.cls,86,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileService.cls,109,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileServiceTest.cls,13,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileServiceTest.cls,46,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileServiceTest.cls,75,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileServiceTest.cls,98,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileServiceTest.cls,131,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileServiceTest.cls,158,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportFileServiceTest.cls,162,3,EagerlyLoadedDescribeSObjectResult,DescribeSObjectResult could be being loaded eagerly with all child relationships.
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportHandler.cls,6,3,CognitiveComplexity,"The class 'SiteVisitReportHandler' has a total cognitive complexity of 82 (highest 12), current threshold is 50"
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportHandler.cls,6,3,CyclomaticComplexity,The class 'SiteVisitReportHandler' has a total cyclomatic complexity of 86 (highest 12).
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportHandler.cls,136,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportHandler.cls,284,3,CyclomaticComplexity,"The method 'afterUpdate(List<Site_Visit_Report__c>, Map<Id,Site_Visit_Report__c>)' has a cyclomatic complexity of 12."
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportHandler.cls,392,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/SiteVisitReportHandler.cls,415,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/TaskHelper.cls,8,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/TaskHelper.cls,17,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/TaskHelper.cls,45,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/TaskHelperTest.cls,24,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/TaskHelperTest.cls,43,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/TaskHelperTest.cls,60,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/TaskHelperTest.cls,77,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/TaskHelperTest.cls,94,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandler.cls,5,3,StdCyclomaticComplexity,The class 'TaskVendorBudgetHandler' has a Standard Cyclomatic Complexity of 6 (Highest = 17).
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandler.cls,5,3,CognitiveComplexity,"The class 'TaskVendorBudgetHandler' has a total cognitive complexity of 67 (highest 29), current threshold is 50"
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandler.cls,5,3,CyclomaticComplexity,The class 'TaskVendorBudgetHandler' has a total cyclomatic complexity of 50 (highest 19).
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandler.cls,11,3,StdCyclomaticComplexity,The method 'validatePercentTotals' has a Standard Cyclomatic Complexity of 17.
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandler.cls,11,3,NcssMethodCount,The method 'validatePercentTotals()' has an NCSS line count of 61
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandler.cls,11,3,CognitiveComplexity,"The method 'validatePercentTotals(List<Task>, Map<Id,Task>)' has a cognitive complexity of 29, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandler.cls,11,3,CyclomaticComplexity,"The method 'validatePercentTotals(List<Task>, Map<Id,Task>)' has a cyclomatic complexity of 19."
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandler.cls,32,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandler.cls,112,3,CyclomaticComplexity,The method 'recalcAndUpdate(Set<Id>)' has a cyclomatic complexity of 10.
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandler.cls,124,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandler.cls,155,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandlerTest.cls,27,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandlerTest.cls,58,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandlerTest.cls,88,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandlerTest.cls,118,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/TaskVendorBudgetHandlerTest.cls,142,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailController.cls,1,3,ExcessivePublicCount,This class has a bunch of public methods and attributes
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailController.cls,10,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailController.cls,22,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailController.cls,37,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailController.cls,57,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailController.cls,72,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailController.cls,72,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailControllerTest.cls,52,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailControllerTest.cls,75,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailControllerTest.cls,87,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailControllerTest.cls,100,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailControllerTest.cls,113,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAbscondEmailControllerTest.cls,123,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,9,3,StdCyclomaticComplexity,The class 'VendorAssignmentHandler' has a Standard Cyclomatic Complexity of 11 (Highest = 13).
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,9,3,CognitiveComplexity,"The class 'VendorAssignmentHandler' has a total cognitive complexity of 56 (highest 22), current threshold is 50"
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,19,3,StdCyclomaticComplexity,The method 'updateProjectCompletion' has a Standard Cyclomatic Complexity of 13.
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,19,3,CognitiveComplexity,"The method 'updateProjectCompletion(Set<Id>)' has a cognitive complexity of 22, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,19,3,CyclomaticComplexity,The method 'updateProjectCompletion(Set<Id>)' has a cyclomatic complexity of 15.
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,28,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,38,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,90,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,134,3,StdCyclomaticComplexity,The method 'updateVendorAverageEfficiency' has a Standard Cyclomatic Complexity of 13.
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,134,3,CognitiveComplexity,"The method 'updateVendorAverageEfficiency(List<Vendor_Assignment__c>, List<Vendor_Assignment__c>)' has a cognitive complexity of 20, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,134,3,CyclomaticComplexity,"The method 'updateVendorAverageEfficiency(List<Vendor_Assignment__c>, List<Vendor_Assignment__c>)' has a cyclomatic complexity of 13."
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,162,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandler.cls,190,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,24,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,24,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,44,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,44,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,51,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,79,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,79,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,98,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,116,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,134,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,158,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorAssignmentHandlerTest.cls,199,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorEmailController.cls,6,3,ExcessivePublicCount,This class has a bunch of public methods and attributes
+PMD(Apex),./force-app/main/default/classes/VendorEmailController.cls,308,3,ApexSOQLInjection,Avoid untrusted/unescaped variables in DML query
+PMD(Apex),./force-app/main/default/classes/VendorEmailControllerTest.cls,174,3,ApexUnitTestClassShouldHaveAsserts,Apex unit tests should System.assert() or assertEquals() or assertNotEquals()
+PMD(Apex),./force-app/main/default/classes/VendorEmailControllerTest.cls,189,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/VendorEmailControllerTest.cls,196,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityAgreementService.cls,8,3,CyclomaticComplexity,The class 'VendorOpportunityAgreementService' has a total cyclomatic complexity of 45 (highest 6).
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityAgreementService.cls,37,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityAgreementService.cls,50,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityAgreementService.cls,116,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityAgreementService.cls,149,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityAgreementServiceTest.cls,35,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityAgreementServiceTest.cls,54,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityAgreementServiceTest.cls,84,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityAgreementServiceTest.cls,113,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityAgreementServiceTest.cls,123,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityControllerTest.cls,21,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityControllerTest.cls,69,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityControllerTest.cls,101,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityControllerTest.cls,118,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityControllerTest.cls,130,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityControllerTest.cls,137,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityControllerTest.cls,160,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityControllerTest.cls,165,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityControllerTest.cls,170,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityControllerTest.cls,175,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityControllerTest.cls,180,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityTriggerDispatcherTest.cls,26,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityTriggerDispatcherTest.cls,48,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityTriggerDispatcherTest.cls,76,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorOpportunityTriggerDispatcherTest.cls,103,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorPathControllerTest.cls,21,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorPathControllerTest.cls,34,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorPathControllerTest.cls,47,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorPathControllerTest.cls,60,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorPathControllerTest.cls,75,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/VendorPathControllerTest.cls,112,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/VendorPathControllerTest.cls,112,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/VendorPathControllerTest.cls,117,3,ApexUnitTestClassShouldHaveRunAs,Apex unit test classes should have at least one System.runAs() call
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatRelinker.cls,1,3,StdCyclomaticComplexity,The class 'WhatsAppChatRelinker' has a Standard Cyclomatic Complexity of 12 (Highest = 11).
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatRelinker.cls,9,3,StdCyclomaticComplexity,The method 'onAfterUpdate' has a Standard Cyclomatic Complexity of 11.
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatRelinker.cls,9,3,NcssMethodCount,The method 'onAfterUpdate()' has an NCSS line count of 40
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatRelinker.cls,9,3,CognitiveComplexity,"The method 'onAfterUpdate(List<Lead>, Map<Id,Lead>)' has a cognitive complexity of 18, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatRelinker.cls,9,3,CyclomaticComplexity,"The method 'onAfterUpdate(List<Lead>, Map<Id,Lead>)' has a cyclomatic complexity of 15."
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatRelinker.cls,23,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatRelinker.cls,44,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatRelinkerOnProject.cls,71,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatRelinkerOnProject.cls,87,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,1,3,StdCyclomaticComplexity,The class 'WhatsAppChatStore' has a Standard Cyclomatic Complexity of 5 (Highest = 14).
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,3,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,3,3,StdCyclomaticComplexity,The method 'append' has a Standard Cyclomatic Complexity of 14.
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,3,3,NcssMethodCount,The method 'append()' has an NCSS line count of 50
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,3,3,CognitiveComplexity,"The method 'append(String, String, String, String, String, String, Id, String)' has a cognitive complexity of 17, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,3,3,CyclomaticComplexity,"The method 'append(String, String, String, String, String, String, Id, String)' has a cyclomatic complexity of 15."
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,38,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,77,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,95,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,112,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,126,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,137,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,153,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,165,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppChatStore.cls,177,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,1,3,StdCyclomaticComplexity,The class 'WhatsAppController' has a Standard Cyclomatic Complexity of 7 (Highest = 13).
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,1,3,CognitiveComplexity,"The class 'WhatsAppController' has a total cognitive complexity of 128 (highest 26), current threshold is 50"
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,1,3,CyclomaticComplexity,The class 'WhatsAppController' has a total cyclomatic complexity of 90 (highest 13).
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,1,3,ExcessivePublicCount,This class has a bunch of public methods and attributes
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,34,3,StdCyclomaticComplexity,The method 'getUnifiedChat' has a Standard Cyclomatic Complexity of 10.
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,34,3,CognitiveComplexity,"The method 'getUnifiedChat(Id, Integer)' has a cognitive complexity of 15, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,34,3,CyclomaticComplexity,"The method 'getUnifiedChat(Id, Integer)' has a cyclomatic complexity of 11."
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,41,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,54,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,89,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,100,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,130,3,StdCyclomaticComplexity,The method 'getFilesForChat' has a Standard Cyclomatic Complexity of 12.
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,130,3,CognitiveComplexity,"The method 'getFilesForChat(Id)' has a cognitive complexity of 21, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,130,3,CyclomaticComplexity,The method 'getFilesForChat(Id)' has a cyclomatic complexity of 13.
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,133,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,143,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,154,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,201,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,204,3,StdCyclomaticComplexity,The method 'extractJsonObjects' has a Standard Cyclomatic Complexity of 13.
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,204,3,NcssMethodCount,The method 'extractJsonObjects()' has an NCSS line count of 43
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,204,3,CognitiveComplexity,"The method 'extractJsonObjects(String)' has a cognitive complexity of 26, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,204,3,CyclomaticComplexity,The method 'extractJsonObjects(String)' has a cyclomatic complexity of 13.
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,218,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,223,3,CyclomaticComplexity,"The method 'fromMap(Map<String,Object>)' has a cyclomatic complexity of 11."
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,247,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,253,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,259,3,CognitiveComplexity,"The method 'dedupeLines(List<WhatsAppController.ChatLine>)' has a cognitive complexity of 20, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,286,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppController.cls,295,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,1,3,StdCyclomaticComplexity,The class 'WhatsAppMediaService' has a Standard Cyclomatic Complexity of 6 (Highest = 24).
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,1,3,CognitiveComplexity,"The class 'WhatsAppMediaService' has a total cognitive complexity of 58 (highest 25), current threshold is 50"
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,1,3,CyclomaticComplexity,The class 'WhatsAppMediaService' has a total cyclomatic complexity of 61 (highest 25).
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,15,3,ApexSuggestUsingNamedCred,Suggest named credentials for authentication
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,23,3,CyclomaticComplexity,"The method 'fetchAndSaveToChat(String, Id, String)' has a cyclomatic complexity of 11."
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,45,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,47,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,51,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,57,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,61,3,EmptyCatchBlock,Avoid empty catch blocks
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,70,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,79,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,95,3,ApexSuggestUsingNamedCred,Suggest named credentials for authentication
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,102,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,110,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,131,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,148,3,StdCyclomaticComplexity,The method 'normalizeExtension' has a Standard Cyclomatic Complexity of 24.
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,148,3,NcssMethodCount,The method 'normalizeExtension()' has an NCSS line count of 110
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,148,3,CognitiveComplexity,"The method 'normalizeExtension(String, String)' has a cognitive complexity of 25, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/WhatsAppMediaService.cls,148,3,CyclomaticComplexity,"The method 'normalizeExtension(String, String)' has a cyclomatic complexity of 25."
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,1,3,StdCyclomaticComplexity,The class 'WhatsAppService' has a Standard Cyclomatic Complexity of 6 (Highest = 11).
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,1,3,CognitiveComplexity,"The class 'WhatsAppService' has a total cognitive complexity of 53 (highest 19), current threshold is 50"
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,1,3,CyclomaticComplexity,The class 'WhatsAppService' has a total cyclomatic complexity of 51 (highest 14).
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,31,3,ExcessiveParameterList,Avoid long parameter lists.
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,61,3,StdCyclomaticComplexity,The method 'sendMediaFromDocument' has a Standard Cyclomatic Complexity of 11.
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,61,3,CognitiveComplexity,"The method 'sendMediaFromDocument(Id, String, String)' has a cognitive complexity of 15, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,61,3,CyclomaticComplexity,"The method 'sendMediaFromDocument(Id, String, String)' has a cyclomatic complexity of 14."
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,66,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,106,3,CyclomaticComplexity,The method 'inferTypeFromExtension(String)' has a cyclomatic complexity of 12.
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,115,3,CognitiveComplexity,"The method 'doSend(Object, String)' has a cognitive complexity of 19, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,115,3,CyclomaticComplexity,"The method 'doSend(Object, String)' has a cyclomatic complexity of 11."
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,121,3,ApexSuggestUsingNamedCred,Suggest named credentials for authentication
+PMD(Apex),./force-app/main/default/classes/WhatsAppService.cls,137,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,2,3,StdCyclomaticComplexity,The class 'WhatsAppWebhookRest' has a Standard Cyclomatic Complexity of 6 (Highest = 13).
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,2,3,CognitiveComplexity,"The class 'WhatsAppWebhookRest' has a total cognitive complexity of 59 (highest 26), current threshold is 50"
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,2,3,CyclomaticComplexity,The class 'WhatsAppWebhookRest' has a total cyclomatic complexity of 40 (highest 16).
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,19,3,StdCyclomaticComplexity,The method 'ingest' has a Standard Cyclomatic Complexity of 13.
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,19,3,CognitiveComplexity,"The method 'ingest()' has a cognitive complexity of 26, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,19,3,CyclomaticComplexity,The method 'ingest()' has a cyclomatic complexity of 13.
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,48,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,48,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,71,3,StdCyclomaticComplexity,The method 'handleMessage' has a Standard Cyclomatic Complexity of 13.
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,71,3,NcssMethodCount,The method 'handleMessage()' has an NCSS line count of 59
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,71,3,CognitiveComplexity,"The method 'handleMessage(Map<String,Object>)' has a cognitive complexity of 24, current threshold is 15"
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,71,3,CyclomaticComplexity,"The method 'handleMessage(Map<String,Object>)' has a cyclomatic complexity of 16."
+PMD(Apex),./force-app/main/default/classes/WhatsAppWebhookRest.cls,72,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/ContentDocumentLinkTrigger.trigger,16,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/triggers/CreateTaskOnVendorAssignment.trigger,1,3,AvoidLogicInTrigger,Avoid logic in triggers
+PMD(Apex),./force-app/main/default/triggers/CreateTaskOnVendorAssignment.trigger,1,3,StdCyclomaticComplexity,The trigger 'CreateTaskOnVendorAssignment' has a Standard Cyclomatic Complexity of 11 (Highest = 10).
+PMD(Apex),./force-app/main/default/triggers/CreateTaskOnVendorAssignment.trigger,18,3,StdCyclomaticComplexity,The method 'invoke' has a Standard Cyclomatic Complexity of 10.
+PMD(Apex),./force-app/main/default/triggers/CreateTaskOnVendorAssignment.trigger,18,3,CognitiveComplexity,"The trigger 'CreateTaskOnVendorAssignment' has a cognitive complexity of 16, current threshold is 15"
+PMD(Apex),./force-app/main/default/triggers/CreateTaskOnVendorAssignment.trigger,18,3,CyclomaticComplexity,The trigger 'CreateTaskOnVendorAssignment' has a cyclomatic complexity of 11.
+PMD(Apex),./force-app/main/default/triggers/CreateTaskOnVendorAssignment.trigger,51,3,ApexCRUDViolation,Validate CRUD permission before SOQL/DML operation or enforce user mode
+PMD(Apex),./force-app/main/default/triggers/CreateTaskOnVendorAssignment.trigger,53,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/CreateTaskOnVendorAssignment.trigger,53,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/triggers/CreateTaskOnVendorAssignment.trigger,61,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/CreateTaskOnVendorAssignment.trigger,61,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/triggers/LeadTrigger.trigger,42,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD(Apex),./force-app/main/default/triggers/LeadTrigger.trigger,66,3,StdCyclomaticComplexity,The method 'invoke' has a Standard Cyclomatic Complexity of 12.
+PMD(Apex),./force-app/main/default/triggers/LeadTrigger.trigger,66,3,CognitiveComplexity,"The trigger 'LeadTrigger' has a cognitive complexity of 33, current threshold is 15"
+PMD(Apex),./force-app/main/default/triggers/LeadTrigger.trigger,66,3,CyclomaticComplexity,The trigger 'LeadTrigger' has a cyclomatic complexity of 16.
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,8,3,AvoidLogicInTrigger,Avoid logic in triggers
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,8,3,StdCyclomaticComplexity,The trigger 'ProjectTrigger' has a Standard Cyclomatic Complexity of 10 (Highest = 9).
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,15,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,15,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,24,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,24,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,37,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,37,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,53,3,AvoidDebugStatements,Avoid debug statements since they impact on performance
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,53,3,DebugsShouldUseLoggingLevel,Calls to System.debug should specify a logging level.
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,56,3,CognitiveComplexity,"The trigger 'ProjectTrigger' has a cognitive complexity of 16, current threshold is 15"
+PMD(Apex),./force-app/main/default/triggers/ProjectTrigger.trigger,56,3,CyclomaticComplexity,The trigger 'ProjectTrigger' has a cyclomatic complexity of 13.
+PMD(Apex),./force-app/main/default/triggers/SiteVisitReportTrigger.trigger,1,3,AvoidLogicInTrigger,Avoid logic in triggers
+PMD(Apex),./force-app/main/default/triggers/TaskTrigger.trigger,1,3,AvoidLogicInTrigger,Avoid logic in triggers
+PMD(Apex),./force-app/main/default/triggers/TaskTrigger.trigger,6,3,CyclomaticComplexity,The trigger 'TaskTrigger' has a cyclomatic complexity of 10.
+PMD(Apex),./force-app/main/default/triggers/TaskVendorBudgetTrigger.trigger,1,3,AvoidLogicInTrigger,Avoid logic in triggers
+PMD(Apex),./force-app/main/default/triggers/VendorAssignmentTrigger.trigger,1,3,AvoidLogicInTrigger,Avoid logic in triggers
+PMD(Apex),./force-app/main/default/triggers/VendorAssignmentTrigger.trigger,1,3,StdCyclomaticComplexity,The trigger 'VendorAssignmentTrigger' has a Standard Cyclomatic Complexity of 16 (Highest = 15).
+PMD(Apex),./force-app/main/default/triggers/VendorAssignmentTrigger.trigger,27,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD(Apex),./force-app/main/default/triggers/VendorAssignmentTrigger.trigger,36,3,AvoidDeeplyNestedIfStmts,Deeply nested if..then statements are hard to read
+PMD(Apex),./force-app/main/default/triggers/VendorAssignmentTrigger.trigger,52,3,StdCyclomaticComplexity,The method 'invoke' has a Standard Cyclomatic Complexity of 15.
+PMD(Apex),./force-app/main/default/triggers/VendorAssignmentTrigger.trigger,52,3,NcssMethodCount,The method 'invoke()' has an NCSS line count of 47
+PMD(Apex),./force-app/main/default/triggers/VendorAssignmentTrigger.trigger,52,3,CognitiveComplexity,"The trigger 'VendorAssignmentTrigger' has a cognitive complexity of 41, current threshold is 15"
+PMD(Apex),./force-app/main/default/triggers/VendorAssignmentTrigger.trigger,52,3,CyclomaticComplexity,The trigger 'VendorAssignmentTrigger' has a cyclomatic complexity of 20.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/appointmentApproval/appointmentApproval.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/appointmentApproval/appointmentApproval.js,43,1,,Unused eslint-disable directive (no problems were reported from 'no-console').
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/appointmentApprovalToOpp/appointmentApprovalToOpp.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/appointmentApprovalToOpp/appointmentApprovalToOpp.js,42,1,,Unused eslint-disable directive (no problems were reported from 'no-console').
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/areliaAutomaticProjectRequestComp/areliaAutomaticProjectRequestComp.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/areliaAutomaticProjectRequestComp/areliaAutomaticProjectRequestComp.js,83,2,@lwc/lwc/no-api-reassignments,"Invalid reassignment of public property ""leadId"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/areliaAutomaticProjectRequestComp/areliaAutomaticProjectRequestComp.js,434,2,no-unused-vars,'priceUsd' is assigned a value but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/areliaAutomaticProjectRequestComp/areliaAutomaticProjectRequestComp.js,578,1,,Unused eslint-disable directive (no problems were reported from 'no-param-reassign').
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/areliaAutomaticProjectRequestComp/areliaAutomaticProjectRequestComp.js,766,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/areliaManualProjectRequestComp/areliaManualProjectRequestComp.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/areliaManualProjectRequestComp/areliaManualProjectRequestComp.js,77,1,,Unused eslint-disable directive (no problems were reported from 'no-console').
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/areliaManualProjectRequestComp/areliaManualProjectRequestComp.js,91,1,,Unused eslint-disable directive (no problems were reported from 'no-console').
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/areliaManualProjectRequestComp/areliaManualProjectRequestComp.js,143,1,,Unused eslint-disable directive (no problems were reported from 'no-console').
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/areliaManualProjectRequestComp/areliaManualProjectRequestComp.js,226,1,,Unused eslint-disable directive (no problems were reported from 'no-console').
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/beforeAfter/beforeAfter.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/beforeAfter/beforeAfter.js,90,2,no-unused-vars,'e' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialBeforeAfter/commercialBeforeAfter.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialBeforeAfter/commercialBeforeAfter.js,129,2,no-unused-vars,'err' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialBeforeAfter/commercialBeforeAfter.js,183,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,154,2,@lwc/lwc/no-api-reassignments,"Invalid reassignment of public property ""rooms"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,196,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,206,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,257,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,297,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,354,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,358,2,@lwc/lwc/no-async-operation,"Restricted async operation ""requestAnimationFrame"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,361,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,374,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,376,2,@lwc/lwc/no-async-operation,"Restricted async operation ""requestAnimationFrame"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,379,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,394,2,@lwc/lwc/no-async-operation,"Restricted async operation ""requestAnimationFrame"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,397,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,452,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,471,2,no-unused-vars,'evt' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/commercialShowcase/commercialShowcase.js,475,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/contactSection/contactSection.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/contactSection/contactSection.js,51,2,@lwc/lwc/no-inner-html,Using 'innerHTML/outputHTML/insertAdjacentHTML' is not allowed
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/contactSection/contactSection.js,57,2,@lwc/lwc/no-inner-html,Using 'innerHTML/outputHTML/insertAdjacentHTML' is not allowed
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/contactUs/contactUs.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/customerEnquiry/customerEnquiry.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/customerEnquiry/customerEnquiry.js,211,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setInterval"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/fourPillars/fourPillars.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/fourPillars/fourPillars.js,8,2,no-unused-vars,'ARELIA_RETAIL' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/fourPillars/fourPillars.js,100,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/fourPillars/fourPillars.js,102,2,no-unused-expressions,Expected an assignment or function call and instead saw an expression.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/fourPillars/fourPillars.js,131,2,default-case,Expected a default case.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityComparisons/hospitalityComparisons.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,150,2,@lwc/lwc/no-api-reassignments,"Invalid reassignment of public property ""rooms"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,193,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,203,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,250,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,271,2,no-unused-vars,'e' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,288,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,350,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,398,2,@lwc/lwc/no-async-operation,"Restricted async operation ""requestAnimationFrame"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,423,2,no-unused-vars,'e' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,427,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,450,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,503,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,537,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,561,2,no-unused-vars,'e' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,582,2,no-unused-vars,'evt' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,587,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/hospitalityShowcase/hospitalityShowcase.js,590,2,no-unused-vars,'e' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcAboutUs/idcAboutUs.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcBookConsultation/idcBookConsultation.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcBookConsultation/idcBookConsultation.js,36,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcBookConsultation/idcBookConsultation.js,44,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcBookConsultation/idcBookConsultation.js,48,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcCommericalPortfolioCover/idcCommericalPortfolioCover.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcCountingComponent/idcCountingComponent.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcCountingComponent/idcCountingComponent.js,20,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcFooterComponent/idcFooterComponent.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcHospitalityCover/idcHospitalityCover.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcOurServices/idcOurServices.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcPortfolio/idcPortfolio.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcResidentialPortfolioCover/idcResidentialPortfolioCover.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/idcWhyChooseExpertise/idcWhyChooseExpertise.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/leadProgressPath/leadProgressPath.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/leadProgressPath/leadProgressPath.js,33,2,@lwc/lwc/no-api-reassignments,"Invalid reassignment of public property ""recordId"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/leadProgressPath/leadProgressPath.js,49,2,@lwc/lwc/no-api-reassignments,"Invalid reassignment of public property ""recordId"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/leadProgressPath/leadProgressPath.js,56,2,@lwc/lwc/no-api-reassignments,"Invalid reassignment of public property ""recordId"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/leadProgressPath/leadProgressPath.js,63,2,@lwc/lwc/no-api-reassignments,"Invalid reassignment of public property ""recordId"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/leadProgressPath/leadProgressPath.js,65,2,no-unused-vars,'e' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/leadProgressPath/leadProgressPath.js,88,1,,Unused eslint-disable directive (no problems were reported from 'no-console').
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/luxuryAboutSection/luxuryAboutSection.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/luxuryPortfolio/luxuryPortfolio.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/processBigNumber/processBigNumber.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/projectRequestCodeComponent/projectRequestCodeComponent.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/projectRequestCodeComponent/projectRequestCodeComponent.js,33,1,,Unused eslint-disable directive (no problems were reported from 'no-console').
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/registrationForm/registrationForm.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/registrationForm/registrationForm.js,264,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setInterval"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/registrationPopupForm/registrationPopupForm.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/registrationPopupForm/registrationPopupForm.js,330,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setInterval"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,155,2,@lwc/lwc/no-api-reassignments,"Invalid reassignment of public property ""rooms"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,197,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,207,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,254,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,287,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,351,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,355,2,@lwc/lwc/no-async-operation,"Restricted async operation ""requestAnimationFrame"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,358,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,371,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,373,2,@lwc/lwc/no-async-operation,"Restricted async operation ""requestAnimationFrame"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,376,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,391,2,@lwc/lwc/no-async-operation,"Restricted async operation ""requestAnimationFrame"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,394,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,443,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/roomShowcase/roomShowcase.js,483,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setTimeout"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/scheduleAppointment/scheduleAppointment.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/siteStats/siteStats.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/siteStats/siteStats.js,115,2,@lwc/lwc/no-async-operation,"Restricted async operation ""requestAnimationFrame"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/siteStats/siteStats.js,121,2,@lwc/lwc/no-async-operation,"Restricted async operation ""requestAnimationFrame"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/testimonialsLuxury/testimonialsLuxury.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/testimonialsLuxury/testimonialsLuxury.js,75,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setInterval"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.html,1,2,,Parsing error: Unexpected token <
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,67,2,@lwc/lwc/no-api-reassignments,"Invalid reassignment of public property ""recordId"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,73,2,@lwc/lwc/no-api-reassignments,"Invalid reassignment of public property ""recordId"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,75,2,no-unused-vars,'e' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,75,2,no-empty,Empty block statement.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,104,2,@lwc/lwc/no-api-reassignments,"Invalid reassignment of public property ""recordId"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,106,2,no-unused-vars,'e' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,106,2,no-empty,Empty block statement.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,116,2,no-unused-vars,'e' is defined but never used.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,116,2,no-empty,Empty block statement.
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,137,2,@lwc/lwc/no-async-operation,"Restricted async operation ""setInterval"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,204,2,@lwc/lwc/no-async-operation,"Restricted async operation ""requestAnimationFrame"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/waMessagePanel/waMessagePanel.js,248,2,@lwc/lwc/no-async-operation,"Restricted async operation ""requestAnimationFrame"""
+ESLint(LWC),/home/runner/work/code-scan/code-scan/target/force-app/main/default/lwc/whyChooseUs/whyChooseUs.html,1,2,,Parsing error: Unexpected token <
