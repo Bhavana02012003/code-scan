@@ -162,12 +162,28 @@ jobs:
             --config-file "$GITHUB_WORKSPACE/code-analyzer.yml" \
             --output-file out/apex.csv || true
 
-          # 🔹 2. Run LWC scan
-          sf code-analyzer run \
-            --workspace "$FA" \
-            --rule-selector eslint \
-            --config-file custom-eslint-config.yml \
-            --output-file out/lwc.csv || true
+          # 🔹 2. Run LWC scan ONLY for valid files
+          find "$FA" \( -name "*.js" -o -name "*.html" \) \
+            ! -path "*/node_modules/*" \
+            ! -path "*/__tests__/*" > lwc_files.txt
+
+          echo "LWC files to scan:"
+          cat lwc_files.txt
+
+          while read file; do
+            sf code-analyzer run \
+              --workspace "$file" \
+              --rule-selector eslint \
+              --config-file custom-eslint-config.yml \
+              --output-file tmp.csv || true
+
+            if [ -f tmp.csv ]; then
+              if [ ! -f out/lwc.csv ]; then
+                head -n 1 tmp.csv > out/lwc.csv
+              fi
+              tail -n +2 tmp.csv >> out/lwc.csv
+            fi
+          done < lwc_files.txt
 
           # 🔹 3. Merge reports
           if [ -f out/apex.csv ]; then
