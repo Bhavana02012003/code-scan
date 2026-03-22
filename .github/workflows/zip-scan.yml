@@ -24,6 +24,21 @@ jobs:
         with:
           ref: main
 
+      - name: Setup Node.js (for ESLint)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install ESLint + LWC Plugins
+        run: |
+          npm install eslint@10 @eslint/js \
+          @lwc/eslint-plugin-lwc \
+          @salesforce/eslint-plugin-aura \
+          @salesforce/eslint-plugin-lightning \
+          eslint-plugin-import \
+          eslint-plugin-jest \
+          --no-save --legacy-peer-deps
+
       - name: Debug Repo Files
         run: |
           echo "Current directory:"
@@ -79,6 +94,49 @@ jobs:
           echo "Check config file:"
           ls -la "$GITHUB_WORKSPACE/code-analyzer.yml"
 
+      - name: Create ESLint Config
+        run: |
+          cat << 'EOF' > eslint.config.js
+          import js from "@eslint/js";
+          import lwc from "@lwc/eslint-plugin-lwc";
+          import aura from "@salesforce/eslint-plugin-aura";
+          import lightning from "@salesforce/eslint-plugin-lightning";
+          import importPlugin from "eslint-plugin-import";
+          import jest from "eslint-plugin-jest";
+
+          export default [
+            js.configs.recommended,
+            {
+              files: ["**/{lwc,aura}/**/*.js"],
+              plugins: {
+                "@lwc/lwc": lwc,
+                "@salesforce/aura": aura,
+                "@salesforce/lightning": lightning,
+                import: importPlugin,
+                jest: jest
+              },
+              languageOptions: {
+                ecmaVersion: 2023,
+                sourceType: "module"
+              },
+              rules: {
+                "no-console": ["error", { allow: ["warn", "error"] }],
+                "no-debugger": "error",
+                "no-unused-vars": "warn",
+                "no-undef": "error",
+                "eqeqeq": ["error", "always"],
+                "curly": "error",
+                "semi": ["error", "always"],
+
+                "@lwc/lwc/no-async-await-in-wire": "error",
+                "@lwc/lwc/no-deprecated": "warn",
+                "@lwc/lwc/no-inner-html": "error",
+                "@lwc/lwc/no-dupe-class-members": "error"
+              }
+            }
+          ];
+          EOF
+
       - name: Run Code Analyzer
         run: |
           mkdir -p out
@@ -91,9 +149,21 @@ jobs:
 
           echo "Scanning directory: $FA"
 
+          # Create ESLint config for Code Analyzer
+          cat << 'EOF' > custom-eslint-config.yml
+          engines:
+            eslint:
+              eslint_config_file: eslint.config.js
+              disable_javascript_base_config: true
+              disable_lwc_base_config: true
+          EOF
+
+          # Run Apex + LWC scan together
           sf code-analyzer run \
             --workspace "$FA" \
             --config-file "$GITHUB_WORKSPACE/code-analyzer.yml" \
+            --rule-selector eslint \
+            --config-file custom-eslint-config.yml \
             --output-file out/report.csv || true
 
           echo "Contents of out folder:"
