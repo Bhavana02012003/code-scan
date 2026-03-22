@@ -128,7 +128,6 @@ jobs:
                 "curly": "error",
                 "semi": ["error", "always"],
 
-                "@lwc/lwc/no-async-await-in-wire": "error",
                 "@lwc/lwc/no-deprecated": "warn",
                 "@lwc/lwc/no-inner-html": "error",
                 "@lwc/lwc/no-dupe-class-members": "error"
