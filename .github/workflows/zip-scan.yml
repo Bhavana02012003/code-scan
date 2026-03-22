@@ -142,14 +142,13 @@ jobs:
           mkdir -p out
 
           FA=$(find project -type d -name "force-app" | head -n 1)
-
           if [ -z "$FA" ]; then
             FA="project"
           fi
 
           echo "Scanning directory: $FA"
 
-          # Create ESLint config for Code Analyzer
+          # ESLint config
           cat << 'EOF' > custom-eslint-config.yml
           engines:
             eslint:
@@ -158,24 +157,31 @@ jobs:
               disable_lwc_base_config: true
           EOF
 
-          # Run Apex + LWC scan together
+          # 🔹 1. Run Apex scan
           sf code-analyzer run \
             --workspace "$FA" \
             --config-file "$GITHUB_WORKSPACE/code-analyzer.yml" \
+            --output-file out/apex.csv || true
+
+          # 🔹 2. Run LWC scan
+          sf code-analyzer run \
+            --workspace "$FA" \
             --rule-selector eslint \
             --config-file custom-eslint-config.yml \
-            --output-file out/report.csv || true
+            --output-file out/lwc.csv || true
 
-          echo "Contents of out folder:"
-          ls -la out || true
-
-          echo "Report preview:"
-          if [ -f out/report.csv ]; then
-            head -n 20 out/report.csv
-          else
-            echo "out/report.csv was not created"
-            exit 1
+          # 🔹 3. Merge reports
+          if [ -f out/apex.csv ]; then
+            head -n 1 out/apex.csv > out/report.csv
+            tail -n +2 out/apex.csv >> out/report.csv
           fi
+
+          if [ -f out/lwc.csv ]; then
+            tail -n +2 out/lwc.csv >> out/report.csv
+          fi
+
+          echo "Final Report Preview:"
+          head -n 20 out/report.csv
 
       - name: Authenticate with Salesforce
         run: |
